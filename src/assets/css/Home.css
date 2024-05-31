@@ -1,0 +1,9 @@
+.buttonContainer {
+    display: inline-block;
+    width: 100%;
+  }
+  
+  .mainButton {
+    width: 100%;
+    margin: 10px;
+  }

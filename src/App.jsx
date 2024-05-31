@@ -1,21 +1,14 @@
-import Button from 'react-bootstrap/Button';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import GenerateCode from "./pages/GenerateCode"
 
-function App() {
+export default function App() {
   return (
-    <Container>
-      <div>
-        <h1>I am a</h1>
-      </div>
-      <Row>
-        <Button variant="outline-warning" size="lg">Administrator</Button>{' '}
-        <Button variant="outline-info" size="lg">Student</Button>{' '}
-      </Row>
-    </Container>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path='GenerateCode' element={<GenerateCode />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App

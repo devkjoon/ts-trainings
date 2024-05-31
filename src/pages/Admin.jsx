@@ -1,4 +1,4 @@
-import GenerateCode from'./GenerateCode.jsx'
+import GenerateCode from'../GenerateCode.jsx'
 
 function Admin() {
     return (

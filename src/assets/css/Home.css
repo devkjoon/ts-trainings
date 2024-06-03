@@ -1,3 +1,11 @@
+.text-div {
+  margin-bottom: 10%;
+}
+
+.main-text {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .buttonContainer {
     display: inline-block;
     width: 100%;

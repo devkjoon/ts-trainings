@@ -7,18 +7,16 @@ import '../pages/GenerateCode'
 export default function Home() {
   return (
     <>
-    <div>
-        <div>
-            <h1>I am a</h1>
-        </div>
-        <div className='buttonContainer'>
-            <a className='mainButton' href="/GenerateCode">
-            <Button variant="outline-warning" size="lg">Administrator</Button>{' '}
-            </a>
-            <a className='mainButton' href="">
-            <Button variant="outline-info" size="lg">Student</Button>{' '}
-            </a>
-        </div>
+      <div className='text-div'>
+          <h1 className='main-text'>I am</h1>
+      </div>
+      <div className='buttonContainer'>
+          <a className='mainButton' href="/GenerateCode">
+          <Button variant="outline-warning" size="lg">An Administrator</Button>{' '}
+          </a>
+          <a className='mainButton' href="">
+          <Button variant="outline-info" size="lg">A Student</Button>{' '}
+          </a>
       </div>
     </>
   );

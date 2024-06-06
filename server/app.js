@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongoPractice = require('./config/db');
-const { mongo } = require('mongoose');
+const mongoPractice = require('./mongoose');
 
 const app = express();
 

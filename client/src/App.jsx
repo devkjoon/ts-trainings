@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Home from "./pages/Home";
 import GenerateCode from "./pages/GenerateCode"
 import Login from "./pages/Login"

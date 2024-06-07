@@ -10,4 +10,11 @@ app.post('/users', mongoPractice.createUser);
 
 app.get('/users', mongoPractice.getUsers);
 
-app.listen(3000);
+mongoose
+    .connect('mongodb+srv://devkjoon:0kF80GAuhfTc10yW@cluster0.7lsjeug.mongodb.net/users_test?retryWrites=true&w=majority&appName=Cluster0')
+    .then(() => {
+        app.listen(5000);
+    })
+    .catch(err => {
+        console.log(err)
+    })

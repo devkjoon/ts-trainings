@@ -1,16 +1,9 @@
-const mongoose = require('mongoose');
-
 const User = require('./models/user');
-
-mongoose.connect('mongodb+srv://devkjoon:0kF80GAuhfTc10yW@cluster0.7lsjeug.mongodb.net/users_test?retryWrites=true&w=majority&appName=Cluster0').then(() => {
-    console.log('Connected to database')
-}).catch(() => {
-    console.log('Connection failed')
-})
 
 const createUser = async (req, res, next) => {
     const createdUser = new User({ 
-        name: req.body.name,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
         username: req.body.username,
         password: req.body.password
     });

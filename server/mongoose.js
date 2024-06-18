@@ -1,4 +1,4 @@
-const User = require('./models/user');
+const User = require('./models/admin');
 
 const createUser = async (req, res, next) => {
     const createdUser = new User({ 

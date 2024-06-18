@@ -3,13 +3,13 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const mongoPractice = require('./mongoose');
 
-const adminRoutes = require('./routes/admin-routes');
+const userRoutes = require('./routes/user-routes');
 
 const app = express();
 
 app.use(bodyParser.json());
 
-app.use('/admin', adminRoutes);
+app.use('/user', userRoutes);
 
 // app.post('/admin', mongoPractice.createAdmin);
 
@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 })
 
 mongoose
-    .connect('mongodb+srv://devkjoon:0kF80GAuhfTc10yW@ts-trainings.ic7mcip.mongodb.net/admin?retryWrites=true&w=majority&appName=ts-trainings')
+    .connect('mongodb+srv://devkjoon:0kF80GAuhfTc10yW@ts-trainings.ic7mcip.mongodb.net/user?retryWrites=true&w=majority&appName=ts-trainings')
     .then(() => {
         app.listen(5000) 
         console.log("Connection Success");

@@ -15,7 +15,7 @@ app.use('/user', userRoutes);
 
 // app.get('/admin', mongoPractice.getAdmin);
 
-app.use((req, res, next) => {
+app.use((req, res) => {
     const error = new HttpError('Could not find this route', 404);
     throw error;
 })

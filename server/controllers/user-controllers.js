@@ -1,24 +1,7 @@
-// const homepage = (req, res, next) => {
-//     console.log("GET Request in Places");
-//     res.json({ message: 'Working' });
-// };
-
-const { v4: uuidv4 } = require("uuid");
 const { validationResult } = require("express-validator");
 
 const HttpError = require("../models/http-error");
 const User = require("../models/user");
-
-const DUMMY_USERS = [
-  {
-    id: "ul",
-    firstname: "Joon",
-    lastname: "Kim",
-    email: "joonkidk@gmail.com",
-    username: "joonkidk",
-    password: "test1234",
-  },
-];
 
 const getUser = (req, res, next) => {
   res.json({ users: DUMMY_USERS });

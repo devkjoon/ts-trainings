@@ -1,16 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
-import GenerateCode from "./pages/GenerateCode"
-import Login from "./pages/Login"
+import Admin from "./pages/Admin"
+import AdminLogin from "./pages/AdminLogin"
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path='Login' element={<Login />} />
-        <Route path='GenerateCode' element={<GenerateCode />} />
+        <Route path='Admin' element={<Admin />} />
+        <Route path='AdminLogin' element={<AdminLogin />} />
       </Routes>
     </BrowserRouter>
   );

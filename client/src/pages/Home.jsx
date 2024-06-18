@@ -2,7 +2,7 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import '../App.css'
 import '../assets/css/Home.css';
-import './Login'
+import './Admin'
 
 export default function Home() {
   return (
@@ -11,7 +11,7 @@ export default function Home() {
           <h1 className='main-text'>I am</h1>
       </div>
       <div className='buttonContainer'>
-          <a className='mainButton' href="/Login">
+          <a className='mainButton' href="/Admin">
           <Button variant="outline-warning" size="lg">An Administrator</Button>{' '}
           </a>
           <a className='mainButton' href="">

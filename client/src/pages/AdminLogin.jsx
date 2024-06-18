@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
 
-const Login = () => {
+const AdminLogin = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [validated, setValidated] = useState(false);
@@ -37,6 +37,7 @@ const Login = () => {
     };
 
     return (
+        <>
         <Form noValidate validated={validated} onSubmit={handleLogin}>
             <Row className="mb-3">
                 <Form.Group as={Col} md="6" controlId="validationCustomUsername">
@@ -75,9 +76,11 @@ const Login = () => {
                     {alert.message}
                 </Alert>
             )}
-            <Button type="submit">Login</Button>
+            <Button type="submit" variant="outline-info" size="lg">Login</Button>{' '}
         </Form>
+        <Button type="submit" variant="outline-info" size="lg">Login</Button>{' '}
+        </>
     );
 };
 
-export default Login;
+export default AdminLogin;

@@ -13,6 +13,3 @@ const userSchema = new mongoose.Schema({
     username: String,
     password: String
 });
-
-const User = mongoose.model('User', userSchema);
-const kevin = new User ({ name: 'Kevin Alvarenga', username: 'kevinalvarenga', password: 'y9t69257wv'});

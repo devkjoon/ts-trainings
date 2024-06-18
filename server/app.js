@@ -11,7 +11,7 @@ app.post('/users', mongoPractice.createUser);
 app.get('/users', mongoPractice.getUsers);
 
 mongoose
-    .connect('mongodb+srv://devkjoon:0kF80GAuhfTc10yW@cluster0.7lsjeug.mongodb.net/users_test?retryWrites=true&w=majority&appName=Cluster0')
+    .connect('mongodb+srv://devkjoon:0kF80GAuhfTc10yW@ts-trainings.ic7mcip.mongodb.net/users?retryWrites=true&w=majority&appName=ts-trainings')
     .then(() => {
         app.listen(5000);
     })

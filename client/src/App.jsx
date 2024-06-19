@@ -1,17 +1,24 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import Navbar from "./components/Navbar";
+
 import Home from "./pages/Home";
 import Admin from "./pages/Admin"
 import AdminLogin from "./pages/AdminLogin"
 
-export default function App() {
+function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path='Admin' element={<Admin />} />
-        <Route path='AdminLogin' element={<AdminLogin />} />
-      </Routes>
-    </BrowserRouter>
+    <div className="App">
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path='Admin' element={<Admin />} />
+          <Route path='AdminLogin' element={<AdminLogin />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
+
+export default App;

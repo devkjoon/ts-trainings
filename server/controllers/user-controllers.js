@@ -3,9 +3,9 @@ const { validationResult } = require("express-validator");
 const HttpError = require("../models/http-error");
 const User = require("../models/user");
 
-const getUser = (req, res, next) => {
-  res.json({ users: DUMMY_USERS });
-};
+// const getUser = (req, res, next) => {
+//   res.json({ users: DUMMY_USERS });
+// };
 
 const signup = async (req, res, next) => {
   const errors = validationResult(req);
@@ -76,6 +76,6 @@ const login = async (req, res, next) => {
   res.json({ message: "Logged In" });
 };
 
-exports.getUser = getUser;
+// exports.getUser = getUser;
 exports.signup = signup;
 exports.login = login;

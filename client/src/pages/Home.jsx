@@ -1,22 +1,21 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
-import '../App.css'
+import { Button, Row } from 'react-bootstrap';
+
 import '../assets/css/Home.css';
 import './Admin'
 
 export default function Home() {
   return (
     <>
-      <div className='text-div'>
-          <h1 className='main-text'>I am</h1>
-      </div>
       <div className='buttonContainer'>
-          <a className='mainButton' href="/Admin">
-          <Button variant="outline-warning" size="lg">An Administrator</Button>{' '}
+        <Row>
+          <a href="">
+            <Button className="mainButton mt-3" variant="outline-info" size="lg">I am an Administrator</Button>
           </a>
-          <a className='mainButton' href="">
-          <Button variant="outline-info" size="lg">A Student</Button>{' '}
+          <a href="">
+            <Button className="mainButton mt-3" variant="outline-warning" size="lg">I am a Student</Button>
           </a>
+        </Row>
       </div>
     </>
   );

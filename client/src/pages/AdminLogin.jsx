@@ -4,6 +4,8 @@ import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
 import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH } from '../utils/validators';
 import { useForm } from '../hooks/form-hook';
 
+import '../assets/css/AdminLogin.css'
+
 const AdminLogin = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -41,8 +43,8 @@ const AdminLogin = () => {
 
     return (
         <>
-        <Form noValidate validated={validated} onSubmit={handleLogin}>
-            <Row className="mb-3">
+        <Form noValidate validated={validated} onSubmit={handleLogin} className="loginForm">
+            <Row className="mb-2">
                 <Form.Group as={Col} md="6">
                     <Form.Label>Username</Form.Label>
                     <InputGroup hasValidation>
@@ -79,7 +81,10 @@ const AdminLogin = () => {
                     {alert.message}
                 </Alert>
             )}
-            <Button type="submit" variant="outline-info" size="lg">Login</Button>{' '}
+            <Row className='buttonContainer'>
+                <Button className="mainButton mt-3" variant="outline-info" size="lg">Home</Button>{' '}
+                <Button className="mainButton mt-3" type="submit" variant="outline-warning" size="lg">Login</Button>{' '}
+            </Row>
         </Form>
         </>
     );

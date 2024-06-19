@@ -1,7 +1,6 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 
-import '../App.css';
 import '../assets/css/Home.css';
 
 import './AdminLogin';

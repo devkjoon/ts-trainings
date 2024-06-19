@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
 
+import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH } from '../utils/validators';
+import { useForm } from '../hooks/form-hook';
+
 const AdminLogin = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -40,7 +43,7 @@ const AdminLogin = () => {
         <>
         <Form noValidate validated={validated} onSubmit={handleLogin}>
             <Row className="mb-3">
-                <Form.Group as={Col} md="6" controlId="validationCustomUsername">
+                <Form.Group as={Col} md="6">
                     <Form.Label>Username</Form.Label>
                     <InputGroup hasValidation>
                         <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
@@ -78,7 +81,6 @@ const AdminLogin = () => {
             )}
             <Button type="submit" variant="outline-info" size="lg">Login</Button>{' '}
         </Form>
-        <Button type="submit" variant="outline-info" size="lg">Login</Button>{' '}
         </>
     );
 };

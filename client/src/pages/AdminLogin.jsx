@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
 
-import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH } from '../utils/validators';
-import { useForm } from '../hooks/form-hook';
-
-import '../assets/css/AdminLogin.css'
+import '../assets/css/AdminLogin.css';
 
 const AdminLogin = () => {
     const [username, setUsername] = useState('');
@@ -12,37 +10,45 @@ const AdminLogin = () => {
     const [validated, setValidated] = useState(false);
     const [alert, setAlert] = useState({ show: false, message: '', variant: '' });
 
+    const navigate = useNavigate();
+
     const handleLogin = async (event) => {
         const form = event.currentTarget;
+        event.preventDefault();
+        
         if (form.checkValidity() === false) {
-            event.preventDefault();
             event.stopPropagation();
             setValidated(true);
             return;
         }
 
-        event.preventDefault();
+        console.log('Submitting login form with:', { username, password });
+        
+        try {
+            const response = await fetch('http://localhost:5000/user/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
 
-        const response = await fetch('/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ username, password })
-        });
+            const result = await response.json();
+            console.log('Login response:', result);
 
-        const result = await response.json();
-
-        if (result.success) {
-            setAlert({ show: true, message: 'Login successful!', variant: 'success' });
-            // Redirect to a new page or take any other action
-        } else {
-            setAlert({ show: true, message: 'Invalid credentials. Please try again.', variant: 'danger' });
+            if (result.message === "Logged In") {
+                setAlert({ show: true, message: 'Login successful!', variant: 'success' });
+                navigate('/Admin');
+            } else {
+                setAlert({ show: true, message: 'Invalid credentials. Please try again.', variant: 'danger' });
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            setAlert({ show: true, message: 'An error occurred. Please try again later.', variant: 'danger' });
         }
     };
 
     return (
-        <>
         <Form noValidate validated={validated} onSubmit={handleLogin} className="loginForm">
             <Row className="mb-2">
                 <Form.Group as={Col} md="6">
@@ -81,12 +87,21 @@ const AdminLogin = () => {
                     {alert.message}
                 </Alert>
             )}
-            <Row className='buttonContainer'>
-                <Button className="mainButton mt-3" variant="outline-info" size="lg">Home</Button>{' '}
-                <Button className="mainButton mt-3" type="submit" variant="outline-warning" size="lg">Login</Button>{' '}
-            </Row>
+            <div className='buttonContainer'>
+                <Row>
+                    <Col className="text-center">
+                        <Button className="mainButton mt-3" variant="outline-info" size="lg" href="/register">
+                            Register Instead
+                        </Button>
+                    </Col>
+                    <Col className="text-center">
+                        <Button className="mainButton mt-3" type="submit" variant="outline-warning" size="lg">
+                            Login
+                        </Button>
+                    </Col>
+                </Row>
+            </div>
         </Form>
-        </>
     );
 };
 

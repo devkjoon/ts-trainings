@@ -1,8 +1,6 @@
 import React from 'react';
 import { Button, Row } from 'react-bootstrap';
 
-import '../assets/css/Home.css';
-
 import './AdminLogin';
 
 export default function Admin() {
@@ -13,7 +11,7 @@ export default function Admin() {
           <a href="/admin">
             <Button className="mainButton mt-3" variant="outline-info" size="lg">Register</Button>
           </a>
-          <a href="">
+          <a href="/AdminLogin">
             <Button className="mainButton mt-3" variant="outline-warning" size="lg">Login</Button>
           </a>
         </Row>

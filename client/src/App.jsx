@@ -6,6 +6,8 @@ import Home from "./pages/Home";
 import Admin from "./pages/Admin"
 import AdminLogin from "./pages/AdminLogin"
 
+import './App.css'
+
 function App() {
   return (
     <div className="App">

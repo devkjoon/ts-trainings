@@ -9,7 +9,7 @@ export default function Home() {
     <>
       <div className='buttonContainer'>
         <Row>
-          <a href="">
+          <a href="/admin">
             <Button className="mainButton mt-3" variant="outline-info" size="lg">I am an Administrator</Button>
           </a>
           <a href="">

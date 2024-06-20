@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
+import { Button, Row } from 'react-bootstrap';
 
 import '../assets/css/Home.css';
 
@@ -9,12 +9,14 @@ export default function Admin() {
   return (
     <>
       <div className='buttonContainer'>
-          <a className='mainButton' href="">
-          <Button variant="outline-warning" size="lg">Register</Button>{' '}
+        <Row>
+          <a href="/admin">
+            <Button className="mainButton mt-3" variant="outline-info" size="lg">Register</Button>
           </a>
-          <a className='mainButton' href="/AdminLogin">
-          <Button variant="outline-info" size="lg">Login</Button>{' '}
+          <a href="">
+            <Button className="mainButton mt-3" variant="outline-warning" size="lg">Login</Button>
           </a>
+        </Row>
       </div>
     </>
   );

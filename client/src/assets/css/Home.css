@@ -1,3 +1,32 @@
 .buttonContainer {
-  place-items: center;
+  height: 100%;
+  margin-top: 25%;
+}
+
+@media screen and (max-width: 992px) {
+  .buttonContainer {
+    margin-top: 30%;
   }
+}
+
+@media screen and (max-width: 768px) {
+  .buttonContainer {
+    margin-top: 40%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .buttonContainer {
+    margin-top: 50%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .buttonContainer {
+    margin-top: 70%;
+  }
+}
+
+.mainButton {
+  min-width: 240px;
+}

@@ -3,17 +3,18 @@
 }
 
 .registrationBottomBtn {
-    margin-top: 10%;
+    margin-top: 15%;
 }
 
 .registrationInput {
     width: 90%;
     margin: auto;
+    border-radius: 25px;
 }
 
 @media screen and (max-width: 768px) {
     .registrationInput {
-        width: 85%;
+        width: 80%;
         margin: auto;
     }
     .registrationBottomBtn {

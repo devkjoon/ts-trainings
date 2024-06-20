@@ -1,6 +1,27 @@
-
-
-
-.mainButton {
-    width: 30%;
+.formContainer {
+    margin-top: 25%;
 }
+
+@media screen and (max-width: 992px) {
+    .formContainer {
+      margin-top: 30%;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .formContainer {
+      margin-top: 40%;
+    }
+  }
+  
+  @media screen and (max-width: 600px) {
+    .formContainer {
+      margin-top: 50%;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .formContainer {
+      margin-top: 70%;
+    }
+  }

@@ -1,0 +1,28 @@
+.registrationContainer {
+    margin-top: 15%;
+}
+
+.registrationBottomBtn {
+    margin-top: 10%;
+}
+
+.registrationInput {
+    width: 90%;
+    margin: auto;
+}
+
+@media screen and (max-width: 768px) {
+    .registrationInput {
+        width: 85%;
+        margin: auto;
+    }
+    .registrationBottomBtn {
+        margin-top: 10%;
+    }
+  }
+
+@media screen and (max-width: 535px) {
+    .registrationBottomBtn {
+        margin-top: 5%;
+    }
+  }

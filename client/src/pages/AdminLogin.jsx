@@ -4,6 +4,8 @@ import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
 
 import '../assets/css/AdminLogin.css';
 
+import './AdminRegistration';
+
 const AdminLogin = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -49,7 +51,7 @@ const AdminLogin = () => {
     };
 
     return (
-        <Form noValidate validated={validated} onSubmit={handleLogin} className="loginForm">
+        <Form noValidate validated={validated} onSubmit={handleLogin} className="formContainer">
             <Row className="mb-2">
                 <Form.Group as={Col} md="6">
                     <Form.Label>Username</Form.Label>
@@ -87,10 +89,10 @@ const AdminLogin = () => {
                     {alert.message}
                 </Alert>
             )}
-            <div className='buttonContainer'>
+            <div className='loginButtonContainer'>
                 <Row>
                     <Col className="text-center">
-                        <Button className="mainButton mt-3" variant="outline-info" size="lg" href="/register">
+                        <Button className="mainButton mt-3" variant="outline-info" size="lg" href="/AdminRegistration">
                             Register Instead
                         </Button>
                     </Col>

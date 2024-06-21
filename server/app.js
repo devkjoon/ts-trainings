@@ -1,9 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const userRoutes = require('./routes/user-routes');
 const HttpError = require('./models/http-error');
-const cors = require('cors');
+require('dotenv').config();
 
 const app = express();
 
@@ -12,6 +13,8 @@ const corsOptions = {
     methods: 'GET ,POST, PUT, DELETE',
     allowedHeaders: ['Content-Type', 'Authorization']
 }
+
+console.log(import.meta.env.VITE_ADMIN_CODE);
 
 app.use(cors(corsOptions));
 

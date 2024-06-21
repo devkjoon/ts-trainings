@@ -54,13 +54,13 @@ export default function AdminRegistration() {
                     <InputGroup className='registrationInput'>
                         <Form.Control
                             type="text"
-                            placeholder="first name"
+                            placeholder="First Name"
                             value={firstname}
                             onChange={(e) => setFirstname(e.target.value)}
                             required
                         />
                         <Form.Control.Feedback type="invalid">
-                            Enter a first name
+                            Enter a First Name
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
@@ -69,13 +69,13 @@ export default function AdminRegistration() {
                     <InputGroup className='registrationInput'>
                         <Form.Control
                             type="text"
-                            placeholder="last name"
+                            placeholder="Last Name"
                             value={lastname}
                             onChange={(e) => setLastname(e.target.value)}
                             required
                         />
                         <Form.Control.Feedback type="invalid">
-                            Enter a last name
+                            Enter a Last Name
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
@@ -86,13 +86,13 @@ export default function AdminRegistration() {
                     <InputGroup className='registrationInput'>
                         <Form.Control
                             type="email"
-                            placeholder="email"
+                            placeholder="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
                         />
                         <Form.Control.Feedback type="invalid">
-                            Enter an email
+                            Enter an Email
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
@@ -102,13 +102,13 @@ export default function AdminRegistration() {
                         <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
                         <Form.Control
                             type="text"
-                            placeholder="username"
+                            placeholder="Username"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             required
                         />
                         <Form.Control.Feedback type="invalid">
-                            Enter a last name
+                            Enter a Username
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
@@ -119,13 +119,13 @@ export default function AdminRegistration() {
                     <InputGroup className='registrationInput'>
                         <Form.Control
                             type="password"
-                            placeholder="password"
+                            placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
                         <Form.Control.Feedback type="invalid">
-                            Enter a first name
+                            Enter a Password
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
@@ -134,13 +134,13 @@ export default function AdminRegistration() {
                     <InputGroup className='registrationInput'>
                         <Form.Control
                             type="text"
-                            placeholder="admin code"
+                            placeholder="Admin Code"
                             value={adminCode}
                             onChange={(e) => setAdminCode(e.target.value)}
                             required
                         />
                         <Form.Control.Feedback type="invalid">
-                            Enter a last name
+                            Enter an Admin Code
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>

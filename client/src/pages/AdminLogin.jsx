@@ -47,7 +47,7 @@ export default function AdminLogin() {
             <Row className="mb-2">
                 <Form.Group as={Col} md="6">
                     <Form.Label>Username</Form.Label>
-                    <InputGroup hasValidation>
+                    <InputGroup hasValidation className='loginInput'>
                         <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
                         <Form.Control
                             type="text"
@@ -64,16 +64,18 @@ export default function AdminLogin() {
                 </Form.Group>
                 <Form.Group as={Col} md="6" controlId="validationCustom01">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                    <Form.Control.Feedback type="invalid">
-                        Enter a password
-                    </Form.Control.Feedback>
+                        <InputGroup className='loginInput'>
+                        <Form.Control
+                            type="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            Enter a password
+                        </Form.Control.Feedback>
+                        </InputGroup>
                 </Form.Group>
             </Row>
             {alert.show && (

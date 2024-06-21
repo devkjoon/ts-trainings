@@ -1,19 +1,16 @@
-const { check, validationResult } = require("express-validator");
+const { validationResult } = require("express-validator");
 const bcrypt = require('bcryptjs');
-
-const HttpError = require("../models/http-error");
-const AdminCode = require('../models/adminCode');
 const User = require("../models/user");
+const HttpError = require("../models/http-error");
+require('dotenv').config();
 
 const getUsers = async (req, res, next) => {
   let users;
   try {
     users = await User.find({}, '-password');
   } catch (err) {
-    const error = new HttpError(
-      'Fetching users failed, please try again later.',
-      500
-    );
+    const error = new HttpError('Fetching users failed, please try again later.', 500);
+    console.log(err.message)
     return next(error);
   }
   res.json({users: users.map(user => user.toObject({ getters: true }))});
@@ -28,17 +25,13 @@ const signup = async (req, res, next) => {
 
   const { firstname, lastname, email, username, password, adminCode } = req.body;
 
-  let existingAdminCode;
+  // const actualAdminCode = import.meta.env.VITE_ADMIN_CODE;
+  
+  console.log('Actual Admin Code:', actualAdminCode);
+  console.log('Provided Admin Code:', adminCode);
 
-  try {
-    existingAdminCode = await AdminCode.fineOne({ code: adminCode });
-  } catch (err) {
-    const error = new HttpError('Admin code verification failed, please try again later', 500);
-    return next(error);
-  }
-
-  if (!existingAdminCode) {
-    const error = new HttpError('Invalid admin code', 403);
+  if (adminCode !== actualAdminCode) {
+    const error = new HttpError('Invalid Admin Code', 403);
     return next(error);
   }
 
@@ -54,9 +47,16 @@ const signup = async (req, res, next) => {
 
   if (existingUser) {
     const error = new HttpError(
-      "Admin exists already, please login instead",
-      422
-    );
+      "Admin exists already, please login instead", 422);
+    return next(error);
+  }
+
+  let hashedPassword;
+  try {
+    hashedPassword = await bcrypt.hash(password, 12);
+  } catch (err) {
+    const error = new HttpError('Could not create admin, please try again', 500);
+    console.log(err.message);
     return next(error);
   }
 
@@ -72,6 +72,7 @@ const signup = async (req, res, next) => {
     await createdUser.save();
   } catch (err) {
     const error = new HttpError("Registration failed, please try again", 500);
+    console.log(err.message);
     return next(error);
   }
 
@@ -92,9 +93,7 @@ const login = async (req, res, next) => {
 
   if (!existingUser) {
     const error = new HttpError(
-      'Invalid credentials, could not log you in.',
-      401
-    );
+      'Invalid credentials, could not log you in.', 401);
     return next(error);
   }
 
@@ -102,11 +101,8 @@ const login = async (req, res, next) => {
   console.log('Stored password:', existingUser.password);
 
   if (existingUser.password !== password) {
-    const error = new HttpError(
-      'Invalid credentials, could not log you in.',
-      401
-    );
-    return next(error);
+    const error = new HttpError('Invalid credentials, could not log you in.', 401);
+      return next(error);
   }
 
   res.json({ message: "Logged In" });

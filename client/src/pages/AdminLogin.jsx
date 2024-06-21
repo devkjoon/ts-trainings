@@ -4,9 +4,7 @@ import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
 
 import '../assets/css/AdminLogin.css';
 
-import './AdminRegistration';
-
-const AdminLogin = () => {
+export default function AdminLogin() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [validated, setValidated] = useState(false);
@@ -101,4 +99,3 @@ const AdminLogin = () => {
     );
 };
 
-export default AdminLogin;

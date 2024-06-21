@@ -1,6 +1,8 @@
-const { validationResult } = require("express-validator");
+const { check, validationResult } = require("express-validator");
+const bcrypt = require('bcryptjs');
 
 const HttpError = require("../models/http-error");
+const AdminCode = require('../models/adminCode');
 const User = require("../models/user");
 
 const getUsers = async (req, res, next) => {
@@ -24,7 +26,21 @@ const signup = async (req, res, next) => {
     return next(new HttpError("Invalid inputs passed", 422));
   }
 
-  const { firstname, lastname, email, username, password } = req.body;
+  const { firstname, lastname, email, username, password, adminCode } = req.body;
+
+  let existingAdminCode;
+
+  try {
+    existingAdminCode = await AdminCode.fineOne({ code: adminCode });
+  } catch (err) {
+    const error = new HttpError('Admin code verification failed, please try again later', 500);
+    return next(error);
+  }
+
+  if (!existingAdminCode) {
+    const error = new HttpError('Invalid admin code', 403);
+    return next(error);
+  }
 
   let existingUser;
 
@@ -49,14 +65,13 @@ const signup = async (req, res, next) => {
     lastname,
     email,
     username,
-    password /* ,
-        confirmationCode  */,
+    password: hashedPassword,
   });
 
   try {
     await createdUser.save();
   } catch (err) {
-    const error = new HttpError("Creating Admin failed, please try again", 500);
+    const error = new HttpError("Registration failed, please try again", 500);
     return next(error);
   }
 

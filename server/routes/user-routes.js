@@ -15,6 +15,7 @@ router.post(
     check("email").normalizeEmail().isEmail(),
     check("username").not().isEmpty(),
     check("password").isLength({ min: 6 }),
+    check("adminCode").not().isEmpty(),
   ],
   userController.signup
 );

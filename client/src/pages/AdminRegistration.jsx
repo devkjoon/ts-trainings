@@ -106,7 +106,7 @@ export default function AdminRegistration() {
             <div className='loginButtonContainer'>
                 <Row>
                     <Col className="text-center">
-                        <Button className="mainButton registrationBottomBtn" variant="outline-info" size="lg" href="/AdminRegistration">
+                        <Button className="mainButton registrationBottomBtn" variant="outline-info" size="lg" href="/">
                             Return Home
                         </Button>
                     </Col>

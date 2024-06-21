@@ -2,7 +2,6 @@ const { validationResult } = require("express-validator");
 const bcrypt = require('bcryptjs');
 const User = require("../models/user");
 const HttpError = require("../models/http-error");
-require('dotenv').config();
 
 const getUsers = async (req, res, next) => {
   let users;
@@ -25,7 +24,7 @@ const signup = async (req, res, next) => {
 
   const { firstname, lastname, email, username, password, adminCode } = req.body;
 
-  // const actualAdminCode = import.meta.env.VITE_ADMIN_CODE;
+  const actualAdminCode = process.env.ADMIN_CODE;
   
   // console.log('Actual Admin Code:', actualAdminCode);
   // console.log('Provided Admin Code:', adminCode);

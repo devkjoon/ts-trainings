@@ -12,39 +12,45 @@ export default function AdminRegistration() {
     const [password, setPassword] = useState('');
     const [adminCode, setAdminCode] = useState('');
     const [validated, setValidated] = useState(false);
-    const [alert, setAlert] = useState({ show: false, message: '', variant: ''});
+    const [alert, setAlert] = useState({ show: false, message: '', variant: '' });
 
     const navigate = useNavigate();
 
     const handleRegistration = async (event) => {
         const form = event.currentTarget;
+        event.preventDefault();
+
         if (form.checkValidity() === false) {
-            event.preventDefault();
             event.stopPropagation();
             setValidated(true);
             return;
         }
 
-        event.preventDefault();
+        console.log('Admin Code:', { adminCode })
+        console.log('Username:', { username })
 
-        const response = await fetch('http://localhost:5000/user/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ firstname, lastname, email, username, password, adminCode })
-        })
+        try {
+            const response = await fetch('http://localhost:5000/user/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ firstname, lastname, email, username, password, adminCode })
+            });
 
-        const result = await response.json();
+            const result = await response.json();
 
-        if (result.success) {
-            setAlert({ show: true, message: 'Registration successful!', variant: 'success' });
-            navigate('/Admin');
-        } else {
-            setAlert({ show: true, message: 'Unsuccessful, please try again later :(', variant: 'danger '})
+            if (result.success) {
+                setAlert({ show: true, message: 'Registration successful!', variant: 'success' });
+                navigate('/Admin');
+            } else {
+                setAlert({ show: true, message: 'Unsuccessful, please try again later :(', variant: 'danger' });
+            }
+        } catch (error) {
+            console.error('Error registering user:', error);
+            setAlert({ show: true, message: 'Failed to register user. Please try again later.', variant: 'danger' });
         }
-    }
-    
+    };
 
     return (
         <Form noValidate validated={validated} onSubmit={handleRegistration} className='registrationContainer'>

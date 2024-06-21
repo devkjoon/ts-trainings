@@ -27,8 +27,8 @@ const signup = async (req, res, next) => {
 
   // const actualAdminCode = import.meta.env.VITE_ADMIN_CODE;
   
-  console.log('Actual Admin Code:', actualAdminCode);
-  console.log('Provided Admin Code:', adminCode);
+  // console.log('Actual Admin Code:', actualAdminCode);
+  // console.log('Provided Admin Code:', adminCode);
 
   if (adminCode !== actualAdminCode) {
     const error = new HttpError('Invalid Admin Code', 403);

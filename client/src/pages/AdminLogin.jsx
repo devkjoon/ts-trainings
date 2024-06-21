@@ -14,32 +14,38 @@ export default function AdminLogin() {
 
     const handleLogin = async (event) => {
         const form = event.currentTarget;
+        event.preventDefault();
+
         if (form.checkValidity() === false) {
-            event.preventDefault();
             event.stopPropagation();
             setValidated(true);
             return;
         }
 
-        event.preventDefault();
+        console.log('Submitting login form with:', { username, password });
 
-        const response = await fetch('http://localhost:5000/user/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ username, password })
-        });
+        try {
+            const response = await fetch('http://localhost:5000/user/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
 
         const result = await response.json();
 
-        if (result.success) {
+        if (result.message === "Logged In") {
             setAlert({ show: true, message: 'Login successful!', variant: 'success' });
             navigate('/Admin');
         } else {
             setAlert({ show: true, message: 'Invalid credentials. Please try again.', variant: 'danger' });
         }
-    };
+    } catch (error) {
+        console.error('Login error:', error);
+        setAlert({ show: true, message: 'An error occurred. Please try again later.', variant: 'danger' });
+    }
+};
 
 
     return (

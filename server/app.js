@@ -14,7 +14,7 @@ const corsOptions = {
     allowedHeaders: ['Content-Type', 'Authorization']
 }
 
-console.log(import.meta.env.VITE_ADMIN_CODE);
+// console.log(import.meta.env.VITE_ADMIN_CODE);
 
 app.use(cors(corsOptions));
 

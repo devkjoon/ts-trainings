@@ -16,18 +16,12 @@
   
   @media screen and (max-width: 768px) {
     .formContainer {
-      margin-top: 40%;
+      margin-top: 35%;
     }
   }
   
   @media screen and (max-width: 600px) {
     .formContainer {
-      margin-top: 50%;
-    }
-  }
-  
-  @media screen and (max-width: 480px) {
-    .formContainer {
-      margin-top: 70%;
+      margin-top: 45%;
     }
   }

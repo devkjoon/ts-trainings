@@ -26,8 +26,8 @@ const signup = async (req, res, next) => {
 
   const actualAdminCode = process.env.ADMIN_CODE;
   
-  // console.log('Actual Admin Code:', actualAdminCode);
-  // console.log('Provided Admin Code:', adminCode);
+  console.log('Actual Admin Code:', actualAdminCode);
+  console.log('Provided Admin Code:', adminCode);
 
   if (adminCode !== actualAdminCode) {
     const error = new HttpError('Invalid Admin Code', 403);
@@ -35,6 +35,7 @@ const signup = async (req, res, next) => {
   }
 
   let existingUser;
+  console.log("Here");
 
   try {
     existingUser = await User.findOne({ email: email });
@@ -43,6 +44,7 @@ const signup = async (req, res, next) => {
     console.log(err.message);
     return next(error);
   }
+  console.log("Here");
 
   if (existingUser) {
     const error = new HttpError(
@@ -67,6 +69,8 @@ const signup = async (req, res, next) => {
     password: hashedPassword,
   });
 
+  console.log("Here " + createdUser);
+
   try {
     await createdUser.save();
   } catch (err) {
@@ -75,7 +79,7 @@ const signup = async (req, res, next) => {
     return next(error);
   }
 
-  res.status(201).json({ user: createdUser.toObject({ getters: true }) });
+  res.status(201).json({ user: createdUser.toObject({ getters: true }), success: true });
 };
 
 const login = async (req, res, next) => {

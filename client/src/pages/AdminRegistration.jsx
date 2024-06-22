@@ -39,7 +39,7 @@ export default function AdminRegistration() {
             });
 
             const result = await response.json();
-
+            console.log(result);
             if (result.success) {
                 setAlert({ show: true, message: 'Registration successful!', variant: 'success' });
                 navigate('/Admin');

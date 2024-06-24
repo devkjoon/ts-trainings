@@ -36,7 +36,7 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-    .connect('mongodb+srv://devkjoon:0kF80GAuhfTc10yW@ts-trainings.ic7mcip.mongodb.net/user?retryWrites=true&w=majority&appName=ts-trainings')
+    .connect(`mongodb+srv://devkjoon:0kF80GAuhfTc10yW@ts-trainings.ic7mcip.mongodb.net/user?retryWrites=true&w=majority&appName=ts-training`)
     .then(() => {
         app.listen(5000, () => {
             console.log('Server is running on port 5000');

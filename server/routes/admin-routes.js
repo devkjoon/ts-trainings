@@ -1,11 +1,11 @@
 const express = require("express");
 const { check } = require("express-validator");
 
-const userController = require("../controllers/user-controllers");
+const adminController = require("../controllers/admin-controllers");
 
 const router = express.Router();
 
-router.get("/", userController.getUser);
+router.get("/", adminController.getAdmin);
 
 router.post(
   "/signup",
@@ -17,9 +17,9 @@ router.post(
     check("password").isLength({ min: 6 }),
     check("adminCode").not().isEmpty(),
   ],
-  userController.signup
+  adminController.signup
 );
 
-router.post("/login", userController.login);
+router.post("/login", adminController.login);
 
 module.exports = router;

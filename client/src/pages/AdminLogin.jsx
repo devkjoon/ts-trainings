@@ -9,6 +9,7 @@ export default function AdminLogin() {
     const [password, setPassword] = useState('');
     const [validated, setValidated] = useState(false);
     const [alert, setAlert] = useState({ show: false, message: '', variant: '' });
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -22,10 +23,12 @@ export default function AdminLogin() {
             return;
         }
 
+        setLoading(true);
+
         console.log('Submitting login form with:', { username, password });
 
         try {
-            const response = await fetch('http://localhost:5000/user/login', {
+            const response = await fetch('http://localhost:5000/admin/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -44,6 +47,8 @@ export default function AdminLogin() {
     } catch (error) {
         console.error('Login error:', error);
         setAlert({ show: true, message: 'An error occurred. Please try again later.', variant: 'danger' });
+    } finally {
+        setLoading(false);
     }
 };
 
@@ -97,8 +102,8 @@ export default function AdminLogin() {
                         </Button>
                     </Col>
                     <Col className="text-center">
-                        <Button className="mainButton mt-3" type="submit" variant="outline-warning" size="lg">
-                            Login
+                        <Button className="mainButton mt-3" type="submit" variant="outline-warning" size="lg" disabled={loading}>
+                            {loading ? 'Logging in...' : 'Login'}
                         </Button>
                     </Col>
                 </Row>

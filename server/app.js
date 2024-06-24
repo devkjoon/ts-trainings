@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const userRoutes = require('./routes/user-routes');
+const adminRoutes = require('./routes/admin-routes');
 const HttpError = require('./models/http-error');
 
 dotenv.config();
@@ -20,7 +20,7 @@ app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 
-app.use('/user', userRoutes);
+app.use('/admin', adminRoutes);
 
 app.use((req, res, next) => {
     const error = new HttpError('Could not find this route', 404);
@@ -36,7 +36,7 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-    .connect(`mongodb+srv://devkjoon:0kF80GAuhfTc10yW@ts-trainings.ic7mcip.mongodb.net/user?retryWrites=true&w=majority&appName=ts-training`)
+    .connect(`mongodb+srv://devkjoon:0kF80GAuhfTc10yW@ts-trainings.ic7mcip.mongodb.net/ts-trainings?retryWrites=true&w=majority&appName=ts-training`)
     .then(() => {
         app.listen(5000, () => {
             console.log('Server is running on port 5000');

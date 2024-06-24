@@ -1,18 +1,18 @@
 const { validationResult } = require("express-validator");
 const bcrypt = require('bcryptjs');
-const User = require("../models/user");
+const Admin = require("../models/admin");
 const HttpError = require("../models/http-error");
 
-const getUsers = async (req, res, next) => {
-  let users;
+const getAdmins = async (req, res, next) => {
+  let admins;
   try {
-    users = await User.find({}, '-password');
+    admins = await Admin.find({}, '-password');
   } catch (err) {
-    const error = new HttpError('Fetching users failed, please try again later.', 500);
+    const error = new HttpError('Fetching Admins failed, please try again later.', 500);
     console.log(err.message)
     return next(error);
   }
-  res.json({users: users.map(user => user.toObject({ getters: true }))});
+  res.json({admins: admins.map(admin => admin.toObject({ getters: true }))});
 };
 
 const signup = async (req, res, next) => {
@@ -31,17 +31,17 @@ const signup = async (req, res, next) => {
     return next(error);
   }
 
-  let existingUser;
+  let existingAdmin;
 
   try {
-    existingUser = await User.findOne({ email: email });
+    existingAdmin = await Admin.findOne({ email: email });
   } catch (err) {
     const error = new HttpError("Signup failed, please contact support", 500);
     console.log(err.message);
     return next(error);
   }
 
-  if (existingUser) {
+  if (existingAdmin) {
     const error = new HttpError(
       "Admin exists already, please login instead", 422);
     return next(error);
@@ -56,7 +56,7 @@ const signup = async (req, res, next) => {
     return next(error);
   }
 
-  const createdUser = new User({
+  const createdAdmin = new Admin({
     firstname,
     lastname,
     email,
@@ -65,43 +65,50 @@ const signup = async (req, res, next) => {
   });
 
   try {
-    await createdUser.save();
+    await createdAdmin.save();
   } catch (err) {
     const error = new HttpError("Registration failed, please try again", 500);
     console.log(err.message);
     return next(error);
   }
 
-  res.status(201).json({ user: createdUser.toObject({ getters: true }), success: true });
+  res.status(201).json({ Admin: createdAdmin.toObject({ getters: true }), success: true });
 };
 
 const login = async (req, res, next) => {
   const { username, password } = req.body;
 
-  let existingUser;
+  let existingAdmin;
 
   try {
-    existingUser = await User.findOne({ username: username });
+    existingAdmin = await Admin.findOne({ username: username });
   } catch (err) {
     const error = new HttpError("Login failed, please contact support", 500);
     return next(error);
   }
 
-  if (!existingUser) {
-    const error = new HttpError(
-      'Invalid credentials, could not log you in.', 401);
+  if (!existingAdmin) {
+    const error = new HttpError('Invalid credentials, could not log you in.', 401);
     return next(error);
   }
 
-  if (existingUser.password !== password) {
+  let isValidPassword = false;
+  try {
+    isValidPassword = await bcrypt.compare(password, existingAdmin.password);
+  } catch (err) {
+    const error = new HttpError('Could not log you in, please check your credentials and try again.', 500);
+    return next(error);
+  }
+
+  if (!isValidPassword) {
     const error = new HttpError('Invalid credentials, could not log you in.', 401);
-      return next(error);
+    return next(error);
   }
 
   res.json({ message: "Logged In" });
 };
 
 
-exports.getUser = getUsers;
+exports.getAdmin = getAdmins;
 exports.signup = signup;
 exports.login = login;

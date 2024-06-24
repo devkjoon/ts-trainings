@@ -23,7 +23,7 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.use('/admin', adminRoutes);
-// app.use('/student', studentRoutes);
+app.use('/student', studentRoutes);
 
 app.use((req, res, next) => {
     const error = new HttpError('Could not find this route', 404);

@@ -4,8 +4,9 @@ import Navbar from "./components/Navbar";
 
 import Home from "./pages/Home";
 import Admin from "./pages/Admin"
-import AdminLogin from "./pages/AdminLogin"
-import AdminRegistration from "./pages/AdminRegistration"
+import AdminLogin from "./components/AdminLogin"
+import AdminRegistration from "./components/AdminRegistration"
+import StudentLogin from './components/StudentLogin'
 import Dashboard from "./pages/Dashboard"
 import NewStudent from "./components/NewStudent"
 
@@ -21,6 +22,7 @@ function App() {
           <Route path='Admin' element={<Admin />} />
           <Route path='AdminLogin' element={<AdminLogin />} />
           <Route path='AdminRegistration' element={<AdminRegistration />} />
+          <Route path='StudentLogin' element={<StudentLogin />} />
           <Route path='Dashboard' element={<Dashboard />} />
           <Route path='NewStudent' element={<NewStudent />} />
         </Routes>

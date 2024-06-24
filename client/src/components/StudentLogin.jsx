@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
 
 import '../assets/css/AdminLogin.css';
-import './Dashboard';
+import '../pages/Dashboard';
 
-export default function AdminLogin() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+export default function StudentLogin() {
+    const [email, setEmail] = useState('');
+    const [loginCode, setLoginCode] = useState('');
     const [validated, setValidated] = useState(false);
     const [alert, setAlert] = useState({ show: false, message: '', variant: '' });
     const [loading, setLoading] = useState(false);
@@ -26,15 +26,15 @@ export default function AdminLogin() {
 
         setLoading(true);
 
-        console.log('Submitting login form with:', { username, password });
+        console.log('Submitting login form with:', { email, loginCode });
 
         try {
-            const response = await fetch('http://localhost:5000/admin/login', {
+            const response = await fetch('http://localhost:5000/student/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ username, password })
+                body: JSON.stringify({ email, loginCode })
             });
 
         const result = await response.json();
@@ -58,34 +58,33 @@ export default function AdminLogin() {
         <Form noValidate validated={validated} onSubmit={handleLogin} className="formContainer">
             <Row className="mb-2">
                 <Form.Group as={Col} md="6">
-                    <Form.Label>Username</Form.Label>
+                    <Form.Label>Email</Form.Label>
                     <InputGroup hasValidation className='loginInput'>
-                        <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
                         <Form.Control
                             type="text"
-                            placeholder="Username"
+                            placeholder="Email"
                             aria-describedby="inputGroupPrepend"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             required
                         />
                         <Form.Control.Feedback type="invalid">
-                            Enter a username
+                            Enter an email
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
                 <Form.Group as={Col} md="6" controlId="validationCustom01">
-                    <Form.Label>Password</Form.Label>
+                    <Form.Label>Login Code</Form.Label>
                         <InputGroup className='loginInput'>
                         <Form.Control
-                            type="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            type="text"
+                            placeholder="Login Code"
+                            value={loginCode}
+                            onChange={(e) => setLoginCode(e.target.value)}
                             required
                         />
                         <Form.Control.Feedback type="invalid">
-                            Enter a password
+                            Enter a login code
                         </Form.Control.Feedback>
                         </InputGroup>
                 </Form.Group>
@@ -98,8 +97,8 @@ export default function AdminLogin() {
             <div className='loginButtonContainer'>
                 <Row>
                     <Col className="text-center">
-                        <Button className="mainButton mt-3" variant="outline-info" size="lg" href="/AdminRegistration">
-                            Register Instead
+                        <Button className="mainButton mt-3" variant="outline-info" size="lg" href="/">
+                            Return Home
                         </Button>
                     </Col>
                     <Col className="text-center">

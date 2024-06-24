@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
 
-import './AdminLogin';
-import './AdminRegistration';
+import '../components/AdminLogin';
+import '../components/AdminRegistration';
 
 export default function Admin() {
   return (

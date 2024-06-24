@@ -9,12 +9,12 @@ export default function Home() {
     <>
       <div className='buttonContainer'>
         <Row>
-          <a href="/Admin">
+          <Col className='text-center'>
             <Button className="mainButton mt-3" variant="outline-info" size="lg" href="/Admin">I am an Administrator</Button>
-          </a>
-          <a href="">
+          </Col>
+          <Col className='text-center'>
             <Button className="mainButton mt-3" variant="outline-warning" size="lg">I am a Student</Button>
-          </a>
+          </Col>
         </Row>
       </div>
     </>

@@ -26,9 +26,6 @@ export default function AdminRegistration() {
             return;
         }
 
-        console.log('Admin Code:', { adminCode })
-        console.log('Username:', { username })
-
         try {
             const response = await fetch('http://localhost:5000/user/signup', {
                 method: 'POST',

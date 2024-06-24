@@ -25,9 +25,6 @@ const signup = async (req, res, next) => {
   const { firstname, lastname, email, username, password, adminCode } = req.body;
 
   const actualAdminCode = process.env.ADMIN_CODE;
-  
-  console.log('Actual Admin Code:', actualAdminCode);
-  console.log('Provided Admin Code:', adminCode);
 
   if (adminCode !== actualAdminCode) {
     const error = new HttpError('Invalid Admin Code', 403);
@@ -35,7 +32,6 @@ const signup = async (req, res, next) => {
   }
 
   let existingUser;
-  console.log("Here");
 
   try {
     existingUser = await User.findOne({ email: email });
@@ -44,7 +40,6 @@ const signup = async (req, res, next) => {
     console.log(err.message);
     return next(error);
   }
-  console.log("Here");
 
   if (existingUser) {
     const error = new HttpError(
@@ -68,8 +63,6 @@ const signup = async (req, res, next) => {
     username,
     password: hashedPassword,
   });
-
-  console.log("Here " + createdUser);
 
   try {
     await createdUser.save();
@@ -99,9 +92,6 @@ const login = async (req, res, next) => {
       'Invalid credentials, could not log you in.', 401);
     return next(error);
   }
-
-  console.log('Input password:', password);
-  console.log('Stored password:', existingUser.password);
 
   if (existingUser.password !== password) {
     const error = new HttpError('Invalid credentials, could not log you in.', 401);

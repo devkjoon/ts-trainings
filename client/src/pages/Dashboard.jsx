@@ -1,18 +1,21 @@
 import React from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
 
+import '../assets/css/Dashboard.css';
+
 import '../components/NewStudent';
+import '../components/StudentList';
 
 export default function Admin() {
   return (
     <>
-      <div className='buttonContainer'>
+      <div className='dashboardContainer'>
         <Row>
-          <Col>
-            <Button className="mainButton mt-3" variant="outline-info" size="lg" href='/NewStudent'>New Student</Button>
+            <Col className='text-center'>
+            <Button className="dashboardBtn" variant="outline-info" size="lg" href='/NewStudent'>New Student</Button>
           </Col>
-          <Col>
-            <Button className="mainButton mt-3" variant="outline-warning" size="lg" href=''>Login</Button>
+          <Col className='text-center'>
+            <Button className="dashboardBtn" variant="outline-warning" size="lg" href='/StudentList'>Student List</Button>
           </Col>
         </Row>
       </div>

@@ -5,6 +5,8 @@ const studentController = require("../controllers/student-controllers");
 
 const router = express.Router();
 
+router.get('/', studentController.getAllStudents);
+
 router.post(
   "/login",
   [
@@ -14,4 +16,17 @@ router.post(
   studentController.login
 );
 
+router.post(
+    "/newStudent",
+    [
+        check("firstname").not().isEmpty(),
+        check("lastname").not().isEmpty(),
+        check("email").normalizeEmail().isEmail(),
+        check("company").not().isEmpty(),
+    ],
+    studentController.newStudent
+    );
+
+router.delete("/:sid", studentController.deleteStudent);
+    
 module.exports = router;

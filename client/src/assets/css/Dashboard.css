@@ -1,0 +1,15 @@
+.dashboardContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.dashboardContainer .dashboardBtn {
+    min-height: 200px;
+    min-width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}

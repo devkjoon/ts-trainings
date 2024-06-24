@@ -9,6 +9,7 @@ import AdminRegistration from "./components/AdminRegistration"
 import StudentLogin from './components/StudentLogin'
 import Dashboard from "./pages/Dashboard"
 import NewStudent from "./components/NewStudent"
+import StudentList from './components/StudentList'
 
 import './App.css'
 
@@ -25,6 +26,7 @@ function App() {
           <Route path='StudentLogin' element={<StudentLogin />} />
           <Route path='Dashboard' element={<Dashboard />} />
           <Route path='NewStudent' element={<NewStudent />} />
+          <Route path='StudentList' element={<StudentList />} />
         </Routes>
       </BrowserRouter>
     </div>

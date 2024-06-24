@@ -25,7 +25,7 @@ export default function NewStudent() {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/admin/newStudent', {
+            const response = await fetch('http://localhost:5000/student/newStudent', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

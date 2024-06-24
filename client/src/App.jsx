@@ -6,6 +6,8 @@ import Home from "./pages/Home";
 import Admin from "./pages/Admin"
 import AdminLogin from "./pages/AdminLogin"
 import AdminRegistration from "./pages/AdminRegistration"
+import Dashboard from "./pages/Dashboard"
+import NewStudent from "./components/NewStudent"
 
 import './App.css'
 
@@ -19,6 +21,8 @@ function App() {
           <Route path='Admin' element={<Admin />} />
           <Route path='AdminLogin' element={<AdminLogin />} />
           <Route path='AdminRegistration' element={<AdminRegistration />} />
+          <Route path='Dashboard' element={<Dashboard />} />
+          <Route path='NewStudent' element={<NewStudent />} />
         </Routes>
       </BrowserRouter>
     </div>

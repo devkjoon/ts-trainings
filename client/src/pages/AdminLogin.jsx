@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
 
 import '../assets/css/AdminLogin.css';
+import './Dashboard';
 
 export default function AdminLogin() {
     const [username, setUsername] = useState('');
@@ -40,7 +41,7 @@ export default function AdminLogin() {
 
         if (result.message === "Logged In") {
             setAlert({ show: true, message: 'Login successful!', variant: 'success' });
-            navigate('/Admin');
+            navigate('/Dashboard');
         } else {
             setAlert({ show: true, message: 'Invalid credentials. Please try again.', variant: 'danger' });
         }

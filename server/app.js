@@ -23,7 +23,7 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.use('/admin', adminRoutes);
-app.use('/student', studentRoutes);
+// app.use('/student', studentRoutes);
 
 app.use((req, res, next) => {
     const error = new HttpError('Could not find this route', 404);
@@ -39,7 +39,7 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-    .connect(`mongodb+srv://devkjoon:0kF80GAuhfTc10yW@ts-trainings.ic7mcip.mongodb.net/ts-trainings?retryWrites=true&w=majority&appName=ts-training`)
+    .connect(process.env.MONGODB_URI)
     .then(() => {
         app.listen(5000, () => {
             console.log('Server is running on port 5000');

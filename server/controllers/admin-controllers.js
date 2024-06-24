@@ -1,6 +1,8 @@
 const { validationResult } = require("express-validator");
 const bcrypt = require('bcryptjs');
 const Admin = require("../models/admin");
+const Student = require("../models/student")
+const Company = require("../models/company");
 const HttpError = require("../models/http-error");
 
 const getAdmins = async (req, res, next) => {
@@ -75,6 +77,49 @@ const signup = async (req, res, next) => {
   res.status(201).json({ Admin: createdAdmin.toObject({ getters: true }), success: true });
 };
 
+const newStudent = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors);
+    return next(new HttpError("Invalid inputs passed", 422));
+  }
+
+  const { firstname, lastname, email, company } = req.body;
+
+  let existingStudent;
+
+  try {
+    existingStudent = await Student.findOne({ email: email });
+  } catch (err) {
+    const error = new HttpError("Could not create new student, please contact Joon", 500);
+    console.log(err.message);
+    return next(error);
+  }
+
+  if (existingStudent) {
+    const error = new HttpError("Student exists already, please direct student to login", 422);
+    return next(error);
+  }
+
+  const createdStudent = new Student({
+    firstname,
+    lastname,
+    email,
+    company
+  });
+
+  try {
+    await createdStudent.save();
+  } catch (err) {
+    const error = new HttpError("Registration failed, please try again", 500);
+    console.log(err.message);
+    return next(error);
+  }
+
+  res.status(201).json({ Student: createdStudent.toObject({ getters: true }), success: true });
+};
+
+
 const login = async (req, res, next) => {
   const { username, password } = req.body;
 
@@ -111,4 +156,5 @@ const login = async (req, res, next) => {
 
 exports.getAdmin = getAdmins;
 exports.signup = signup;
+exports.newStudent = newStudent;
 exports.login = login;

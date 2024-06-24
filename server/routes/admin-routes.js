@@ -20,6 +20,17 @@ router.post(
   adminController.signup
 );
 
+router.post(
+  "/newStudent",
+  [
+    check("firstname").not().isEmpty(),
+    check("lastname").not().isEmpty(),
+    check("email").normalizeEmail().isEmail(),
+    check("company").not().isEmpty(),
+  ],
+  adminController.newStudent
+);
+
 router.post("/login", adminController.login);
 
 module.exports = router;

@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
 
 import '../assets/css/AdminLogin.css';
-import '../pages/Dashboard';
 
 export default function StudentLogin() {
     const [email, setEmail] = useState('');
@@ -41,7 +40,7 @@ export default function StudentLogin() {
 
         if (result.message === "Logged In") {
             setAlert({ show: true, message: 'Login successful!', variant: 'success' });
-            navigate('/Dashboard');
+            navigate('/student/dashboard');
         } else {
             setAlert({ show: true, message: 'Invalid credentials. Please try again.', variant: 'danger' });
         }

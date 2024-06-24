@@ -41,7 +41,7 @@ export default function AdminLogin() {
 
         if (result.message === "Logged In") {
             setAlert({ show: true, message: 'Login successful!', variant: 'success' });
-            navigate('/Dashboard');
+            navigate('/admin/dashboard');
         } else {
             setAlert({ show: true, message: 'Invalid credentials. Please try again.', variant: 'danger' });
         }
@@ -98,7 +98,7 @@ export default function AdminLogin() {
             <div className='loginButtonContainer'>
                 <Row>
                     <Col className="text-center">
-                        <Button className="mainButton mt-3" variant="outline-info" size="lg" href="/AdminRegistration">
+                        <Button className="mainButton mt-3" variant="outline-info" size="lg" href="/Admin/Registration">
                             Register Instead
                         </Button>
                     </Col>

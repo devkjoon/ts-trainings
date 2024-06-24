@@ -37,7 +37,7 @@ export default function NewStudent() {
             console.log(result);
             if (result.success) {
                 setAlert({ show: true, message: 'Created new student!', variant: 'success' });
-                navigate('/Dashboard');
+                navigate('/admin/dashboard');
             } else {
                 setAlert({ show: true, message: 'Unsuccessful, please try again later :(', variant: 'danger' });
             }

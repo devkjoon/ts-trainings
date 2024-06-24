@@ -39,7 +39,7 @@ export default function AdminRegistration() {
             console.log(result);
             if (result.success) {
                 setAlert({ show: true, message: 'Registration successful!', variant: 'success' });
-                navigate('/Admin');
+                navigate('/admin/login');
             } else {
                 setAlert({ show: true, message: 'Unsuccessful, please try again later :(', variant: 'danger' });
             }

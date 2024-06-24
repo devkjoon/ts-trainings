@@ -20,13 +20,13 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path='Admin' element={<Admin />} />
-          <Route path='AdminLogin' element={<AdminLogin />} />
-          <Route path='AdminRegistration' element={<AdminRegistration />} />
-          <Route path='StudentLogin' element={<StudentLogin />} />
-          <Route path='Dashboard' element={<Dashboard />} />
-          <Route path='NewStudent' element={<NewStudent />} />
-          <Route path='StudentList' element={<StudentList />} />
+          <Route path='/admin' element={<Admin />} />
+          <Route path='/admin/login' element={<AdminLogin />} />
+          <Route path='/admin/registration' element={<AdminRegistration />} />
+          <Route path='/student/login' element={<StudentLogin />} />
+          <Route path='/admin/dashboard' element={<Dashboard />} />
+          <Route path='/admin/new-student' element={<NewStudent />} />
+          <Route path='/admin/students' element={<StudentList />} />
         </Routes>
       </BrowserRouter>
     </div>

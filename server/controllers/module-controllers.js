@@ -25,7 +25,7 @@ const getModuleById = async (req, res) => {
 }
 
 const createModule = async (req, res) => {
-    const { title } req.body;
+    const { title } = req.body;
     try {
         const module = new Module({ title });
         await module.save();

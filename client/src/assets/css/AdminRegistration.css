@@ -6,10 +6,6 @@
     margin-top: 10%;
 }
 
-.registrationInput {
-    
-}
-
 @media screen and (max-width: 768px) {
     .registrationInput {
         width: 80%;

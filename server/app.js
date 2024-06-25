@@ -6,9 +6,9 @@ const cors = require('cors');
 
 const HttpError = require('./models/http-error');
 const adminRoutes = require('./routes/admin-routes');
-const studentRoutes = require('./routes/student-routes');
+const studentRoutes = require('./routes/student-routes');/* 
 const courseRoutes = require('./routes/course-routes');
-const moduleRoutes = require('./routes/')
+const moduleRoutes = require('./routes/') */
 
 dotenv.config();
 

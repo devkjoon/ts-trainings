@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
 
-import '../assets/css/AdminRegistration.css';
-
 export default function NewStudent() {
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
@@ -121,7 +119,7 @@ export default function NewStudent() {
             <div className='loginButtonContainer'>
                 <Row>
                     <Col className="text-center">
-                        <Button className="mainButton registrationBottomBtn" variant="outline-info" size="lg" href="/Dashboard">
+                        <Button className="mainButton registrationBottomBtn" variant="outline-info" size="lg" href="/admin/dashboard">
                             Return to Dashboard
                         </Button>
                     </Col>

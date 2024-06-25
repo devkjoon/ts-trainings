@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
 
+import '../assets/css/StudentList.css';
+
 export default function StudentList() {
   const [students, setStudents] = useState([]);
 
@@ -50,9 +52,10 @@ export default function StudentList() {
   };
 
   return (
-    <div>
+    <>
+    <div className="table-container">
       <h1 className="text-center mt-4 mb-4">Student List</h1>
-      <Table striped bordered hover>
+      <Table striped bordered hover className="custom-table">
         <thead>
           <tr>
             <th>Last Name</th>
@@ -83,6 +86,8 @@ export default function StudentList() {
           ))}
         </tbody>
       </Table>
+      <Button className="mainButton mt-3" variant="outline-info" size="lg" href="/admin/dashboard">Back</Button>
     </div>
+    </>
   );
 }

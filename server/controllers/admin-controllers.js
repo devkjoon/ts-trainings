@@ -109,7 +109,8 @@ const login = async (req, res, next) => {
   res.json({ message: "Logged In" });
 };
 
-
-exports.getAdmin = getAdmins;
-exports.signup = signup;
-exports.login = login;
+module.exports = {
+  getAdmins,
+  signup,
+  login
+}

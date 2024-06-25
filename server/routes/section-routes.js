@@ -3,9 +3,9 @@ const router = express.Router();
 const sectionController = require('../controllers/section-controllers');
 
 // Create a new section
-router.post('/sections', sectionController.createSection);
+router.post('/', sectionController.createSection);
 
 // Get section by ID
-router.get('/sections/:sectionId', sectionController.getSectionById);
+router.get('/:sectionId', sectionController.getSectionById);
 
 module.exports = router;

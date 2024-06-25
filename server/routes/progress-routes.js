@@ -3,9 +3,9 @@ const router = express.Router();
 const progressController = require('../controllers/progress-controllers');
 
 // Update progress
-router.post('/progress', progressController.updateProgress);
+router.post('/', progressController.updateProgress);
 
 // Get progress by student ID and course ID
-router.get('/progress/:studentId/:courseId', progressController.getProgress);
+router.get('/:studentId/:courseId', progressController.getProgress);
 
 module.exports = router;

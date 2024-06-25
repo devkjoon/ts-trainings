@@ -8,11 +8,9 @@ const HttpError = require('./models/http-error');
 const adminRoutes = require('./routes/admin-routes');
 const studentRoutes = require('./routes/student-routes');
 const courseRoutes = require('./routes/course-routes');
-const moduleRoutes = require('./routes/module-routes')
-const videoRoutes = require('./routes/video-routes');
-const questionRoutes = require('./routes/question-routes');
-const userProgressRoutes = require('./routes/userProgress-routes');
-const certificateRoutes = require('./routes/certificate-routes');
+const sectionRoutes = require('./routes/section-routes')
+const quizRoutes = require('./routes/quiz-routes');
+const progressRoutes = require('./routes/progress-routes');
 
 dotenv.config();
 
@@ -30,12 +28,11 @@ app.use(bodyParser.json());
 
 app.use('/admin', adminRoutes);
 app.use('/student', studentRoutes);
-app.use('/courses', courseRoutes);
-app.use('/modules', moduleRoutes);
-app.use('/videos', videoRoutes);
-app.use('/questions', questionRoutes);
-app.use('/user-progress', userProgressRoutes);
-app.use('/certificates', certificateRoutes);
+app.use('/course', courseRoutes);
+app.use('/section', sectionRoutes);
+app.use('/quiz', quizRoutes);
+app.use('/progress', progressRoutes);
+// app.use('/certificate', certificateRoutes);
 
 app.use((req, res, next) => {
     const error = new HttpError('Could not find this route', 404);

@@ -1,41 +1,35 @@
 const Course = require('../models/course');
+const { validationResult } = require('express-validator');
 
-const getAllCourses = async (req, res) => {
-    try {
-        const courses = await Course.find().populate('modules');
-        res.json({ courses });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Failed to fetch courses' });
-    }
-};
+// Create a new course
+exports.createCourse = async (req, res) => {
+  // Validate input using express-validator or similar
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
 
-const getCourseById = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const course = await Course.findById(id).populate('modules');
-        if (!course) {
-            return res.status(404).json({ message: 'Course not found' });
-        }
-        res.json({ course });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Failed to fetch course' });
-    }
-};
-
-const createCourse = async (req, res) => {
+  try {
     const { title, description } = req.body;
-    try {
-        const course = new Course({ title, description });
-        await course.save();
-        res.status(201).json({ course });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Failed to create course' });
-    }
+    const course = new Course({ title, description });
+    await course.save();
+    res.status(201).json(course);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: 'Server error' });
+  }
 };
 
-exports.getAllCourses = getAllCourses;
-exports.getCourseById = getCourseById;
-exports.createCourse = createCourse;
+// Get course by ID
+exports.getCourseById = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.courseId).populate('sections');
+    if (!course) {
+      return res.status(404).json({ error: 'Course not found' });
+    }
+    res.json(course);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: 'Server error' });
+  }
+};

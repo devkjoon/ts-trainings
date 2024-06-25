@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const courseController = require('../controllers/course-controllers');
 
-router.get('/', courseController.getAllCourses);
-router.get('/:id', courseController.getCourseById);
-router.post('/', courseController.createCourse);
+// Create a new course
+router.post('/courses', courseController.createCourse);
+
+// Get course by ID
+router.get('/courses/:courseId', courseController.getCourseById);
 
 module.exports = router;
-

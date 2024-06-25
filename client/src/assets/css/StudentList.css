@@ -1,25 +1,21 @@
 .table-container {
-    margin: 5 % auto;
+    margin: 0 3% auto;
 }
 
-.custom-table {
-    /* Custom styles for the table */
-  }
-  
-  .custom-table tbody tr:hover {
+.custom-table tbody tr:hover {
     background-color: rgba(23, 162, 184, 0.1); /* Transparent background color on hover */
-  }
+}
   
-  .custom-table tbody td,
-  .custom-table thead th {
+.custom-table tbody td,
+.custom-table thead th {
     border-color: #17a2b8; /* Border color matching outline-info button */
-  }
+}
   
-  .table-row:hover {
+.table-row:hover {
     background-color: rgba(23, 162, 184, 0.1); /* Transparent background color on hover */
-  }
+}
   
-  .table-row td {
+.table-row td {
     border-color: #17a2b8; /* Border color matching outline-info button */
-  }
+}
   

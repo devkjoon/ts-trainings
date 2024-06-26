@@ -11,6 +11,10 @@ import AdminDashboard from "./pages/AdminDashboard"
 import NewStudent from "./components/NewStudent"
 import StudentList from './components/StudentList'
 import StudentDashboard from "./pages/StudentDashboard"
+import Course from './components/Course'
+import CourseList from './components/CourseList'
+import CourseDetail from './components/CourseDetail'
+import Section from './components/Section'
 
 import './App.css'
 
@@ -24,11 +28,15 @@ function App() {
           <Route path='/admin' element={<Admin />} />
           <Route path='/admin/login' element={<AdminLogin />} />
           <Route path='/admin/registration' element={<AdminRegistration />} />
-          <Route path='/student/login' element={<StudentLogin />} />
           <Route path='/admin/dashboard' element={<AdminDashboard />} />
           <Route path='/admin/new-student' element={<NewStudent />} />
           <Route path='/admin/students' element={<StudentList />} />
+          <Route path='/admin/courses' element={<CourseList />} />  
+          <Route path='/admin/courses/:courseId' element={<CourseDetail />} />  
+          <Route path='/student/login' element={<StudentLogin />} />
           <Route path='/student/dashboard' element={<StudentDashboard />} />
+          <Route path='/student/course' element={<Course />} />
+          <Route path='/student/course/section' element={<Section />} />
         </Routes>
       </BrowserRouter>
     </div>

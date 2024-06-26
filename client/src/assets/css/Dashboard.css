@@ -13,3 +13,11 @@
     align-items: center;
     text-align: center;
 }
+
+.row {
+    margin: auto;
+}
+
+.col {
+    margin: auto;
+}

@@ -38,17 +38,37 @@ const createCourse = async (req, res, next) => {
   });
 
   try {
-    await createCourse.save();
+    await createdCourse.save();
   } catch (err) {
     const error = new HttpError('Creating course failed, please try again later', 500);
+    console.log(err)
     return next(error);
   }
 
   res.status(201).json({ course: createdCourse });
 };
 
+const deleteCourse = async (req, res, next) => {
+  const courseId = req.params.cid;
+
+  try {
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return next(new HttpError("Could not find course for provided id.", 404));
+    }
+
+    await course.deleteOne();
+
+    res.status(200).json({ message: "Deleted course." });
+  } catch (err) {
+    const error = new HttpError("Something went wrong, could not delete course.", 500);
+    return next(error);
+  }
+};
+
 module.exports = {
   getCourses,
   getCourseById,
-  createCourse
+  createCourse,
+  deleteCourse
 }

@@ -1,7 +1,7 @@
 const express = require('express');
 const { check } = require('express-validator');
 
-const courseController = require('../controllers/course-controller');
+const courseController = require('../controllers/course-controllers');
 
 const router = express.Router();
 
@@ -15,5 +15,6 @@ router.post(
   ],
   courseController.createCourse
 );
+router.delete('/:cid', courseController.deleteCourse);
 
 module.exports = router;

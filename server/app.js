@@ -9,7 +9,7 @@ const adminRoutes = require('./routes/admin-routes');
 const studentRoutes = require('./routes/student-routes');
 const courseRoutes = require('./routes/course-routes');
 const sectionRoutes = require('./routes/section-routes')
-const progressRoutes = require('./routes/progress-routes');
+// const progressRoutes = require('./routes/progress-routes');
 
 dotenv.config();
 
@@ -27,9 +27,9 @@ app.use(bodyParser.json());
 
 app.use('/admin', adminRoutes);
 app.use('/student', studentRoutes);
-app.use('/course', courseRoutes);
+app.use('/courses', courseRoutes);
 app.use('/section', sectionRoutes);
-app.use('/progress', progressRoutes);
+// app.use('/progress', progressRoutes);
 // app.use('/certificate', certificateRoutes);
 
 app.use((req, res, next) => {

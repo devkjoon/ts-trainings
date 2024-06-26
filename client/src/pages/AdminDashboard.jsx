@@ -13,6 +13,12 @@ export default function Admin() {
           </Col>
           <Col className='text-center'>
             <Button className="dashboardBtn" variant="outline-warning" size="lg" href='/admin/students'>Student List</Button>
+          </Col>        
+            <Col className='text-center'>
+            <Button className="dashboardBtn" variant="outline-info" size="lg" href='/admin/courses'>Course List</Button>
+          </Col>
+          <Col className='text-center'>
+            <Button className="dashboardBtn" variant="outline-warning" size="lg" href='/admin/students'>Student List</Button>
           </Col>
         </Row>
       </div>

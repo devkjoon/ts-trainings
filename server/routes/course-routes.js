@@ -1,11 +1,19 @@
 const express = require('express');
+const { check } = require('express-validator');
+
+const courseController = require('../controllers/course-controller');
+
 const router = express.Router();
-const courseController = require('../controllers/course-controllers');
 
-// Create a new course
-router.post('/', courseController.createCourse);
-
-// Get course by ID
-router.get('/:courseId', courseController.getCourseById);
+router.get('/', courseController.getCourses);
+router.get('/:cid', courseController.getCourseById);
+router.post(
+  '/',
+  [
+    check('title').not().isEmpty(),
+    check('description').not().isEmpty()
+  ],
+  courseController.createCourse
+);
 
 module.exports = router;

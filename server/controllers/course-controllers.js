@@ -1,35 +1,54 @@
 const Course = require('../models/course');
-const { validationResult } = require('express-validator');
+const HttpError = require('../models/http-error');
 
-// Create a new course
-exports.createCourse = async (req, res) => {
-  // Validate input using express-validator or similar
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
+const getCourses = async (req, res, next) => {
+  let courses;
   try {
-    const { title, description } = req.body;
-    const course = new Course({ title, description });
-    await course.save();
-    res.status(201).json(course);
+    courses = await Course.find().populate('sections');
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: 'Server error' });
+    const error = new HttpError('Fetching courses failed, please try again later', 500);
+    return next(error);
   }
+  res.json({ courses: courses.map(course => course.toObject({ getters: true })) });
 };
 
-// Get course by ID
-exports.getCourseById = async (req, res) => {
+const getCourseById = async (req, res, next) => {
+  const courseId = req.params.cid;
+  let course;
   try {
-    const course = await Course.findById(req.params.courseId).populate('sections');
-    if (!course) {
-      return res.status(404).json({ error: 'Course not found' });
-    }
-    res.json(course);
+    course = await Course.findById(courseId).populate('sections');
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: 'Server error' });
+    const error = new HttpError('Fetching course failed, please try again later', 500);
+    return next(error);
   }
+  if (!course) {
+    const error = new HttpError('Course not found', 404);
+    return next(error);
+  }
+  res.json({ course: course.toObject({ getters: true }) });
 };
+
+const createCourse = async (req, res, next) => {
+  const { title, description, sections } = req.body;
+
+  const createdCourse = new Course({
+    title,
+    description,
+    sections
+  });
+
+  try {
+    await createCourse.save();
+  } catch (err) {
+    const error = new HttpError('Creating course failed, please try again later', 500);
+    return next(error);
+  }
+
+  res.status(201).json({ course: createdCourse });
+};
+
+module.exports = {
+  getCourses,
+  getCourseById,
+  createCourse
+}

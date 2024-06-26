@@ -1,11 +1,22 @@
 const express = require('express');
+const { check } = require('express-validator');
+
+const sectionController = require('../controllers/section-controller');
+
 const router = express.Router();
-const sectionController = require('../controllers/section-controllers');
 
-// Create a new section
-router.post('/', sectionController.createSection);
+router.get('/', sectionController.getSections);
+router.get('/:sid', sectionController.getSectionById);
+router.post(
+  '/',
+  [
+    check('title').not().isEmpty(),
+    check('resource.type').isIn(['video', 'powerpoint']),
+    check('resource.url').not().isEmpty()
+  ],
+  sectionController.createSection
+);
 
-// Get section by ID
-router.get('/:sectionId', sectionController.getSectionById);
+router.post('/:sid/submit-quiz', sectionController.submitQuiz);
 
 module.exports = router;

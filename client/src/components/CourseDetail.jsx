@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, Container, Row, Col } from 'react-bootstrap';
+import { Card, Container, Row, Col, Button } from 'react-bootstrap';
 
 export default function CourseDetail() {
   const { courseId } = useParams();
@@ -65,6 +65,9 @@ export default function CourseDetail() {
           </Col>
         </Row>
       ))}
+      <div className="text-center">
+        <Button className="mainButton mt-3" variant="outline-info" size="lg" href="/admin/dashboard">Back</Button>
+      </div>
     </Container>
   );
 }

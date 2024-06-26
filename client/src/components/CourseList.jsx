@@ -67,7 +67,7 @@ export default function CourseList() {
                 <Card.Title>{course.title}</Card.Title>
                 <Card.Text>{course.description}</Card.Text>
                 <Button variant="info" onClick={() => handleViewCourse(course._id)}>View</Button>
-                <Button variant="danger" className="ml-2" onClick={() => handleDeleteCourse(course._id)}>Delete</Button>
+                {/* <Button variant="danger" className="ml-2" onClick={() => handleDeleteCourse(course._id)}>Delete</Button> */}
               </Card.Body>
             </Card>
           </Col>

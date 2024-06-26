@@ -5,7 +5,7 @@
     height: 85vh;
 }
 
-.dashboardContainer .dashboardBtn {
+.dashboardBtn {
     min-height: 200px;
     min-width: 200px;
     display: flex;
@@ -15,9 +15,13 @@
 }
 
 .row {
-    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .col {
-    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

@@ -66,7 +66,7 @@ export default function CourseDetail() {
         </Row>
       ))}
       <div className="text-center">
-        <Button className="mainButton mt-3" variant="outline-info" size="lg" href="/admin/dashboard">Back</Button>
+        <Button className="mainButton mt-3" variant="outline-info" size="lg" href="/admin/courses">Back</Button>
       </div>
     </Container>
   );

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Card, Button, Container, Row, Col } from "react-bootstrap";
-import { useNavigate } from 'react-router-dom';
+import { Container, Card, Button, Row, Col } from "react-bootstrap";
+import { useNavigate, Link } from 'react-router-dom';
+
 import '../assets/css/CourseList.css';
+import firstAidImage from '../assets/images/first-aid.png';
 
 export default function CourseList() {
   const [courses, setCourses] = useState([]);
@@ -63,9 +65,12 @@ export default function CourseList() {
         {courses.map((course) => (
           <Col key={course._id} md={4} className="mb-4">
             <Card className="course-card">
-              <Card.Body>
+            <Link to={`/admin/courses/${course._id}`}>
+                <Card.Img variant="top" src={course.imageUrl} className="cardImage" />
+              </Link>
+              <Card.Body className="course-content">
                 <Card.Title>{course.title}</Card.Title>
-                <Card.Text>{course.description}</Card.Text>
+                <Card.Text>{/* course.description */}</Card.Text>
                 <Button variant="info" onClick={() => handleViewCourse(course._id)}>View</Button>
                 {/* <Button variant="danger" className="ml-2" onClick={() => handleDeleteCourse(course._id)}>Delete</Button> */}
               </Card.Body>
@@ -76,6 +81,11 @@ export default function CourseList() {
       <div className="text-center">
         <Button className="mainButton mt-3" variant="outline-info" size="lg" href="/admin/dashboard">Back</Button>
       </div>
-    </Container>
+    </Container>    
   );
 }
+
+ 
+
+
+    

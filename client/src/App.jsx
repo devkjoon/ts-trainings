@@ -14,7 +14,7 @@ import StudentDashboard from "./pages/StudentDashboard"
 import Course from './components/Course'
 import CourseList from './components/CourseList'
 import CourseDetail from './components/CourseDetail'
-import Section from './components/Section'
+import Module from './components/Module'
 
 import './App.css'
 
@@ -36,7 +36,7 @@ function App() {
           <Route path='/student/login' element={<StudentLogin />} />
           <Route path='/student/dashboard' element={<StudentDashboard />} />
           <Route path='/student/course' element={<Course />} />
-          <Route path='/student/course/section' element={<Section />} />
+          <Route path='/student/course/module' element={<Module />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const sectionSchema = new mongoose.Schema({
+const moduleSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String },
   resource: {
@@ -17,4 +17,4 @@ const sectionSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('Section', sectionSchema);
+module.exports = mongoose.model('Module', moduleSchema);

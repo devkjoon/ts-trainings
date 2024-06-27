@@ -8,7 +8,7 @@ const HttpError = require('./models/http-error');
 const adminRoutes = require('./routes/admin-routes');
 const studentRoutes = require('./routes/student-routes');
 const courseRoutes = require('./routes/course-routes');
-const sectionRoutes = require('./routes/section-routes')
+const moduleRoutes = require('./routes/module-routes')
 // const progressRoutes = require('./routes/progress-routes');
 
 dotenv.config();
@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 app.use('/admin', adminRoutes);
 app.use('/student', studentRoutes);
 app.use('/courses', courseRoutes);
-app.use('/section', sectionRoutes);
+app.use('/module', moduleRoutes);
 // app.use('/progress', progressRoutes);
 // app.use('/certificate', certificateRoutes);
 

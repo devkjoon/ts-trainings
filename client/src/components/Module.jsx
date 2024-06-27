@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Container, Button, Form, Alert } from 'react-bootstrap';
 
-const Section = ({ section }) => {
-  const { title, description, resource, quiz } = section;
+const Module = ({ module }) => {
+  const { title, description, resource, quiz } = module;
   const [answers, setAnswers] = useState(new Array(quiz.questions.length).fill(null));
   const [quizResult, setQuizResult] = useState(null);
 
@@ -10,7 +10,7 @@ const Section = ({ section }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:5000/sections/${section._id}/submit-quiz`, {
+      const response = await fetch(`http://localhost:5000/modules/${module._id}/submit-quiz`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -72,4 +72,4 @@ const Section = ({ section }) => {
   );
 };
 
-export default Section;
+export default Module;

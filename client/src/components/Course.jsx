@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
-import Section from './Section';
+import Module from './Module';
 import { useParams } from 'react-router-dom';
 
 const Course = () => {
@@ -29,8 +29,8 @@ const Course = () => {
     <Container>
       <h1 className="text-center mt-4 mb-4">{course.title}</h1>
       <p>{course.description}</p>
-      {course.sections.map((section) => (
-        <Section key={section.id} section={section} />
+      {course.modules.map((module) => (
+        <Module key={module.id} module={module} />
       ))}
     </Container>
   );

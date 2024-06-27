@@ -4,7 +4,7 @@ const HttpError = require('../models/http-error');
 const getCourses = async (req, res, next) => {
   let courses;
   try {
-    courses = await Course.find().populate('sections');
+    courses = await Course.find().populate('modules');
   } catch (err) {
     const error = new HttpError('Fetching courses failed, please try again later', 500);
     return next(error);
@@ -16,7 +16,7 @@ const getCourseById = async (req, res, next) => {
   const courseId = req.params.cid;
   let course;
   try {
-    course = await Course.findById(courseId).populate('sections');
+    course = await Course.findById(courseId).populate('modules');
   } catch (err) {
     const error = new HttpError('Fetching course failed, please try again later', 500);
     return next(error);
@@ -29,12 +29,12 @@ const getCourseById = async (req, res, next) => {
 };
 
 const createCourse = async (req, res, next) => {
-  const { title, description, sections } = req.body;
+  const { title, description, modules } = req.body;
 
   const createdCourse = new Course({
     title,
     description,
-    sections
+    modules
   });
 
   try {

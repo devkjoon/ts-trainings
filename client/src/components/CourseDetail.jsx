@@ -39,22 +39,22 @@ export default function CourseDetail() {
           </Card>
         </Col>
       </Row>
-      {course.sections.map((section, index) => (
+      {course.modules.map((module, index) => (
         <Row key={index} className="mt-3">
           <Col>
             <Card>
               <Card.Body>
-                <Card.Title>{section.title}</Card.Title>
-                <Card.Text>{section.description}</Card.Text>
-                {section.resource.type === 'video' ? (
+                <Card.Title>{module.title}</Card.Title>
+                <Card.Text>{module.description}</Card.Text>
+                {module.resource.type === 'video' ? (
                   <video controls>
-                    <source src={section.resource.url} type="video/mp4" />
+                    <source src={module.resource.url} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
                 ) : (
-                  <iframe src={section.resource.url} title={section.title} width="100%" height="500px"></iframe>
+                  <iframe src={module.resource.url} title={module.title} width="100%" height="500px"></iframe>
                 )}
-                {section.quiz.questions.length > 0 && (
+                {module.quiz.questions.length > 0 && (
                   <div>
                     <h5>Quiz</h5>
                     {/* Render quiz questions here */}

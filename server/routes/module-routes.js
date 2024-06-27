@@ -1,12 +1,12 @@
 const express = require('express');
 const { check } = require('express-validator');
 
-const sectionController = require('../controllers/section-controllers');
+const moduleController = require('../controllers/module-controllers');
 
 const router = express.Router();
 
-router.get('/', sectionController.getSections);
-router.get('/:sid', sectionController.getSectionById);
+router.get('/', moduleController.getModules);
+router.get('/:mid', moduleController.getModuleById);
 router.post(
   '/',
   [
@@ -14,9 +14,9 @@ router.post(
     check('resource.type').isIn(['video', 'powerpoint']),
     check('resource.url').not().isEmpty()
   ],
-  sectionController.createSection
+  moduleController.createModule
 );
 
-router.post('/:sid/submit-quiz', sectionController.submitQuiz);
+router.post('/:sid/submit-quiz', moduleController.submitQuiz);
 
 module.exports = router;

@@ -111,6 +111,23 @@ export default function NewStudent() {
                     </InputGroup>
                 </Form.Group>
             </Row>
+            <Row>
+                <Form.Group as={Col} md="6" className='mb-2 mt-2'>
+                <Form.Label>Email</Form.Label>
+                    <InputGroup className='registrationInput'>
+                        <Form.Control
+                            type="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            Enter an Email
+                        </Form.Control.Feedback>
+                    </InputGroup>
+                </Form.Group>
+            </Row>
             {alert.show && (
                 <Alert variant={alert.variant} onClose={() => setAlert({ show: false })} dismissible>
                     {alert.message}

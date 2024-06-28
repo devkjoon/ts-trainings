@@ -11,7 +11,7 @@ const checkAuth = (req, res, next) => {
     if (!token) {
         throw new Error('Authentication failed!');
     }
-    const decodedTOken = jwt.verify(token, 'your_jwt_secret_key');
+    const decodedToken = jwt.verify(token, 'your_jwt_secret_key');
     req.userData = { userId: decodedToken.userId, userType: decodedToken.userType };
     next();
    } catch (err) {

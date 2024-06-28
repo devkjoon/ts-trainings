@@ -72,6 +72,19 @@ const signup = async (req, res, next) => {
     return next(error);
   }
 
+  let.token;
+  try {
+    
+  token = jwt.sign({ 
+    userId: createdAdmin.id, email: createdAdmin.email }, 'admininstrator',
+    { expiresIn: '1h' });
+  } catch (err) {
+    const error = new HttpError(
+      'Signing up failed, please try again later',
+    );
+    return next (error);
+  }
+
   res.status(201).json({ Admin: createdAdmin.toObject({ getters: true }), success: true });
 };
 
@@ -106,7 +119,24 @@ const login = async (req, res, next) => {
     return next(error);
   }
 
-  res.json({ message: "Logged In" });
+  let.token;
+  try {
+    
+  token = jwt.sign({
+    userId: existingAdmin.id, email: existingAdmin.email }, 'admininstrator',
+    { expiresIn: '1h' });
+  } catch (err) {
+    const error = new HttpError(
+      'Logging in failed, please try again later',
+    );
+    return next (error);
+  }
+
+  res.json({ 
+    userId: existingAdmin.id,
+    email: existingAdmin.email,
+    token: token,
+    message: "Logged In" });
 };
 
 module.exports = {

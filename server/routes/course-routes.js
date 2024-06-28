@@ -6,7 +6,9 @@ const courseController = require('../controllers/course-controllers');
 const router = express.Router();
 
 router.get('/', courseController.getCourses);
+
 router.get('/:cid', courseController.getCourseById);
+
 router.post(
   '/',
   [

@@ -1,9 +1,12 @@
 const express = require("express");
 const { check } = require("express-validator");
+const checkAuth = require('../utils/checkAuth');
 
 const studentController = require("../controllers/student-controllers");
 
 const router = express.Router();
+
+router.use(checkAuth);
 
 router.get('/', studentController.getAllStudents);
 

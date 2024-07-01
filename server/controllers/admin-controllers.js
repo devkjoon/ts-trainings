@@ -2,6 +2,8 @@ const { validationResult } = require("express-validator");
 const bcrypt = require('bcryptjs');
 const Admin = require("../models/admin");
 const HttpError = require("../models/http-error");
+const jwt = require('jsonwebtoken')
+require('../middleware/checkAuth')
 
 const getAdmins = async (req, res, next) => {
   let admins;
@@ -72,16 +74,17 @@ const signup = async (req, res, next) => {
     return next(error);
   }
 
-  let.token;
+  let token;
   try {
     
   token = jwt.sign({ 
-    userId: createdAdmin.id, email: createdAdmin.email }, 'admininstrator',
+    userId: createdAdmin.id, email: createdAdmin.email }, 'supersecret_admin_token',
     { expiresIn: '1h' });
   } catch (err) {
     const error = new HttpError(
       'Signing up failed, please try again later',
     );
+    console.log(err.message)
     return next (error);
   }
 
@@ -119,11 +122,12 @@ const login = async (req, res, next) => {
     return next(error);
   }
 
-  let.token;
+  let token;
   try {
     
-  token = jwt.sign({
-    userId: existingAdmin.id, email: existingAdmin.email }, 'admininstrator',
+  token = jwt.sign(
+    { userId: existingAdmin.id, email: existingAdmin.email },
+    'supersecret_admin_token',
     { expiresIn: '1h' });
   } catch (err) {
     const error = new HttpError(

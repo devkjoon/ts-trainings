@@ -42,6 +42,7 @@ export default function AdminRegistration() {
                 navigate('/admin/login');
             } else {
                 setAlert({ show: true, message: 'Unsuccessful, please try again later :(', variant: 'danger' });
+                console.log(result.message)
             }
         } catch (error) {
             console.error('Error registering user:', error);

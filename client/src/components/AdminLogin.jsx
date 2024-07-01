@@ -26,7 +26,7 @@ export default function AdminLogin() {
 
         setLoading(true);
 
-        console.log('Submitting login form with:', { username, password });
+        // console.log('Submitting login form with:', { username, password });
 
         try {
             const response = await fetch('http://localhost:5000/admin/login', {

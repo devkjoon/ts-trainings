@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Card, Container, Row, Col, Button } from 'react-bootstrap';
 
 export default function CourseDetail() {
+  
+  const navigate = useNavigate();
+
   const { courseId } = useParams();
   const [course, setCourse] = useState(null);
+  
 
   useEffect(() => {
     const fetchCourse = async () => {

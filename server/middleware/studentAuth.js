@@ -12,12 +12,17 @@ const studentAuth = (req, res, next) => {
       throw new Error("Authentication failed!");
     }
     const decodedToken = jwt.verify(token, process.env.STUDENT_TOKEN);
-    req.userData = {
-      userId: decodedToken.userId,
-    };
-    next();
+    if(!decodedToken.isAdmin) {
+      req.userData = {
+        userId: decodedToken.userId,
+        email: decodedToken.email
+      };
+      next();
+    } else {
+      throw new Error('Not authorized as student');
+    }    
   } catch (err) {
-    const error = new HttpError("Authentication failed!", 401);
+    const error = new HttpError("Authentication failed! Invalid token or not student", 401);
     return next(error);
   }
 };

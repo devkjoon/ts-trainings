@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
 
+import AdminTokenVerification from '../components/AdminTokenVerification';
 import '../assets/css/StudentList.css';
 
 export default function StudentList() {
@@ -12,7 +13,7 @@ export default function StudentList() {
         const response = await fetch("http://localhost:5000/student", {
           method: "GET",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
           },
         });
 

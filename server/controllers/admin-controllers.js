@@ -78,7 +78,7 @@ const signup = async (req, res, next) => {
   let token;
   try {
   token = jwt.sign(
-    { userId: createdAdmin.id, email: createdAdmin.email },
+    { userId: createdAdmin.id, email: createdAdmin.email, isAdmin: true },
     process.env.ADMIN_TOKEN,
     { expiresIn: '1h' });
   } catch (err) {
@@ -86,7 +86,6 @@ const signup = async (req, res, next) => {
     console.log(err.message)
     return next(error);
   }
-
   res.status(201).json({ Admin: createdAdmin.toObject({ getters: true }), success: true });
 };
 
@@ -125,7 +124,7 @@ const login = async (req, res, next) => {
 
   try {
   token = jwt.sign(
-    { userId: existingAdmin.id, email: existingAdmin.email },
+    { userId: existingAdmin.id, email: existingAdmin.email, isAdmin: true },
     process.env.ADMIN_TOKEN,
     { expiresIn: '1h' });
   } catch (err) {
@@ -140,8 +139,27 @@ const login = async (req, res, next) => {
     message: "Logged In" });
 };
 
+const getProtectedResource = async (req, res, next) => {
+  
+  let admin;
+  try {
+    admin = await Admin.findById(req.userData.userId).select('-password');
+  } catch (err) {
+    const error = new HttpError('Fetching admin failed, please try again later', 500);
+    return next(error);
+  }
+
+  if (!admin) {
+    const error = new HttpError('Admin not found', 404);
+    return next(error);
+  }
+
+  res.json({ admin: admin.toObject({ getters: true }) });
+};
+
 module.exports = {
   getAdmins,
   signup,
-  login
+  login,
+  getProtectedResource
 }

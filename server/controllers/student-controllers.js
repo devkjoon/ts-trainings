@@ -15,6 +15,7 @@ const getAllStudents = async (req, res, next) => {
       );
       return next(error);
     }
+    
     res.json({
       students: students.map((student) => student.toObject({ getters: true })),
     });
@@ -52,7 +53,7 @@ const login = async (req, res, next) => {
 
     try {
       token = jwt.sign(
-        { userId: existingStudent.id, email: existingStudent.email },
+        { userId: existingStudent.id, email: existingStudent.email, isAdmin: false },
         process.env.STUDENT_TOKEN,
         { expiresIn: '1h' });
     } catch (err) {
@@ -109,7 +110,7 @@ const newStudent = async (req, res, next) => {
 
     try {
       token = jwt.sign(
-        { userId: createdStudent.id, email: createdStudent.email },
+        { userId: createdStudent.id, email: createdStudent.email, isAdmin: false },
         process.env.STUDENT_TOKEN,
         { expiresIn: '1h' });
     } catch (err) {

@@ -1,6 +1,6 @@
 const express = require("express");
 const { check } = require("express-validator");
-const studentAuth = require('../middleware/studentAuth');
+const adminAuth = require('../middleware/adminAuth');
 
 const studentController = require("../controllers/student-controllers");
 
@@ -27,8 +27,6 @@ router.post(
     );
 
 router.delete("/:sid", studentController.deleteStudent);
-
-router.use(studentAuth);
 
 router.get('/', studentController.getAllStudents);
     

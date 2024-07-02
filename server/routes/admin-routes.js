@@ -25,4 +25,6 @@ router.use(adminAuth)
 
 router.get("/", adminController.getAdmins)
 
+router.get('/protected-resource', adminAuth, adminController.getProtectedResource);
+
 module.exports = router;

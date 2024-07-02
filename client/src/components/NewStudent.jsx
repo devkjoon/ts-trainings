@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
 
+import AdminTokenVerification from '../components/AdminTokenVerification';
+
 export default function NewStudent() {
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
@@ -11,6 +13,8 @@ export default function NewStudent() {
     const [alert, setAlert] = useState({ show: false, message: '', variant: '' });
 
     const navigate = useNavigate();
+
+    AdminTokenVerification();
 
     const handleStudentCreation = async (event) => {
         const form = event.currentTarget;

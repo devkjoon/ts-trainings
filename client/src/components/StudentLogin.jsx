@@ -38,8 +38,8 @@ export default function StudentLogin() {
 
         const result = await response.json();
 
-        if (result.message === "Logged In") {
-            setAlert({ show: true, message: 'Login successful!', variant: 'success' });
+        if (result.token) {
+            localStorage.setItem('token', result.token)
             navigate('/student/dashboard');
         } else {
             setAlert({ show: true, message: 'Invalid credentials. Please try again.', variant: 'danger' });

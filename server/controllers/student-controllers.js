@@ -1,6 +1,8 @@
 const { validationResult } = require("express-validator");
 const Student = require("../models/student");
 const HttpError = require("../models/http-error");
+const jwt = require('jsonwebtoken');
+require('../middleware/studentAuth');
 
 const getAllStudents = async (req, res, next) => {
     let students;
@@ -46,7 +48,22 @@ const login = async (req, res, next) => {
         return next(error);
     }
 
-    res.json({ message: "Logged In" });
+    let token;
+
+    try {
+      token = jwt.sign(
+        { userId: existingStudent.id, email: existingStudent.email },
+        process.env.STUDENT_TOKEN,
+        { expiresIn: '1h' });
+    } catch (err) {
+      const error = new HttpError('Logging in failed, please try again later', 500);
+      return next(error);
+    }
+
+    res.json({ 
+      userId: existingStudent.id,
+      token: token,
+      message: "Logged In" });
 };
 
 const newStudent = async (req, res, next) => {
@@ -86,6 +103,19 @@ const newStudent = async (req, res, next) => {
       const error = new HttpError("Registration failed, please try again", 500);
       console.log(err.message);
       return next(error);
+    }
+
+    let token;
+
+    try {
+      token = jwt.sign(
+        { userId: createdStudent.id, email: createdStudent.email },
+        process.env.STUDENT_TOKEN,
+        { expiresIn: '1h' });
+    } catch (err) {
+      const error = new HttpError('Signing up failed, please try again later', 500);
+      console.log(err.message);
+      return next(error)
     }
   
     res.status(201).json({ Student: createdStudent.toObject({ getters: true }), success: true });

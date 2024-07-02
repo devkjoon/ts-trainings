@@ -79,12 +79,12 @@ const signup = async (req, res, next) => {
   try {
   token = jwt.sign(
     { userId: createdAdmin.id, email: createdAdmin.email },
-    'supersecret_admin_token',
+    process.env.ADMIN_TOKEN,
     { expiresIn: '1h' });
   } catch (err) {
     const error = new HttpError('Signing up failed, please try again later', 500);
     console.log(err.message)
-    return next (error);
+    return next(error);
   }
 
   res.status(201).json({ Admin: createdAdmin.toObject({ getters: true }), success: true });
@@ -122,11 +122,11 @@ const login = async (req, res, next) => {
   }
 
   let token;
+
   try {
-    
   token = jwt.sign(
     { userId: existingAdmin.id, email: existingAdmin.email },
-    'supersecret_admin_token',
+    process.env.ADMIN_TOKEN,
     { expiresIn: '1h' });
   } catch (err) {
     const error = new HttpError('Logging in failed, please try again later', 500);

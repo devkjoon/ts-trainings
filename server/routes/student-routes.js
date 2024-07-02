@@ -6,10 +6,6 @@ const studentController = require("../controllers/student-controllers");
 
 const router = express.Router();
 
-router.use(studentAuth);
-
-router.get('/', studentController.getAllStudents);
-
 router.post(
   "/login",
   [
@@ -31,5 +27,9 @@ router.post(
     );
 
 router.delete("/:sid", studentController.deleteStudent);
+
+router.use(studentAuth);
+
+router.get('/', studentController.getAllStudents);
     
 module.exports = router;

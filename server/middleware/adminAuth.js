@@ -11,7 +11,7 @@ const adminAuth = (req, res, next) => {
     if (!token) {
       throw new Error("Authentication failed!");
     }
-    const decodedToken = jwt.verify(token, "supersecret_admin_token");
+    const decodedToken = jwt.verify(token, process.env.ADMIN_TOKEN);
     req.userData = {
       userId: decodedToken.userId,
     };

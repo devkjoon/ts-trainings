@@ -11,10 +11,9 @@ const studentAuth = (req, res, next) => {
     if (!token) {
       throw new Error("Authentication failed!");
     }
-    const decodedToken = jwt.verify(token, "supersecret_student_token");
+    const decodedToken = jwt.verify(token, process.env.STUDENT_TOKEN);
     req.userData = {
       userId: decodedToken.userId,
-      userType: decodedToken.userType,
     };
     next();
   } catch (err) {

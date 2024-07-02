@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import '../assets/css/Dashboard.css';
 
-
-export default function Admin() {
+export default function AdminDashboard() {
 
   const navigate = useNavigate();
 
@@ -31,7 +30,9 @@ export default function Admin() {
             <Button className="dashboardBtn" variant="outline-warning" size="lg" href='/admin/students'>Student List</Button>
           </Col>
         </Row>
-        <Button className='dashboardBtn' variant='outline-danger' size='lg' onClick={handleLogout}>Logout</Button>
+        <Row>
+          <Button variant='outline-danger' size='lg' onClick={handleLogout}>Logout</Button>
+        </Row>
       </div>
     </>
   );

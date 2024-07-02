@@ -39,8 +39,8 @@ export default function AdminLogin() {
 
         const result = await response.json();
 
-        if (result.message === "Logged In") {
-            setAlert({ show: true, message: 'Login successful!', variant: 'success' });
+        if (result) {
+            localStorage.setItem('token', result.token)
             navigate('/admin/dashboard');
         } else {
             setAlert({ show: true, message: 'Invalid credentials. Please try again.', variant: 'danger' });

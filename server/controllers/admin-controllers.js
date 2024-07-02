@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const Admin = require("../models/admin");
 const HttpError = require("../models/http-error");
 const jwt = require('jsonwebtoken')
-require('../middleware/checkAuth')
+require('../middleware/adminAuth')
 
 const getAdmins = async (req, res, next) => {
   let admins;
@@ -50,6 +50,7 @@ const signup = async (req, res, next) => {
   }
 
   let hashedPassword;
+
   try {
     hashedPassword = await bcrypt.hash(password, 12);
   } catch (err) {
@@ -76,14 +77,12 @@ const signup = async (req, res, next) => {
 
   let token;
   try {
-    
-  token = jwt.sign({ 
-    userId: createdAdmin.id, email: createdAdmin.email }, 'supersecret_admin_token',
+  token = jwt.sign(
+    { userId: createdAdmin.id, email: createdAdmin.email },
+    'supersecret_admin_token',
     { expiresIn: '1h' });
   } catch (err) {
-    const error = new HttpError(
-      'Signing up failed, please try again later',
-    );
+    const error = new HttpError('Signing up failed, please try again later', 500);
     console.log(err.message)
     return next (error);
   }
@@ -130,9 +129,7 @@ const login = async (req, res, next) => {
     'supersecret_admin_token',
     { expiresIn: '1h' });
   } catch (err) {
-    const error = new HttpError(
-      'Logging in failed, please try again later',
-    );
+    const error = new HttpError('Logging in failed, please try again later', 500);
     return next (error);
   }
 

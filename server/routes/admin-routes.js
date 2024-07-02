@@ -1,12 +1,10 @@
 const express = require("express");
 const { check } = require("express-validator");
-const checkAuth = require('../middleware/checkAuth');
+const adminAuth = require('../middleware/adminAuth');
 
 const adminController = require("../controllers/admin-controllers");
 
 const router = express.Router();
-
-router.get("/", adminController.getAdmins)
 
 router.post(
   "/signup",
@@ -22,5 +20,9 @@ router.post(
 );
 
 router.post("/login", adminController.login);
+
+router.use(adminAuth)
+
+router.get("/", adminController.getAdmins)
 
 module.exports = router;

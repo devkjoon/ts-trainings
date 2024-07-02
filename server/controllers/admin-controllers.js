@@ -136,6 +136,7 @@ const login = async (req, res, next) => {
     userId: existingAdmin.id,
     email: existingAdmin.email,
     token: token,
+    userType: 'admin',
     message: "Logged In" });
 };
 

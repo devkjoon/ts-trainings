@@ -64,6 +64,7 @@ const login = async (req, res, next) => {
     res.json({ 
       userId: existingStudent.id,
       token: token,
+      userType: 'student',
       message: "Logged In" });
 };
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
 
-import AdminTokenVerification from '../components/AdminTokenVerification';
+import AdminTokenVerification from '../hooks/AdminTokenVerification';
 
 export default function NewStudent() {
     const [firstname, setFirstname] = useState('');

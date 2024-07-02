@@ -24,9 +24,6 @@ export default function StudentDashboard() {
             <Button className="dashboardBtn" variant="outline-warning" size="lg" href='/admin/students'>Student List</Button>
           </Col>
         </Row>
-        <Row>
-          <Button className='dashboardBtn' variant='outline-danger' size='lg' onClick={handleLogout}>Logout</Button>
-        </Row>
       </div>
     </>
   );

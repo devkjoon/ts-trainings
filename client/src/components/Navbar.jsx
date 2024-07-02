@@ -1,25 +1,48 @@
-import React from 'react';
-
-import '../assets/css/Navbar.css'
+import React, { useEffect, useState } from 'react';
+import { Container, Nav, Navbar, Button, NavDropdown } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import '../assets/css/Navbar.css';
 
 const TopNavbar = () => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            setIsLoggedIn(true);
+        }
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        setIsLoggedIn(false);
+        navigate('/');
+    };
+
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-transparent border border-info p-3 navbarMain">
-            <a className="navbar-brand text-warning" href="/">Think Safety Trainings</a>
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarNav">
-                <ul className="navbar-nav ml-auto">
-                    <li className="nav-item">
-                        <a className="nav-link text-warning" href="/">Home</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link text-warning" href="/">Contact</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        <Navbar expand="lg" className='navbar navbar-light bg-transparent border border-info p-3 navbarMain'>
+            <Container>
+                <Navbar.Brand className='text-warning'>
+                    Think Safety Trainings
+                </Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav" className='justify-content-end'>
+                    <Nav>
+                        {isLoggedIn && (
+                            <>
+                                <Nav.Link href="/dashboard">
+                                    <Button variant="outline-warning" size='lg'>Dashboard</Button>
+                                </Nav.Link>
+                                <Nav.Link onClick={handleLogout}>
+                                    <Button variant='outline-warning' size='lg'>Log Out</Button>
+                                </Nav.Link>
+                            </>
+                        )}
+                    </Nav>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
     );
 };
 

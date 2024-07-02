@@ -7,14 +7,12 @@ export default function Home() {
   return (
     <>
       <div className='buttonContainer'>
-        <Row>
-          <Col className='text-center'>
-            <Button className="mainButton mt-3" variant="outline-info" size="lg" href="/admin">I am an Administrator</Button>
-          </Col>
-          <Col className='text-center'>
-            <Button className="mainButton mt-3" variant="outline-warning" size="lg" href="/student/login">I am a Student</Button>
-          </Col>
-        </Row>
+        <Col className='text-center'>
+          <Button className="mainButton mt-3" variant="outline-info" size="lg" href="/admin">I am an Administrator</Button>
+        </Col>
+        <Col className='text-center'>
+          <Button className="mainButton mt-3" variant="outline-warning" size="lg" href="/student/login">I am a Student</Button>
+        </Col>
       </div>
     </>
   );

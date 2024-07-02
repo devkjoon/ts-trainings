@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Row, Col, } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
-import AdminTokenVerification from '../components/AdminTokenVerification';
+import AdminTokenVerification from '../hooks/AdminTokenVerification';
 
 import '../assets/css/Dashboard.css';
 
@@ -31,11 +31,13 @@ export default function AdminDashboard() {
             <Button className="dashboardBtn" variant="outline-info" size="lg" href='/admin/courses'>Course List</Button>
           </Col>
           <Col className='text-center'>
-            <Button className="dashboardBtn" variant="outline-warning" size="lg" href='/admin/students'>Student List</Button>
+            <Button className="dashboardBtn" variant="outline-warning" size="lg" href='/admin/students'>Add a Module</Button>
           </Col>
         </Row>
         <Row>
+            <Col>
           <Button variant='outline-danger' size='lg' onClick={handleLogout}>Logout</Button>
+            </Col>
         </Row>
       </div>
     </>

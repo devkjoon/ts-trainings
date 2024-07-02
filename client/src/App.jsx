@@ -17,7 +17,7 @@ import Course from './components/Course'
 import CourseList from './components/CourseList'
 import CourseDetail from './components/CourseDetail'
 import Module from './components/Module'
-import AdminTokenVerification from "./components/AdminTokenVerification";
+import AdminTokenVerification from "./hooks/AdminTokenVerification";
 
 import './App.css'
 

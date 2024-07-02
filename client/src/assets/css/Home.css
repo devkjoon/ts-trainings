@@ -1,5 +1,4 @@
 .buttonContainer {
-  height: 100%;
   margin-top: 30%;
 }
 
@@ -28,6 +27,6 @@
 }
 
 .mainButton {
-  min-width: 240px;
+  min-width: 50%;
   margin: auto;
 }

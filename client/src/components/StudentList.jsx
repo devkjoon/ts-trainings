@@ -72,12 +72,12 @@ export default function StudentList() {
         <tbody>
           {students.map((student) => (
             <tr key={student._id}>
-              <td>{student.lastname}</td>
-              <td>{student.firstname}</td>
-              <td>{student.email}</td>
-              <td>{student.company}</td>
-              <td>{student.loginCode}</td>
-              <td>
+              <td className="table-vertical-center">{student.lastname}</td>
+              <td className="table-vertical-center">{student.firstname}</td>
+              <td className="table-vertical-center">{student.email}</td>
+              <td className="table-vertical-center">{student.company}</td>
+              <td className="table-vertical-center">{student.loginCode}</td>
+              <td className="table-vertical-center">
                 <Button
                   variant="danger"
                   onClick={() => handleDeleteStudent(student._id)}
@@ -89,7 +89,7 @@ export default function StudentList() {
           ))}
         </tbody>
       </Table>
-      <Button className="mainButton mt-3" variant="outline-info" size="lg" href="/admin/dashboard">Back</Button>
+      <Button className="button-25 mt-3" variant="outline-info" size="lg" href="/admin/dashboard">Back</Button>
     </div>
     </>
   );

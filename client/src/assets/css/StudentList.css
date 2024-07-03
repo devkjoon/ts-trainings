@@ -1,5 +1,5 @@
 .table-container {
-    margin: 0 3% auto;
+    margin: 0 1% auto;
 }
 
 .custom-table tbody tr:hover {
@@ -17,5 +17,13 @@
   
 .table-row td {
     border-color: #17a2b8; /* Border color matching outline-info button */
+    
 }
-  
+
+.table-vertical-center {
+    vertical-align: middle
+}
+
+.button-25 {
+    min-width: 15%;
+}

@@ -41,6 +41,7 @@ export default function AdminLogin() {
 
         if (result.token) {
             localStorage.setItem('token', result.token)
+            localStorage.setItem('userType', 'admin')
             navigate('/admin/dashboard');
         } else {
             setAlert({ show: true, message: 'Invalid credentials. Please try again.', variant: 'danger' });

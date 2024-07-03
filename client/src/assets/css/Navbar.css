@@ -1,3 +1,11 @@
 .navbarMain {
     border-radius: 25px;
 }
+    
+.navbar-title {
+    margin-left: 3%;
+}
+
+.burger-menu {
+    margin-right: 3%;
+}

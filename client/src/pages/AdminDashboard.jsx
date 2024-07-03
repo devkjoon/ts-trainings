@@ -34,11 +34,6 @@ export default function AdminDashboard() {
             <Button className="dashboardBtn" variant="outline-warning" size="lg" href='/admin/students'>Add a Module</Button>
           </Col>
         </Row>
-        <Row>
-            <Col>
-          <Button variant='outline-danger' size='lg' onClick={handleLogout}>Logout</Button>
-            </Col>
-        </Row>
       </div>
     </>
   );

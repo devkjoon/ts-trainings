@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Nav, Navbar, Button, Offcanvas } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '../assets/css/Navbar.css';
 
 const TopNavbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userType, setUserType] = useState('');
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -24,7 +25,7 @@ const TopNavbar = () => {
         navigate('/');
     };
 
-    const handleDashboardClick = () => {
+    const handleDashboard = () => {
         if (userType === 'admin') {
             navigate('/admin/dashboard');
         } else {
@@ -32,20 +33,31 @@ const TopNavbar = () => {
         }
     };
 
+    const hiddenRoutes = ['/', '/admin', '/admin/registration', '/admin/login', '/student/login'];
+    const isHiddenRoute = hiddenRoutes.includes(location.pathname);
+
     return (
-        <Container>
-            <Navbar className='navbar navbar-expand-lg navbar-light bg-transparent border border-info p-3 navbarMain'>
-                <Container className='navbarSection'>
-                    <Navbar.Brand className='text-warning'>
-                        Think Safety Trainings
-                    </Navbar.Brand>
-                    <Navbar.Toggle aria-controls="navbarNav" />
-                    <Navbar.Collapse id="navbarNav" className='justify-content-end'>
-                        <Nav>
-                            {isLoggedIn ? (
-                                <>
+        <Navbar expand="lg" className='navbar navbar-expand-lg navbar-light bg-transparent border border-info navbarMain'>
+            
+                <Navbar.Brand className='text-warning navbar-title'>
+                    Think Safety Trainings
+                </Navbar.Brand>
+                {isLoggedIn && !isHiddenRoute && (
+                    <>
+                        <Navbar.Toggle aria-controls="offcanvasNavbar" className='justify-content-end burger-menu' />
+                        <Navbar.Offcanvas
+                            id="offcanvasNavbar"
+                            aria-labelledby="offcanvasNavbarLabel"
+                            placement="end">
+                            <Offcanvas.Header closeButton>
+                                <Offcanvas.Title id="offcanvasNavbarLabel">
+                                    Think Safety Trainings
+                                </Offcanvas.Title>
+                            </Offcanvas.Header>
+                            <Offcanvas.Body>
+                                <Nav className="justify-content-end flex-grow-1 pe-3">
                                     <Nav.Link>
-                                        <Button variant="outline-warning" size='lg' onClick={handleDashboardClick}>
+                                        <Button variant="outline-warning" size='lg' onClick={handleDashboard}>
                                             Dashboard
                                         </Button>
                                     </Nav.Link>
@@ -54,17 +66,12 @@ const TopNavbar = () => {
                                             Log Out
                                         </Button>
                                     </Nav.Link>
-                                </>
-                            ) : (
-                                <Nav.Link>
-                                    <Button variant="outline-warning" size='lg' href='/student/login'>Student Log In</Button>
-                                </Nav.Link>
-                            )}
-                        </Nav>
-                    </Navbar.Collapse>
-                </Container>
-            </Navbar>
-        </Container>
+                                </Nav>
+                            </Offcanvas.Body>
+                        </Navbar.Offcanvas>
+                    </>
+                )}
+        </Navbar>
     );
 };
 

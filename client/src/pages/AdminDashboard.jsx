@@ -12,11 +12,6 @@ export default function AdminDashboard() {
 
   AdminTokenVerification()
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/');
-  }
-
   return (
     <>
       <div className='dashboardContainer'>

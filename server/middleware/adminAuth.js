@@ -22,6 +22,7 @@ const adminAuth = (req, res, next) => {
       throw new Error('Not authorized as admin');
     }    
   } catch (err) {
+    console.log(err.message)
     const error = new HttpError("Authentication failed. Invalid token or not admin", 401);
     return next(error);
   }

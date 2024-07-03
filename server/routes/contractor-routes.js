@@ -7,4 +7,6 @@ const router = express.Router();
 
 router.get('/', adminAuth, contractorController.getAllContractors);
 
+router.post('/new-contractor', adminAuth, contractorController.newContractor);
+
 module.exports = router;

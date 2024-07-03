@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Button, Row, Col, InputGroup, Table, Form } from 'react-bootstrap';
+import { Container, Button, Row, Col, InputGroup, Table, Form, Alert } from 'react-bootstrap';
 
 import AdminTokenVerification from '../../hooks/AdminTokenVerification';
 
@@ -7,6 +7,17 @@ import AdminTokenVerification from '../../hooks/AdminTokenVerification';
 
     const [contractors, setContractors] = useState([]);
     const [showForm, setShowForm] = useState(false);
+    const [alert, setAlert] = useState({ show: false, message: '', variant: '' });
+
+    const [companyName, setCompanyName] = useState('');
+    const [companyPhone, setCompanyPhone] = useState('');
+    const [companyAddress, setCompanyAddress] = useState('');
+    const [companyCity, setCompanyCity] = useState('');
+    const [companyState, setCompanyState] = useState('');
+    const [companyZip, setCompanyZip] = useState('');
+    const [companyContactName, setCompanyContactName] = useState('');
+    const [companyContactEmail, setCompanyContactEmail] = useState('');
+    const [companyContactPhone, setCompanyContactPhone] = useState('');
 
     AdminTokenVerification();
 
@@ -16,7 +27,8 @@ import AdminTokenVerification from '../../hooks/AdminTokenVerification';
                 const response = await fetch('http://localhost:5000/contractor', {
                     method: 'GET',
                     headers: {
-                        'Content-Type' : 'application/json'
+                        'Content-Type' : 'application/json',
+                        'Authorization' : `Bearer ${localStorage.getItem( 'token' )}`
                     },
                 });
 
@@ -34,6 +46,54 @@ import AdminTokenVerification from '../../hooks/AdminTokenVerification';
 
     const addContractorForm = () => {
         setShowForm((prevShowForm) => !prevShowForm);
+    };
+
+    const handleNewContractor = async (event) => {
+        const form = event.currentTarget;
+        event.preventDefault();
+
+        if (form.checkValidity() === false) {
+            event.stopPropogation();
+            setValidated(true);
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:5000/contractor/new-contractor', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization' : `Bearer ${localStorage.getItem( 'token' )}`
+                },
+                body: JSON.stringify({ 
+                    name: companyName, 
+                    phoneNumber: companyPhone, 
+                    address: {
+                        streetAddress: companyAddress, 
+                        city: companyCity, 
+                        state: companyState, 
+                        zipcode: companyZip, 
+                    },
+                    contact: {
+                        name: companyContactName, 
+                        email: companyContactEmail, 
+                        phoneNumber: companyContactPhone 
+                    }
+                })
+            });
+            
+            const result = await response.json();
+            console.log(result);
+            if (result.success) {
+                setAlert({ show: true, message: 'New contractor added', variant: 'success '})
+                addContractorForm();
+            } else {
+                setAlert({ show: true, message: 'Unsuccessful, please try again later', variant: 'danger' });
+            }
+        } catch (error) {
+            console.error('Error adding new contractor:', error);
+            setAlert({ show: true, message: 'Failed to add contractor. Hit up Joon and ask him why', variant: 'danger' });
+        }
     };
 
     return (
@@ -62,51 +122,154 @@ import AdminTokenVerification from '../../hooks/AdminTokenVerification';
                 </thead>
                 <tbody>
                     {contractors.map((contractor) => (
-                        <tr>
+                        <tr key={contractor._id}>
                             <td>{contractor.name}</td>
                             <td>{contractor.contact.name}</td>
                             <td>{contractor.contact.email}</td>
-                            <td>{contractor.contact.number}</td>
+                            <td>{contractor.contact.phoneNumber}</td>
                         </tr>
                     ))}
                 </tbody>
             </Table>
             {showForm && (
-                <Form>
+                <Form onSubmit={handleNewContractor}>
+                    <h2 className='mt-2'>Company Info</h2>
                     <Row>
-                        <Form.Group as={Col} md='6' className='mb-2 mt-2'>
-                            <Form.Label>Contractor Name</Form.Label>
+                        <Form.Group as={Col} md='8' className='mb-2 mt-2'>
+                            <Form.Label>Company Name</Form.Label>
                             <InputGroup className='contractor-input'>
-                                <Form.Control type='text' placeholder='enter contractor name' />
-                                <Form.Control.Feedback type='invalid'>
-                                    Enter a name dummy
-                                </Form.Control.Feedback>
+                                <Form.Control 
+                                    type='text' 
+                                    placeholder='Think Safety LLCS'
+                                    value={companyName}
+                                    onChange={(e) => setCompanyName(e.target.value)}
+                                    required
+                                />
+                                <Form.Control.Feedback type='invalid'>Enter a name dummy</Form.Control.Feedback>
                             </InputGroup>
                         </Form.Group>
-                        <Form.Group as={Col} md='6' className='mb-2 mt-2'>
-                            <Form.Label>Contractor Name</Form.Label>
-                            <InputGroup>
-                                <Form.Control type='text' placeholder='enter contractor name' />
-                                <Form.Control.Feedback type='invalid'>
-                                    Enter a name dummy
-                                </Form.Control.Feedback>
+                        <Form.Group as={Col} md='4' className='mb-2 mt-2'>
+                            <Form.Label>Company Phone Number</Form.Label>
+                            <InputGroup className='contractor-input'>
+                                <Form.Control 
+                                    type='number' 
+                                    placeholder='(###) ###-####'
+                                    value={companyPhone}
+                                    onChange={(e) => setCompanyPhone(e.target.value)}
+                                    required
+                                />
+                                <Form.Control.Feedback type='invalid'>Enter a name dummy</Form.Control.Feedback>
+                            </InputGroup>
+                        </Form.Group>
+                        
+                    </Row>
+                    <Row>
+                        <Form.Group as={Col} md='4' className='mb-2 mt-2'>
+                            <Form.Label>Street Address</Form.Label>
+                            <InputGroup className='contractor-input'>
+                                <Form.Control 
+                                    type='text' 
+                                    placeholder='5701 W Braddock Rd'
+                                    value={companyAddress}
+                                    onChange={(e) => setCompanyAddress(e.target.value)}
+                                    required
+                                />
+                                <Form.Control.Feedback type='invalid'>Enter a name dummy</Form.Control.Feedback>
+                            </InputGroup>
+                        </Form.Group>
+                        <Form.Group as={Col} md='4' className='mb-2 mt-2'>
+                            <Form.Label>City</Form.Label>
+                            <InputGroup className='contractor-input'>
+                                <Form.Control 
+                                    type='text' 
+                                    placeholder='Alexandria'
+                                    value={companyCity}
+                                    onChange={(e) => setCompanyCity(e.target.value)}
+                                    required
+                                />
+                                <Form.Control.Feedback type='invalid'>Enter a name dummy</Form.Control.Feedback>
+                            </InputGroup>
+                        </Form.Group>
+                        <Form.Group as={Col} md='2' className='mb-2 mt-2'>
+                            <Form.Label>State</Form.Label>
+                            <InputGroup className='contractor-input'>
+                                <Form.Control 
+                                    type='text' 
+                                    placeholder='VA'
+                                    value={companyState}
+                                    onChange={(e) => setCompanyState(e.target.value)}
+                                    required
+                                />
+                                <Form.Control.Feedback type='invalid'>Enter a name dummy</Form.Control.Feedback>
+                            </InputGroup>
+                        </Form.Group>
+                        <Form.Group as={Col} md='2' className='mb-2 mt-2'>
+                            <Form.Label>Zip Code</Form.Label>
+                            <InputGroup className='contractor-input'>
+                                <Form.Control 
+                                    type='number' 
+                                    placeholder='#####'
+                                    value={companyZip}
+                                    onChange={(e) => setCompanyZip(e.target.value)}
+                                    required
+                                />
+                                <Form.Control.Feedback type='invalid'>Enter a name dummy</Form.Control.Feedback>
                             </InputGroup>
                         </Form.Group>
                     </Row>
+                    <h2 className='mt-2'>Company Contact</h2>
                     <Row>
-                        <Form.Group as={Col} md='6'>
-                            <Form.Label>Contractor Name</Form.Label>
-                            <InputGroup>
-                                <Form.Control type='text' placeholder='enter contractor name' />
-                                <Form.Control.Feedback type='invalid'>
-                                    Enter a name dummy
-                                </Form.Control.Feedback>
+                    <Form.Group as={Col} md='4' className='mb-2 mt-2'>
+                            <Form.Label>Contact Name</Form.Label>
+                            <InputGroup className='contractor-input'>
+                                <Form.Control 
+                                    type='text' 
+                                    placeholder='John Doe'
+                                    value={companyContactName}
+                                    onChange={(e) => setCompanyContactName(e.target.value)}
+                                    required
+                                />
+                                <Form.Control.Feedback type='invalid'>Enter a name dummy</Form.Control.Feedback>
                             </InputGroup>
                         </Form.Group>
+                        <Form.Group as={Col} md='4' className='mb-2 mt-2'>
+                            <Form.Label>Email</Form.Label>
+                            <InputGroup className='contractor-input'>
+                                <Form.Control 
+                                    type='email' 
+                                    placeholder='email@mail.com'
+                                    value={companyContactEmail}
+                                    onChange={(e) => setCompanyContactEmail(e.target.value)}
+                                    required
+                                />
+                                <Form.Control.Feedback type='invalid'>Enter a name dummy</Form.Control.Feedback>
+                            </InputGroup>
+                        </Form.Group>
+                        <Form.Group as={Col} md='4' className='mb-2 mt-2'>
+                            <Form.Label>Phone</Form.Label>
+                            <InputGroup className='contractor-input'>
+                                <Form.Control 
+                                    type='text' 
+                                    placeholder='(###) ###-####'
+                                    value={companyContactPhone}
+                                    onChange={(e) => setCompanyContactPhone(e.target.value)}
+                                    required
+                                />
+                                <Form.Control.Feedback type='invalid'>Enter a name dummy</Form.Control.Feedback>
+                            </InputGroup>
+                        </Form.Group>
+                    </Row>
+                    {alert.show && (
+                        <Alert variant={alert.variant} onClose={() => setAlert({ show: false })} dismissible>
+                            {alert.message}
+                        </Alert>
+                    )}
+                    <Row>
+                        <Col>
+                            <Button type='submit' variant='outline-info' size='lg' className='mt-2'>Add Contractor</Button>
+                        </Col>
                     </Row>
                 </Form>
-                
-                
             )}
         </Container>
     )

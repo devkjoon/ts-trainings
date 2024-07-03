@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Card, Button, Row, Col } from "react-bootstrap";
 import { useNavigate, Link } from 'react-router-dom';
 
-import '../assets/css/CourseList.css';
+import '../../assets/css/CourseList.css';
 
 export default function CourseList() {
   const [courses, setCourses] = useState([]);

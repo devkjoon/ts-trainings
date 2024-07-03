@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
 
-import '../assets/css/AdminLogin.css';
+import '../../assets/css/AdminLogin.css';
 
 export default function StudentLogin() {
     const [email, setEmail] = useState('');

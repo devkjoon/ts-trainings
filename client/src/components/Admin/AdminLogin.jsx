@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
 
-import '../assets/css/AdminLogin.css';
-import '../pages/AdminDashboard';
+import '../../assets/css/AdminLogin.css';
+import '../../pages/AdminDashboard';
 
 export default function AdminLogin() {
     const [username, setUsername] = useState('');

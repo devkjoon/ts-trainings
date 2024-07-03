@@ -9,6 +9,7 @@ const adminRoutes = require('./routes/admin-routes');
 const studentRoutes = require('./routes/student-routes');
 const courseRoutes = require('./routes/course-routes');
 const moduleRoutes = require('./routes/module-routes')
+const contractorRoutes = require('./routes/contractor-routes');
 // const progressRoutes = require('./routes/progress-routes');
 
 dotenv.config();
@@ -29,6 +30,7 @@ app.use('/admin', adminRoutes);
 app.use('/student', studentRoutes);
 app.use('/courses', courseRoutes);
 app.use('/module', moduleRoutes);
+app.use('/contractor', contractorRoutes);
 // app.use('/progress', progressRoutes);
 // app.use('/certificate', certificateRoutes);
 

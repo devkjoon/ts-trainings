@@ -55,7 +55,7 @@ const login = async (req, res, next) => {
       token = jwt.sign(
         { userId: existingStudent.id, email: existingStudent.email, isAdmin: false },
         process.env.STUDENT_TOKEN,
-        { expiresIn: '1h' });
+        { expiresIn: '6h' });
     } catch (err) {
       const error = new HttpError('Logging in failed, please try again later', 500);
       return next(error);
@@ -113,7 +113,7 @@ const newStudent = async (req, res, next) => {
       token = jwt.sign(
         { userId: createdStudent.id, email: createdStudent.email, isAdmin: false },
         process.env.STUDENT_TOKEN,
-        { expiresIn: '1h' });
+        { expiresIn: '6h' });
     } catch (err) {
       const error = new HttpError('Signing up failed, please try again later', 500);
       console.log(err.message);

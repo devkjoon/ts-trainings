@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
 
-import AdminTokenVerification from '../hooks/AdminTokenVerification';
-import '../assets/css/StudentList.css';
+import AdminTokenVerification from '../../hooks/AdminTokenVerification';
+import '../../assets/css/StudentList.css';
 
 export default function StudentList() {
   const [students, setStudents] = useState([]);

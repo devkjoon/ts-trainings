@@ -26,12 +26,15 @@ export default function AdminDashboard() {
           </Col>
           <Col className='text-center'>
             <Button className="dashboardBtn" variant="outline-warning" size="lg" href='/admin/students'>Student List</Button>
-          </Col>        
+          </Col>
             <Col className='text-center'>
             <Button className="dashboardBtn" variant="outline-info" size="lg" href='/admin/courses'>Course List</Button>
           </Col>
           <Col className='text-center'>
             <Button className="dashboardBtn" variant="outline-warning" size="lg" href='/admin/students'>Add a Module</Button>
+          </Col>
+          <Col className='text-center'>
+            <Button className="dashboardBtn" variant="outline-info" size="lg" href='/admin/contractors'>Companies</Button>
           </Col>
         </Row>
       </div>

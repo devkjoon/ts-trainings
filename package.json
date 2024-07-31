@@ -30,6 +30,7 @@
     "react": "^17.0.0 || ^18.0.0",
     "react-bootstrap": "^2.10.2",
     "react-dom": "^17.0.0 || ^18.0.0",
+    "react-player": "^2.16.0",
     "styled-components": "^6.1.11",
     "uuid": "^10.0.0"
   },

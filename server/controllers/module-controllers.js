@@ -41,6 +41,7 @@ const createModule = async (req, res, next) => {
   try {
     await createdModule.save();
   } catch (err) {
+    console.log(err)
     const error = new HttpError('Creating module failed, please try again later.', 500);
     return next(error);
   }

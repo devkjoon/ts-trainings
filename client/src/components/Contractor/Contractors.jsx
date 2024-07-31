@@ -105,7 +105,7 @@ import AdminTokenVerification from '../../hooks/AdminTokenVerification';
                 <Col className='m-auto p-auto'>
                     <Row>
                         <Button className='contractor-button mb-2' variant="outline-info" onClick={addContractorForm}>{showForm ? 'Cancel Adding' : 'Add Contractor'}</Button>
-                    </Row>
+                    </Row>o
                     <Row>
                         <Button variant="outline-info">Manage Contractor</Button>
                     </Row>

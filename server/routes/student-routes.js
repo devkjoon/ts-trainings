@@ -30,4 +30,6 @@ router.delete("/:sid", studentController.deleteStudent);
 
 router.get('/', studentController.getAllStudents);
     
+router.post('/:sid/assign-course', studentController.assignCourse);
+
 module.exports = router;

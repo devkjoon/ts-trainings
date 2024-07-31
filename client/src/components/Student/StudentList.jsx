@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
 
 import AdminTokenVerification from '../../hooks/AdminTokenVerification';
+import AssignCourseModal from "../Modals/AssignCourseModal";
 import '../../assets/css/StudentList.css';
 
 export default function StudentList() {
   const [students, setStudents] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState(null);
 
   AdminTokenVerification();
 
@@ -54,6 +57,16 @@ export default function StudentList() {
     }
   };
 
+  const handleShowModal = (studentId) => {
+    setSelectedStudent(studentId);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = (studentId) => {
+    setShowModal(false);
+    setSelectedStudent(null);
+  };
+
   return (
     <>
     <div className="table-container">
@@ -66,7 +79,8 @@ export default function StudentList() {
             <th>Email</th>
             <th>Company</th>
             <th>Login Code</th>
-            <th>Actions</th>
+            <th>Assign</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -77,6 +91,13 @@ export default function StudentList() {
               <td className="table-vertical-center">{student.email}</td>
               <td className="table-vertical-center">{student.company}</td>
               <td className="table-vertical-center">{student.loginCode}</td>
+              <td className="table-vertical-center">
+              <Button variant="primary"
+                onClick={() => handleShowModal(student._id)}
+                >
+                 Assign Course 
+                </Button>
+              </td>
               <td className="table-vertical-center">
                 <Button
                   variant="danger"
@@ -91,6 +112,13 @@ export default function StudentList() {
       </Table>
       <Button className="button-25 mt-3" variant="outline-info" size="lg" href="/admin/dashboard">Back</Button>
     </div>
+    {selectedStudent && (
+      <AssignCourseModal
+      show={showModal}
+      handleClose={handleCloseModal}
+      studentId={selectedStudent}
+      />
+    )}
     </>
   );
 }

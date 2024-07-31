@@ -123,6 +123,29 @@ const newStudent = async (req, res, next) => {
     res.status(201).json({ Student: createdStudent.toObject({ getters: true }), success: true });
   };
 
+  const assignCourse = async (req, res, next) => {
+    const { sid } = req.params;
+    const { courseId } = req.body;
+  
+    let student;
+    try {
+      student = await Student.findById(sid);
+      if (!student) {
+        return next(new HttpError('Student not found', 404));
+      }
+  
+      if (!student.enrolledCourses.includes(courseId)) {
+        student.enrolledCourses.push(courseId);
+        await student.save();
+      }
+  
+      res.status(200).json({ message: 'Course assigned successfully' });
+    } catch (err) {
+      const error = new HttpError('Failed to assign course', 500);
+      return next(error);
+    }
+  };  
+
   const deleteStudent = async (req, res, next) => {
     const studentId = req.params.sid;
   
@@ -144,4 +167,5 @@ const newStudent = async (req, res, next) => {
 exports.login = login;
 exports.getAllStudents = getAllStudents;
 exports.newStudent = newStudent;
+exports.assignCourse = assignCourse;
 exports.deleteStudent = deleteStudent;

@@ -18,10 +18,7 @@ export default function StudentDashboard() {
       <div className='dashboardContainer'>
         <Row>
             <Col className='text-center'>
-            <Button className="dashboardBtn" variant="outline-info" size="lg" href='/admin/new-student'>New Student</Button>
-          </Col>
-          <Col className='text-center'>
-            <Button className="dashboardBtn" variant="outline-warning" size="lg" href='/admin/students'>Student List</Button>
+            <Button className="dashboardBtn" variant="outline-info" size="lg" href='/admin/new-student'>My Courses</Button>
           </Col>
         </Row>
       </div>

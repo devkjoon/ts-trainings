@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Card, /* Row, Col, Link, */ ListGroup, Alert, Spinner, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Container, Card, Row, Col,  Alert, Spinner } from 'react-bootstrap';
+import { useNavigate, Link } from 'react-router-dom';
 
 const StudentDashboard = () => {
   const [courses, setCourses] = useState([]);
@@ -37,7 +37,7 @@ const StudentDashboard = () => {
   }, [studentId]);
 
   const handleCourseClick = (courseId) => {
-    navigate(`/courses/${courseId}`);
+    navigate(`/student/courses/${courseId}/modules`);
   };
 
   if (loading) {
@@ -65,36 +65,21 @@ const StudentDashboard = () => {
   return (
     <Container>
       <h1 className="text-center mt-4 mb-4">My Courses</h1>
-      {/* <Row>
-        {courses.map((course) => (
-          <Col key={course._id} md={4} className="mb-4">
-            <Link to={`/admin/courses/${course._id}`}>
-            <Card className="course-card">
-              
-                <Card.Img variant="top" src={course.imageUrl} className="cardImage" />
-              
-              <Card.Body className="course-content">
-                <Card.Title>{course.title}</Card.Title>
-              </Card.Body>
-            </Card>
-            </Link>
-          </Col>
-        ))}
-      </Row> */}
       {courses.length > 0 ? (
-        <ListGroup>
+        <Row className="justify-content-center"> {/* Always centering but won't affect width */}
           {courses.map((course) => (
-            <ListGroup.Item key={course._id}>
-              <Card>
-                <Card.Body>
-                  <Card.Title>{course.title}</Card.Title>
-                  <Card.Text>{course.description}</Card.Text>
-                  <Button variant="primary" onClick={() => handleCourseClick(course._id)}>Go to Course</Button>
-                </Card.Body>
-              </Card>
-            </ListGroup.Item>
+            <Col key={course._id} md={4} className="mb-4 d-flex justify-content-center">
+              <Link to={`/student/courses/${course._id}/modules`}>
+                <Card className="course-card" style={{ width: '18rem' }}> {/* Fixed width */}
+                  <Card.Img variant="top" src={course.imageUrl || "path/to/default/image.jpg"} className="cardImage" />
+                  <Card.Body className="course-content">
+                    <Card.Title>{course.title}</Card.Title>
+                  </Card.Body>
+                </Card>
+              </Link>
+            </Col>
           ))}
-        </ListGroup>
+        </Row>
       ) : (
         <Alert variant="info" className="text-center">
           You are not enrolled in any courses.
@@ -103,5 +88,6 @@ const StudentDashboard = () => {
     </Container>
   );
 };
+
 
 export default StudentDashboard;

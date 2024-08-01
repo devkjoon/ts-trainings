@@ -9,6 +9,8 @@ router.get('/', courseController.getCourses);
 
 router.get('/:cid', courseController.getCourseById);
 
+router.get('/:cid/modules', courseController.getCourseModules);
+
 router.post(
   '/',
   [

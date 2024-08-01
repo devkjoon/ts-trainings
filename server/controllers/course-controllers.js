@@ -28,6 +28,21 @@ const getCourseById = async (req, res, next) => {
   res.json({ course: course.toObject({ getters: true }) });
 };
 
+const getCourseModules = async (req, res, next) => {
+  const courseId = req.params.cid;
+
+  try {
+    const course = await Course.findById(courseId).populate('modules');
+    if (!course) {
+      return next(new HttpError('Course not found', 404));
+    }
+
+    res.json({ modules: course.modules.map(module => module.toObject({ getters: true })) });
+  } catch (error) {
+    return next(new HttpError('Fetching modules failed, please try again later', 500));
+  }
+};
+
 const createCourse = async (req, res, next) => {
   const { title, description, imageUrl, modules } = req.body;
 
@@ -70,6 +85,7 @@ const deleteCourse = async (req, res, next) => {
 module.exports = {
   getCourses,
   getCourseById,
+  getCourseModules,
   createCourse,
   deleteCourse
 }

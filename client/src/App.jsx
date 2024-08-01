@@ -17,7 +17,8 @@ import StudentDashboard from "./pages/StudentDashboard"
 // import StudentCourseDashboard from './components/Student/StudentCourseDashboard'
 import CourseList from './components/Course/CourseList'
 import CourseDetail from './components/Course/CourseDetail'
-import Module from './components/Course/Module'
+import ModuleDashboard from './components/Course/ModuleDashboard';
+import Module from './components/Course/Module';
 import AdminTokenVerification from "./hooks/AdminTokenVerification";
 
 import './App.css'
@@ -40,8 +41,9 @@ function App() {
           <Route path='/admin/contractors' element={<Contractors />} />
           <Route path='/student/login' element={<StudentLogin />} />
           <Route path='/student/dashboard' element={<ProtectedRoute><StudentDashboard /></ProtectedRoute>} />
+          <Route path='/student/courses/:courseId/modules' element={<ModuleDashboard />} />
           {/* <Route path='/student/courses' element={<StudentCourseDashboard />} /> */}
-          <Route path='/student/course/module' element={<Module />} />
+          <Route path='/student/modules/:moduleId' element={<Module />} />
         </Routes>
       </BrowserRouter>
     </div>

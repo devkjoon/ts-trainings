@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Card, ListGroup, Alert, Spinner, Button } from 'react-bootstrap';
+import { Container, Card, Row, Col, Alert, Spinner, Button } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
+
+import '../../assets/css/ModuleDashboard.css'
 
 const ModuleDashboard = () => {
   const { courseId } = useParams();
@@ -29,7 +31,7 @@ const ModuleDashboard = () => {
   }, [courseId]);
 
   const handleModuleClick = (moduleId) => {
-    navigate(`/modules/${moduleId}`);
+    navigate(`/student/modules/${moduleId}`);
   };
 
   if (loading) {
@@ -58,19 +60,21 @@ const ModuleDashboard = () => {
     <Container>
       <h1 className="text-center mt-4 mb-4">Course Modules</h1>
       {modules.length > 0 ? (
-        <ListGroup>
+        <Row className="justify-content-center">
           {modules.map((module) => (
-            <ListGroup.Item key={module._id}>
-              <Card>
-                <Card.Body>
-                  <Card.Title>{module.title}</Card.Title>
-                  <Card.Text>{module.description}</Card.Text>
+            <Col key={module._id} md={4} className="mb-4 d-flex justify-content-center">
+              <Card className="course-card h-100" style={{ width: '18rem' }}>
+                <Card.Body className="d-flex flex-column justify-content-between">
+                  <div>
+                    <Card.Title>{module.title}</Card.Title>
+                    <Card.Text>{module.description}</Card.Text>
+                  </div>
                   <Button variant="primary" onClick={() => handleModuleClick(module._id)}>Go to Module</Button>
                 </Card.Body>
               </Card>
-            </ListGroup.Item>
+            </Col>
           ))}
-        </ListGroup>
+        </Row>
       ) : (
         <Alert variant="info" className="text-center">
           No modules available for this course.

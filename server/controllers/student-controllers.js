@@ -123,6 +123,23 @@ const newStudent = async (req, res, next) => {
     res.status(201).json({ Student: createdStudent.toObject({ getters: true }), success: true });
   };
 
+  const getStudentCourses = async (req, res, next) => {
+    const studentId = req.params.sid;
+
+    try {
+      const student = await Student.findById(studentId).populate('enrolledCourses');
+      if (!student) {
+        return next(new HttpError('Student not found', 404));
+      }
+
+      res.json({
+        courses: student.enrolledCourses.map(course => course.toObject({ getters: true }))
+      });
+    } catch (error) {
+      return next(new HttpError('Fetching student courses failed', 500));
+    }
+  }
+
   const assignCourse = async (req, res, next) => {
     const { sid } = req.params;
     const { courseId } = req.body;
@@ -167,5 +184,6 @@ const newStudent = async (req, res, next) => {
 exports.login = login;
 exports.getAllStudents = getAllStudents;
 exports.newStudent = newStudent;
+exports.getStudentCourses = getStudentCourses;
 exports.assignCourse = assignCourse;
 exports.deleteStudent = deleteStudent;

@@ -14,7 +14,7 @@ import NewStudent from "./components/Student/NewStudent"
 import StudentList from './components/Student/StudentList'
 import Contractors from './components//Contractor/Contractors'
 import StudentDashboard from "./pages/StudentDashboard"
-import Course from './components/Course/Course'
+// import StudentCourseDashboard from './components/Student/StudentCourseDashboard'
 import CourseList from './components/Course/CourseList'
 import CourseDetail from './components/Course/CourseDetail'
 import Module from './components/Course/Module'
@@ -40,7 +40,7 @@ function App() {
           <Route path='/admin/contractors' element={<Contractors />} />
           <Route path='/student/login' element={<StudentLogin />} />
           <Route path='/student/dashboard' element={<ProtectedRoute><StudentDashboard /></ProtectedRoute>} />
-          <Route path='/student/courses' element={<Course />} />
+          {/* <Route path='/student/courses' element={<StudentCourseDashboard />} /> */}
           <Route path='/student/course/module' element={<Module />} />
         </Routes>
       </BrowserRouter>

@@ -41,6 +41,7 @@ export default function StudentLogin() {
         if (result.token) {
             localStorage.setItem('token', result.token);
             localStorage.setItem('userType', 'student');
+            localStorage.setItem('studentId', result.userId);
             navigate('/student/dashboard');
         } else {
             setAlert({ show: true, message: 'Invalid credentials. Please try again.', variant: 'danger' });

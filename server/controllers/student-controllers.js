@@ -1,5 +1,6 @@
 const { validationResult } = require("express-validator");
 const Student = require("../models/student");
+const Course = require("../models/course");
 const HttpError = require("../models/http-error");
 const jwt = require('jsonwebtoken');
 require('../middleware/studentAuth');
@@ -140,6 +141,23 @@ const newStudent = async (req, res, next) => {
     }
   }
 
+  const getCompletedModules = async (req, res, next) => {
+    const studentId = req.params.sid;
+  
+    try {
+      const student = await Student.findById(studentId).populate('completedModules', 'title description');
+      if (!student) {
+        return next(new HttpError('Student not found', 404));
+      }
+  
+      res.status(200).json({ completedModules: student.completedModules });
+    } catch (err) {
+      console.error('Error fetching completed modules:', err);
+      const error = new HttpError('Fetching completed modules failed, please try again later.', 500);
+      return next(error);
+    }
+  };
+
   const assignCourse = async (req, res, next) => {
     const { sid } = req.params;
     const { courseId } = req.body;
@@ -187,3 +205,4 @@ exports.newStudent = newStudent;
 exports.getStudentCourses = getStudentCourses;
 exports.assignCourse = assignCourse;
 exports.deleteStudent = deleteStudent;
+exports.getCompletedModules = getCompletedModules

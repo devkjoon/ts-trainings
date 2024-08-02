@@ -11,16 +11,20 @@ const ModuleDashboard = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  const studentId = localStorage.getItem('studentId');
+
   useEffect(() => {
     const fetchModules = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/courses/${courseId}/modules`);
+        const response = await fetch(`http://localhost:5000/courses/${courseId}/modules?sid=${studentId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch modules');
         }
         const data = await response.json();
+
         setModules(data.modules);
       } catch (error) {
+        console.error('Error:', error);
         setError(error.message);
       } finally {
         setLoading(false);
@@ -28,11 +32,14 @@ const ModuleDashboard = () => {
     };
 
     fetchModules();
-  }, [courseId]);
+  }, [courseId, studentId]);
 
   const handleModuleClick = (moduleId) => {
     navigate(`/student/courses/${courseId}/modules/${moduleId}`);
   };
+
+  const incompleteModules = modules.filter(module => !module.completed);
+  const completedModules = modules.filter(module => module.completed);
 
   if (loading) {
     return (
@@ -59,11 +66,12 @@ const ModuleDashboard = () => {
   return (
     <Container>
       <h1 className="text-center mt-4 mb-4">Course Modules</h1>
-      {modules.length > 0 ? (
+      {incompleteModules.length > 0 ? (
         <Row className="justify-content-center">
-          {modules.map((module) => (
+          {incompleteModules.map((module) => (
             <Col key={module._id} md={4} className="mb-4 d-flex justify-content-center">
               <Card className="course-card h-100" style={{ width: '18rem' }}>
+              <Card.Img variant="top" src={module.moduleIconUrl || 'default-image-url.jpg'} alt="Module Image" />
                 <Card.Body className="d-flex flex-column justify-content-between">
                   <div>
                     <Card.Title>{module.title}</Card.Title>
@@ -79,6 +87,28 @@ const ModuleDashboard = () => {
         <Alert variant="info" className="text-center">
           No modules available for this course.
         </Alert>
+      )}
+
+      {completedModules.length > 0 && (
+        <>
+          <h2 className="text-center mt-4 mb-4">Completed Modules</h2>
+          <Row className="justify-content-center">
+            {completedModules.map((module) => (
+              <Col key={module._id} md={4} className="mb-4 d-flex justify-content-center">
+                <Card className="course-card h-100" style={{ width: '18rem' }}>
+                  <Card.Img variant="top" src={module.moduleIconUrl || 'default-image-url.jpg'} alt="Module Image" />
+                  <Card.Body className="d-flex flex-column justify-content-between">
+                    <div>
+                      <Card.Title>{module.title}</Card.Title>
+                      <Card.Text>{module.description}</Card.Text>
+                    </div>
+                    <Button variant="secondary" onClick={() => handleModuleClick(module._id)}>Review Module</Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </>
       )}
     </Container>
   );

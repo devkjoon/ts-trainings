@@ -7,6 +7,7 @@ import '../../assets/css/ModuleViewer.css'
 const ModuleViewer = () => {
   const { courseId, moduleId } = useParams();
   const [module, setModule] = useState(null);
+  const [allModules, setAllModules] = useState([]);
   const [answers, setAnswers] = useState([]);
   const [quizResult, setQuizResult] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -23,6 +24,13 @@ const ModuleViewer = () => {
         const data = await response.json();
         setModule(data.module);
         setAnswers(new Array(data.module.quiz?.questions.length).fill(null));
+
+        const allModulesResponse = await fetch(`http://localhost:5000/courses/${courseId}/modules`);
+        if (!allModulesResponse.ok) {
+          throw new Error('Failed to fetch all modules');
+        }
+        const allModulesData = await allModulesResponse.json();
+        setAllModules(allModulesData.modules);
       } catch (error) {
         console.error('Error fetching module:', error);
       } finally {
@@ -31,7 +39,7 @@ const ModuleViewer = () => {
     };
 
     fetchModule();
-  }, [moduleId]);
+  }, [courseId, moduleId]);
 
   const handleQuizSubmit = async (e) => {
     e.preventDefault();
@@ -50,6 +58,18 @@ const ModuleViewer = () => {
     } catch (error) {
       console.error('Error submitting quiz:', error);
       setQuizResult('An error occurred while submitting the quiz. Please try again.');
+    }
+  };
+
+  const navigateToNextModule = () => {
+    if (allModules && module) {
+      const currentIndex = allModules.findIndex(m => m._id === module._id);
+      if (currentIndex !== -1 && currentIndex < allModules.length - 1) {
+        const nextModule = allModules[currentIndex + 1];
+        navigate(`/student/courses/${courseId}/modules/${nextModule._id}`);
+      } else {
+        navigate(`/student/courses/${courseId}/modules`);
+      }
     }
   };
 

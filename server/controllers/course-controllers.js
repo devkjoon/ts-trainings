@@ -1,4 +1,5 @@
 const Course = require('../models/course');
+const Student = require('../models/student');
 const HttpError = require('../models/http-error');
 
 const getCourses = async (req, res, next) => {
@@ -30,15 +31,34 @@ const getCourseById = async (req, res, next) => {
 
 const getCourseModules = async (req, res, next) => {
   const courseId = req.params.cid;
+  const studentId = req.query.sid;
 
   try {
+    // Fetch the course to get the moduleIconUrl
     const course = await Course.findById(courseId).populate('modules');
     if (!course) {
       return next(new HttpError('Course not found', 404));
     }
 
-    res.json({ modules: course.modules.map(module => module.toObject({ getters: true })) });
+    // Fetch the student to get completed modules
+    const student = await Student.findById(studentId);
+    if (!student) {
+      return next(new HttpError('Student not found', 404));
+    }
+
+    // Identify completed modules
+    const completedModules = student.completedModules.map(m => m.toString());
+
+    // Prepare modules with iconUrl
+    const modulesWithIcons = course.modules.map(module => ({
+      ...module.toObject({ getters: true }),
+      moduleIconUrl: course.moduleIconUrl,
+      completed: completedModules.includes(module._id.toString())
+    }));
+
+    res.json({ modules: modulesWithIcons });
   } catch (error) {
+    console.error('Error fetching modules:', error);
     return next(new HttpError('Fetching modules failed, please try again later', 500));
   }
 };

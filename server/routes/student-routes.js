@@ -31,6 +31,8 @@ router.delete("/:sid", studentController.deleteStudent);
 router.get('/', studentController.getAllStudents);
 
 router.get('/:sid/courses', studentController.getStudentCourses);
+
+router.get('/:sid/completed-modules', studentController.getCompletedModules);
     
 router.post('/:sid/assign-course', studentController.assignCourse);
 

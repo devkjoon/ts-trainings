@@ -6,7 +6,8 @@ const studentSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     company: { type: String, required: true },
     loginCode: { type: String, required: true, unique: true, maxlength: 6, default: generateLoginCode },
-    enrolledCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }]
+    enrolledCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
+    completedModules: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Module' }]
 });
 
 studentSchema.pre('save', async function(next) {

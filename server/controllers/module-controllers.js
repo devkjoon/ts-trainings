@@ -1,4 +1,5 @@
 const Module = require('../models/module');
+const Student = require('../models/student');
 const HttpError = require('../models/http-error');
 
 const getModules = async (req, res, next) => {
@@ -50,8 +51,8 @@ const createModule = async (req, res, next) => {
 };
 
 const submitQuiz = async (req, res, next) => {
-    const moduleId = req.params.sid;
-    const { answers } = req.body;
+    const moduleId = req.params.mid;
+    const { answers, studentId } = req.body;
   
     let module;
     try {
@@ -67,13 +68,32 @@ const submitQuiz = async (req, res, next) => {
     }
   
     const correctAnswers = module.quiz.questions.map(q => q.correctAnswer);
-    const isCorrect = answers.every((answer, idx) => answer === correctAnswers[idx]);
-  
-    if (isCorrect) {
-      res.status(200).json({ message: 'Quiz passed!', success: true });
-    } else {
-      res.status(200).json({ message: 'Quiz failed.', success: false });
+    const correctCount = answers.reduce((count, answer, idx) => count + (answer === correctAnswers[idx] ? 1 : 0), 0);
+    const passingScore = Math.ceil(module.quiz.questions.length * 0.7); // Example 70% passing threshold
+    const passed = correctCount >= passingScore;
+
+    if (passed) {
+      try {
+        const student = await Student.findById(studentId);
+        if (!student) {
+          const error = new HttpError('Student not found', 404);
+          console.log(error.message);
+          return next(error);
+        }
+        if (!student.completedModules.includes(moduleId)) {
+          student.completedModules.push(moduleId);
+          await student.save();
+        }
+      } catch (err) {
+        const error = new HttpError('Saving progress failed, please try again later', 500);
+        return next(error);
+      }
     }
+  
+    res.status(200).json({
+      message: passed ? 'Quiz passed!' : 'You need at least a 70% to complete this module',
+      success: passed,
+    });
   };
   
 

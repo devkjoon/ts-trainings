@@ -19,6 +19,6 @@ router.post(
   moduleController.createModule
 );
 
-router.post('/:sid/submit-quiz', moduleController.submitQuiz);
+router.post('/:mid/submit-quiz', moduleController.submitQuiz);
 
 module.exports = router;

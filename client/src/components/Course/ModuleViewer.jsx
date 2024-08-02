@@ -5,9 +5,7 @@ import { Container, Button, Form, Alert, Spinner } from 'react-bootstrap';
 import '../../assets/css/ModuleViewer.css'
 
 const ModuleViewer = () => {
-  const { courseId, moduleId } = useParams(); // Combines the use of courseId and moduleId from the URL parameters
-  console.log("Course ID: ", courseId);
-  console.log("Module ID: ", moduleId);
+  const { courseId, moduleId } = useParams();
   const [module, setModule] = useState(null);
   const [answers, setAnswers] = useState([]);
   const [quizResult, setQuizResult] = useState(null);
@@ -39,12 +37,12 @@ const ModuleViewer = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:5000/modules/${module._id}/submit-quiz`, {
+      const response = await fetch(`http://localhost:5000/module/${module._id}/submit-quiz`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ answers }),
+        body: JSON.stringify({ answers, studentId: localStorage.getItem('studentId') }),
       });
 
       const result = await response.json();

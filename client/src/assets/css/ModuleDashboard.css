@@ -3,3 +3,16 @@
     flex-direction: column;
     justify-content: space-between;
 }
+
+.moduleCardImg {
+    max-width: 250px;
+    margin: auto;
+}
+
+.card-title {
+
+}
+
+.card-text {
+    margin-bottom: 
+}

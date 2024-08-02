@@ -138,8 +138,8 @@ const ModuleViewer = () => {
 
   return (
     <Container>
-      <h2>{module?.title}</h2>
-      <p>{module?.description}</p>
+      <h2 className="text-center mt-4 mb-4">{module?.title}</h2>
+      <p style={{ fontStyle: 'italic' }}>{module?.description}</p>
       {renderResource()}
       
       {module?.quiz && !showQuiz && (

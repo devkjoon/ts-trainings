@@ -67,17 +67,19 @@ const ModuleDashboard = () => {
     <Container>
       <h1 className="text-center mt-4 mb-4">Course Modules</h1>
       {incompleteModules.length > 0 ? (
-        <Row className="justify-content-center">
+        <Row className="justify-content-center align-items-stretch">
           {incompleteModules.map((module) => (
-            <Col key={module._id} md={4} className="mb-4 d-flex justify-content-center">
-              <Card className="course-card h-100" style={{ width: '18rem' }}>
-              <Card.Img variant="top" src={module.moduleIconUrl || 'default-image-url.jpg'} alt="Module Image" />
+            <Col key={module._id} md={4} className="mb-4 d-flex">
+              <Card className="course-card h-100 w-100" style={{ width: '18rem' }}>
+                <Card.Img className="moduleCardImg" variant="top" src={module.moduleIconUrl || 'default-image-url.jpg'} alt="Module Image" />
                 <Card.Body className="d-flex flex-column justify-content-between">
-                  <div>
+                  <div m-auto>
                     <Card.Title>{module.title}</Card.Title>
+                  </div>
+                  <div className='mb-2 mt-auto'>
                     <Card.Text>{module.description}</Card.Text>
                   </div>
-                  <Button variant="primary" onClick={() => handleModuleClick(module._id)}>Go to Module</Button>
+                  <Button variant="outline-info" onClick={() => handleModuleClick(module._id)}>Go to Module</Button>
                 </Card.Body>
               </Card>
             </Col>
@@ -92,17 +94,19 @@ const ModuleDashboard = () => {
       {completedModules.length > 0 && (
         <>
           <h2 className="text-center mt-4 mb-4">Completed Modules</h2>
-          <Row className="justify-content-center">
+          <Row className="justify-content-center align-items-stretch">
             {completedModules.map((module) => (
-              <Col key={module._id} md={4} className="mb-4 d-flex justify-content-center">
-                <Card className="course-card h-100" style={{ width: '18rem' }}>
-                  <Card.Img variant="top" src={module.moduleIconUrl || 'default-image-url.jpg'} alt="Module Image" />
+              <Col key={module._id} md={4} className="mb-4 d-flex">
+                <Card className="course-card h-100 w-100" style={{ width: '18rem' }}>
+                  <Card.Img className="moduleCardImg" variant="top" src={module.moduleIconUrl || 'default-image-url.jpg'} alt="Module Image" />
                   <Card.Body className="d-flex flex-column justify-content-between">
-                    <div>
+                    <div m-auto>
                       <Card.Title>{module.title}</Card.Title>
+                    </div>
+                    <div className='mb-2 mt-auto'>
                       <Card.Text>{module.description}</Card.Text>
                     </div>
-                    <Button variant="secondary" onClick={() => handleModuleClick(module._id)}>Review Module</Button>
+                    <Button variant="outline-warning" onClick={() => handleModuleClick(module._id)}>Review Module</Button>
                   </Card.Body>
                 </Card>
               </Col>

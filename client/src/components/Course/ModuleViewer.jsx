@@ -2,12 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Button, Form, Alert, Spinner } from 'react-bootstrap';
 
+import '../../assets/css/ModuleViewer.css'
+
 const ModuleViewer = () => {
-  const { moduleId } = useParams();
+  const { courseId, moduleId } = useParams(); // Combines the use of courseId and moduleId from the URL parameters
+  console.log("Course ID: ", courseId);
+  console.log("Module ID: ", moduleId);
   const [module, setModule] = useState(null);
   const [answers, setAnswers] = useState([]);
   const [quizResult, setQuizResult] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showQuiz, setShowQuiz] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,9 +23,10 @@ const ModuleViewer = () => {
           throw new Error('Failed to fetch module');
         }
         const data = await response.json();
-        setModule(data.module); // Assuming API returns { module: {...} }
+        setModule(data.module);
+        setAnswers(new Array(data.module.quiz?.questions.length).fill(null));
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching module:', error);
       } finally {
         setLoading(false);
       }
@@ -43,9 +49,6 @@ const ModuleViewer = () => {
 
       const result = await response.json();
       setQuizResult(result.message);
-      if (result.success) {
-        handleNextModule(); // Move to the next module
-      }
     } catch (error) {
       console.error('Error submitting quiz:', error);
       setQuizResult('An error occurred while submitting the quiz. Please try again.');
@@ -58,10 +61,16 @@ const ModuleViewer = () => {
     setAnswers(newAnswers);
   };
 
-  const handleNextModule = () => {
-    // Logic to move to the next module, e.g., fetching the next module or updating state
-    console.log('Moving to the next module...');
-    navigate(`/modules/next`); // Example for navigating to the next module
+  const handleBackToDashboard = () => {
+    if (courseId) {
+      navigate(`/student/courses/${courseId}/modules`);
+    } else {
+      console.error("Course ID is undefined")
+    }
+  };
+
+  const toggleQuizVisibility = () => {
+    setShowQuiz(!showQuiz);
   };
 
   const renderResource = () => {
@@ -97,7 +106,6 @@ const ModuleViewer = () => {
     }
     return null;
   };
-  
 
   if (loading) {
     return (
@@ -112,11 +120,19 @@ const ModuleViewer = () => {
 
   return (
     <Container>
-      <h2>{module.title}</h2>
-      <p>{module.description}</p>
+      <h2>{module?.title}</h2>
+      <p>{module?.description}</p>
       {renderResource()}
-      {module.quiz && module.quiz.questions.length > 0 ? (
-        <Form onSubmit={handleQuizSubmit}>
+      
+      {module?.quiz && !showQuiz && (
+        <div className="mt-3">
+          <Button className='mx-2 module-btn' variant="outline-warning" onClick={handleBackToDashboard}>Module Dashboard</Button>
+          <Button className='mx-2 module-btn' variant="outline-info" onClick={toggleQuizVisibility}>Take Test</Button>
+        </div>
+      )}
+
+      {showQuiz && module?.quiz && (
+        <Form onSubmit={handleQuizSubmit} className="mt-3">
           {module.quiz.questions.map((q, idx) => (
             <Form.Group key={idx} controlId={`question-${idx}`}>
               <Form.Label>{q.question}</Form.Label>
@@ -128,7 +144,7 @@ const ModuleViewer = () => {
                   label={option}
                   value={optionIdx}
                   checked={answers[idx] === optionIdx}
-                  onChange={() => handleAnswerChange(idx, optionIdx)}
+                  onChange={(e) => handleAnswerChange(idx, e.target.value)}
                 />
               ))}
             </Form.Group>
@@ -137,11 +153,8 @@ const ModuleViewer = () => {
             Submit Quiz
           </Button>
         </Form>
-      ) : (
-        <Button variant="primary" onClick={handleNextModule}>
-          Next Module
-        </Button>
       )}
+
       {quizResult && (
         <Alert variant={quizResult === 'Quiz passed!' ? 'success' : 'danger'}>
           {quizResult}

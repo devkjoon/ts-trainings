@@ -6,7 +6,7 @@ const getModules = async (req, res, next) => {
   try {
     modules = await Module.find();
   } catch (err) {
-    const error = new HttpError('Fetching modules failed, please try again later.', 500);
+    const error = new HttpError('Fetching modules failed, please try again later here.', 500);
     return next(error);
   }
   res.json({ modules: modules.map(module => module.toObject({ getters: true })) });
@@ -42,7 +42,7 @@ const createModule = async (req, res, next) => {
     await createdModule.save();
   } catch (err) {
     console.log(err)
-    const error = new HttpError('Creating module failed, please try again later.', 500);
+    const error = new HttpError('Creating module failed, please try again later. erere', 500);
     return next(error);
   }
 

@@ -31,7 +31,7 @@ const ModuleDashboard = () => {
   }, [courseId]);
 
   const handleModuleClick = (moduleId) => {
-    navigate(`/student/modules/${moduleId}`);
+    navigate(`/student/courses/${courseId}/modules/${moduleId}`);
   };
 
   if (loading) {

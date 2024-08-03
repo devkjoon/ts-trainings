@@ -139,7 +139,13 @@ const ModuleViewer = () => {
   return (
     <Container>
       <h2 className="text-center mt-4 mb-4">{module?.title}</h2>
-      <p style={{ fontStyle: 'italic' }}>{module?.description}</p>
+      <p style={{ fontStyle: 'italic' }}>{module?.description && (
+        <ul style={{ fontStyle: 'italic' }}>
+          {module.description.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+      )}</p>
       {renderResource()}
       
       {module?.quiz && !showQuiz && (

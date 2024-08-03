@@ -76,9 +76,9 @@ const ModuleDashboard = () => {
                   <div m-auto>
                     <Card.Title>{module.title}</Card.Title>
                   </div>
-                  <div className='mb-2 mt-auto'>
+                  {/* <div className='mb-2 mt-auto'>
                     <Card.Text>{module.description}</Card.Text>
-                  </div>
+                  </div> */}
                   <Button variant="outline-info" onClick={() => handleModuleClick(module._id)}>Go to Module</Button>
                 </Card.Body>
               </Card>

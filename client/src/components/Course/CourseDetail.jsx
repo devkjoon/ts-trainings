@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Card, Container, Row, Col, Button } from 'react-bootstrap';
 
 import API_URL from '../../config';
@@ -72,7 +72,9 @@ export default function CourseDetail() {
         </Row>
       ))}
       <div className="text-center">
-        <Button className="mainButton mt-3" variant="outline-info" size="lg" href="/admin/courses">Back</Button>
+        <Link to='/admin/courses'>
+          <Button className="mainButton mt-3" variant="outline-info" size="lg">Back</Button>
+        </Link>
       </div>
     </Container>
   );

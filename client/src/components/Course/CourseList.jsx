@@ -79,7 +79,9 @@ export default function CourseList() {
         ))}
       </Row>
       <div className="text-center">
-        <Button className="mainButton mt-3" variant="outline-info" size="lg" href="/admin/dashboard">Back</Button>
+        <Link to='/admin/dashboard'>
+          <Button className="mainButton mt-3" variant="outline-info" size="lg">Back</Button>
+        </Link>
       </div>
     </Container>    
   );

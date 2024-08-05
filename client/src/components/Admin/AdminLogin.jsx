@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
 
 import API_URL from '../../config';
@@ -101,9 +101,11 @@ export default function AdminLogin() {
             <div className='loginButtonContainer'>
                 <Row>
                     <Col className="text-center">
-                        <Button className="mainButton mt-3" variant="outline-info" size="lg" href="/Admin/Registration">
-                            Register Instead
-                        </Button>
+                        <Link to='/Admin/Registration'>
+                            <Button className="mainButton mt-3" variant="outline-info" size="lg">
+                                Register Instead
+                            </Button>
+                        </Link>
                     </Col>
                     <Col className="text-center">
                         <Button className="mainButton mt-3" type="submit" variant="outline-warning" size="lg" disabled={loading}>

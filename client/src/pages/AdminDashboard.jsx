@@ -15,19 +15,29 @@ export default function AdminDashboard() {
       <div className='dashboardContainer'>
         <Row>
             <Col className='text-center'>
-            <Button className="dashboardBtn" variant="outline-info" size="lg" href='/admin/new-student'>New Student</Button>
+            <Link to='/admin/new-student'>
+              <Button className="dashboardBtn" variant="outline-info" size="lg">New Student</Button>
+            </Link>
           </Col>
           <Col className='text-center'>
-            <Button className="dashboardBtn" variant="outline-warning" size="lg" href='/admin/students'>Student List</Button>
+            <Link to='/admin/students'>
+              <Button className="dashboardBtn" variant="outline-warning" size="lg">Student List</Button>
+            </Link>
           </Col>
             <Col className='text-center'>
-            <Button className="dashboardBtn" variant="outline-info" size="lg" href='/admin/courses'>Course List</Button>
+            <Link to='/admin/courses'>
+              <Button className="dashboardBtn" variant="outline-info" size="lg">Course List</Button>
+            </Link>
           </Col>
           <Col className='text-center'>
-            <Button className="dashboardBtn" variant="outline-warning" size="lg" href='/admin/students'>Add a Module</Button>
+            <Link to='/admin/students'>
+              <Button className="dashboardBtn" variant="outline-warning" size="lg">Add a Module</Button>
+            </Link>
           </Col>
           <Col className='text-center'>
-            <Button className="dashboardBtn" variant="outline-info" size="lg" href='/admin/contractors'>Companies</Button>
+            <Link to="/admin/contractors">
+              <Button className="dashboardBtn" variant="outline-info" size="lg">Companies</Button>
+            </Link>
           </Col>
         </Row>
       </div>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 
 import API_URL from '../../config';
 
@@ -112,7 +113,9 @@ export default function StudentList() {
           ))}
         </tbody>
       </Table>
-      <Button className="button-25 mt-3" variant="outline-info" size="lg" href="/admin/dashboard">Back</Button>
+      <Link to='/admin/dashboard'>
+        <Button className="button-25 mt-3" variant="outline-info" size="lg">Back</Button>
+      </Link>
     </div>
     {selectedStudent && (
       <AssignCourseModal

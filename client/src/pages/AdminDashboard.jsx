@@ -1,14 +1,12 @@
 import React from 'react';
 import { Button, Row, Col, } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import AdminTokenVerification from '../hooks/AdminTokenVerification';
 
 import '../assets/css/Dashboard.css';
 
 export default function AdminDashboard() {
-
-  const navigate = useNavigate();
 
   AdminTokenVerification()
 

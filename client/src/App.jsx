@@ -14,7 +14,6 @@ import NewStudent from "./components/Student/NewStudent"
 import StudentList from './components/Student/StudentList'
 import Contractors from './components//Contractor/Contractors'
 import StudentDashboard from "./pages/StudentDashboard"
-// import StudentCourseDashboard from './components/Student/StudentCourseDashboard'
 import CourseList from './components/Course/CourseList'
 import CourseDetail from './components/Course/CourseDetail'
 import ModuleDashboard from './components/Course/ModuleDashboard';

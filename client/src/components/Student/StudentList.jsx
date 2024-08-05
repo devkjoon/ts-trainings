@@ -92,7 +92,7 @@ export default function StudentList() {
               <td className="table-vertical-center">{student.company}</td>
               <td className="table-vertical-center">{student.loginCode}</td>
               <td className="table-vertical-center">
-              <Button variant="primary"
+              <Button variant="outline-info"
                 onClick={() => handleShowModal(student._id)}
                 >
                  Assign Course 
@@ -100,7 +100,7 @@ export default function StudentList() {
               </td>
               <td className="table-vertical-center">
                 <Button
-                  variant="danger"
+                  variant="outline-warning"
                   onClick={() => handleDeleteStudent(student._id)}
                 >
                   Delete

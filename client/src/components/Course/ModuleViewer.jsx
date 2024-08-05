@@ -156,7 +156,8 @@ const ModuleViewer = () => {
     <Container>
       <h2 className="text-center mt-4 mb-4">{module?.title}</h2>
       <Row>
-        <Col md={4}>
+        <Col md={module?.resource?.type ? 5 : 12}>
+          <h4>Objectives</h4>
           {module?.description && (
             <ul style={{ fontStyle: 'italic', paddingLeft: '20px', textAlign: 'left' }}>
               {module.description.map((item, index) => (
@@ -165,9 +166,11 @@ const ModuleViewer = () => {
             </ul>
           )}
         </Col>
-        <Col md={8} className="d-flex justify-content-center">
-          {renderResource()}
-        </Col>
+        {module?.resource?.type && (
+          <Col md={7} className="d-flex justify-content-center">
+            {renderResource()}
+          </Col>
+        )}
       </Row>
 
       {module?.quiz && !showQuiz && (

@@ -53,7 +53,8 @@ const getCourseModules = async (req, res, next) => {
     const modulesWithIcons = course.modules.map(module => ({
       ...module.toObject({ getters: true }),
       moduleIconUrl: course.moduleIconUrl,
-      completed: completedModules.includes(module._id.toString())
+      completed: completedModules.includes(module._id.toString()),
+      isLocked: module.isFinalTest && !course.modules.every(mod => mod.isFinalTest || completedModules.includes(mod._id.toString()))
     }));
 
     res.json({ modules: modulesWithIcons });

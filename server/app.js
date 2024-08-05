@@ -47,8 +47,15 @@ app.use((error, req, res, next) => {
     res.json({ message: error.message || 'An unknown error occurred' });
 });
 
+const mongooseOptions = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    ssl: true,
+    sslValidate: true
+};
+
 mongoose
-    .connect(process.env.MONGODB_URI)
+    .connect(process.env.MONGODB_URI, mongooseOptions)
     .then(() => {
         app.listen(5000, () => {
             console.log('Server is running on port 5000');

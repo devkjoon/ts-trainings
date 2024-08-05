@@ -3,12 +3,13 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const path = require('path');
 
 const HttpError = require('./models/http-error');
 const adminRoutes = require('./routes/admin-routes');
 const studentRoutes = require('./routes/student-routes');
 const courseRoutes = require('./routes/course-routes');
-const moduleRoutes = require('./routes/module-routes')
+const moduleRoutes = require('./routes/module-routes');
 const contractorRoutes = require('./routes/contractor-routes');
 // const progressRoutes = require('./routes/progress-routes');
 
@@ -20,10 +21,9 @@ const corsOptions = {
     origin: 'http://localhost:5173',
     methods: 'GET, POST, PUT, DELETE',
     allowedHeaders: ['Content-Type', 'Authorization']
-}
+};
 
 app.use(cors(corsOptions));
-
 app.use(bodyParser.json());
 
 app.use('/admin', adminRoutes);
@@ -34,8 +34,12 @@ app.use('/contractor', contractorRoutes);
 // app.use('/progress', progressRoutes);
 // app.use('/certificate', certificateRoutes);
 
-app.get('/', (req, res) => {
-    res.send('Welcome to TS Trainings');
+// Serve static files from the React app's build directory
+app.use(express.static(path.join(__dirname, 'build')));
+
+// Handle requests to any route and send the React app's index.html
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.use((req, res, next) => {

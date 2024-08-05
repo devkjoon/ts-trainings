@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
+import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap'
+
+import API_URL from '../../config';
 
 import '../../assets/css/AdminLogin.css';
 
@@ -28,7 +30,7 @@ export default function StudentLogin() {
         console.log('Submitting login form with:', { email, loginCode });
 
         try {
-            const response = await fetch('http://localhost:5000/student/login', {
+            const response = await fetch(`${API_URL}/student/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

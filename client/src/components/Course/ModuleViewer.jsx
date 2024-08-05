@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Button, Form, Alert, Spinner } from 'react-bootstrap';
 
+import API_URL from '../../config';
+
 import '../../assets/css/ModuleViewer.css'
 
 const ModuleViewer = () => {
@@ -22,7 +24,7 @@ const ModuleViewer = () => {
   useEffect(() => {
     const fetchModule = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/module/${moduleId}`);
+        const response = await fetch(`${API_URL}/module/${moduleId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch module');
         }
@@ -30,7 +32,7 @@ const ModuleViewer = () => {
         setModule(data.module);
         setAnswers(new Array(data.module.quiz?.questions.length).fill(null));
 
-        const allModulesResponse = await fetch(`http://localhost:5000/courses/${courseId}/modules`);
+        const allModulesResponse = await fetch(`${API_URL}/courses/${courseId}/modules`);
         if (!allModulesResponse.ok) {
           throw new Error('Failed to fetch all modules');
         }
@@ -58,7 +60,7 @@ const ModuleViewer = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:5000/module/${module._id}/submit-quiz`, {
+      const response = await fetch(`${API_URL}/module/${module._id}/submit-quiz`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

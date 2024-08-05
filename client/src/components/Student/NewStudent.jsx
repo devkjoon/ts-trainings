@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
 
+import API_URL from '../../config';
+
 import AdminTokenVerification from '../../hooks/AdminTokenVerification';
 
 export default function NewStudent() {
@@ -27,7 +29,7 @@ export default function NewStudent() {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/student/newStudent', {
+            const response = await fetch(`${API_URL}/student/newStudent`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

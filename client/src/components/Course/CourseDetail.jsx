@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, Container, Row, Col, Button } from 'react-bootstrap';
 
+import API_URL from '../../config';
+
 export default function CourseDetail() {
   
   const navigate = useNavigate();
@@ -13,7 +15,7 @@ export default function CourseDetail() {
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/courses/${courseId}`);
+        const response = await fetch(`${API_URL}/courses/${courseId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch course');
         }

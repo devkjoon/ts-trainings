@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Container, Card, Row, Col, Alert, Spinner, Button } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import API_URL from '../../config';
+
 import '../../assets/css/ModuleDashboard.css'
 
 const ModuleDashboard = () => {
@@ -16,7 +18,7 @@ const ModuleDashboard = () => {
   useEffect(() => {
     const fetchModules = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/courses/${courseId}/modules?sid=${studentId}`);
+        const response = await fetch(`${API_URL}/courses/${courseId}/modules?sid=${studentId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch modules');
         }

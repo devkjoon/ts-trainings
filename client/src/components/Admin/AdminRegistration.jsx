@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
 
+import API_URL from '../../config';
+
 import '../../assets/css/AdminRegistration.css';
 
 export default function AdminRegistration() {
@@ -27,7 +29,7 @@ export default function AdminRegistration() {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/admin/signup', {
+            const response = await fetch(`${API_URL}/admin/signup`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

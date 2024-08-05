@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Container, Card, Row, Col,  Alert, Spinner } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
 
+import API_URL from '../config';
+
 const StudentDashboard = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,7 +22,7 @@ const StudentDashboard = () => {
       }
 
       try {
-        const response = await fetch(`http://localhost:5000/student/${studentId}/courses`);
+        const response = await fetch(`${API_URL}/student/${studentId}/courses`);
         if (!response.ok) {
           throw new Error('Failed to fetch courses');
         }

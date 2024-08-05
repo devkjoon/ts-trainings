@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Container, Card, Button, Row, Col } from "react-bootstrap";
 import { useNavigate, Link } from 'react-router-dom';
 
+import API_URL from '../../config';
+
 import '../../assets/css/CourseList.css';
 
 export default function CourseList() {
@@ -11,7 +13,7 @@ export default function CourseList() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await fetch("http://localhost:5000/courses", {
+        const response = await fetch(`${API_URL}/courses`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -33,7 +35,7 @@ export default function CourseList() {
 
   const handleDeleteCourse = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/courses/${id}`, {
+      const response = await fetch(`${API_URL}/courses/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

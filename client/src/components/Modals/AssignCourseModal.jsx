@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 
+import API_URL from '../../config';
+
 import '../../assets/css/AssignCourseModal.css'
 
 const AssignCourseModal = ({ show, handleClose, studentId }) => {
@@ -10,7 +12,7 @@ const AssignCourseModal = ({ show, handleClose, studentId }) => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await fetch('http://localhost:5000/courses', {
+        const response = await fetch(`${API_URL}/courses`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -33,7 +35,7 @@ const AssignCourseModal = ({ show, handleClose, studentId }) => {
 
   const handleAssignCourse = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/student/${studentId}/assign-course`, {
+      const response = await fetch(`${API_URL}/student/${studentId}/assign-course`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

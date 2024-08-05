@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import API_URL from '../config';
+
 export default function AdminTokenVerification() {
 
     const [data, setData] = useState(null);
@@ -9,7 +11,7 @@ export default function AdminTokenVerification() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/admin/protected-resource',{
+        const response = await fetch(`${API_URL}/admin/protected-resource`,{
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }

@@ -10,3 +10,14 @@
     max-width: 85%; /* Set a max width for the form */
     margin: 0 auto; /* Center the form horizontally */
   }
+
+
+.test-btn-container {
+    display: flex;
+    width: 80%;
+    justify-content: center;
+}
+
+.test-btn {
+    min-width: 25%;
+}

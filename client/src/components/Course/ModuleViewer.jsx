@@ -12,9 +12,12 @@ const ModuleViewer = () => {
   const [quizResult, setQuizResult] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showQuiz, setShowQuiz] = useState(false);
+  const [quizPassed, setQuizPassed] = useState(false);
   const navigate = useNavigate();
 
   const quizRef = useRef(null);
+  const videoRef = useRef(null);
+  const alertRef = useRef(null);
 
   useEffect(() => {
     const fetchModule = async () => {
@@ -43,6 +46,14 @@ const ModuleViewer = () => {
     fetchModule();
   }, [courseId, moduleId]);
 
+  useEffect(() => {
+    if (quizResult) {
+      if (alertRef.current) {
+        alertRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }, [quizResult]);
+  
   const handleQuizSubmit = async (e) => {
     e.preventDefault();
 
@@ -57,21 +68,13 @@ const ModuleViewer = () => {
 
       const result = await response.json();
       setQuizResult(result.message);
+
+      if (result.success) {
+        setQuizPassed(true);
+      }
     } catch (error) {
       console.error('Error submitting quiz:', error);
       setQuizResult('An error occurred while submitting the quiz. Please try again.');
-    }
-  };
-
-  const navigateToNextModule = () => {
-    if (allModules && module) {
-      const currentIndex = allModules.findIndex(m => m._id === module._id);
-      if (currentIndex !== -1 && currentIndex < allModules.length - 1) {
-        const nextModule = allModules[currentIndex + 1];
-        navigate(`/student/courses/${courseId}/modules/${nextModule._id}`);
-      } else {
-        navigate(`/student/courses/${courseId}/modules`);
-      }
     }
   };
 
@@ -81,7 +84,7 @@ const ModuleViewer = () => {
     setAnswers(newAnswers);
   };
 
-  const handleBackToDashboard = () => {
+  const handleReturnToDashboard = () => {
     if (courseId) {
       navigate(`/student/courses/${courseId}/modules`);
     } else {
@@ -96,6 +99,12 @@ const ModuleViewer = () => {
         quizRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }, 100);
+  };
+
+  const scrollToVideo = () => {
+    if (videoRef.current) {
+      videoRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   const renderResource = () => {
@@ -121,13 +130,13 @@ const ModuleViewer = () => {
   
       // If it's a direct MP4 link, use the <video> tag
       return (
-        <video width="600" controls>
+        <video ref={videoRef} width="600" controls>
           <source src={module.resource.url} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       );
     } else if (module?.resource?.type === 'powerpoint') {
-      return <iframe src={module.resource.url} width="600" height="400" title={module.title}></iframe>;
+      return <iframe ref={videoRef} src={module.resource.url} width="600" height="400" title={module.title}></iframe>;
     }
     return null;
   };
@@ -163,7 +172,7 @@ const ModuleViewer = () => {
 
       {module?.quiz && !showQuiz && (
         <div className="mt-3 text-center">
-          <Button className="mx-2 module-btn" variant="outline-warning" onClick={handleBackToDashboard}>
+          <Button className="mx-2 module-btn" variant="outline-warning" onClick={handleReturnToDashboard}>
             Module Dashboard
           </Button>
           <Button className="mx-2 module-btn" variant="outline-info" onClick={toggleQuizVisibility}>
@@ -199,14 +208,29 @@ const ModuleViewer = () => {
               ))}
             </Col>
           </Row>
-          <Button variant="outline-info" type="submit" className="mt-3">
-            Submit Quiz
-          </Button>
+
+          <div className='mt-3 text-center test-btn-container'>
+            {quizPassed ? (
+              <>
+              <Button className="mx-2 test-btn" variant="outline-info" onClick={handleReturnToDashboard} >
+              Return to Module Dashboard
+            </Button>
+              </>
+            ) : (
+              <>
+              <Button className="mx-2 test-btn" variant="outline-warning" onClick={scrollToVideo} >
+              Review Video
+            </Button>
+            <Button className="mx-2 test-btn" variant="outline-info" type="submit" >
+              Submit Test
+            </Button>
+              </>
+            )}
+          </div>
         </Form>
       )}
-
       {quizResult && (
-        <Alert variant={quizResult === 'Quiz passed!' ? 'success' : 'danger'} className="mt-3">
+        <Alert ref={alertRef} variant={quizResult === 'Quiz passed!' ? 'success' : 'danger'} className="mt-3">
           {quizResult}
         </Alert>
       )}

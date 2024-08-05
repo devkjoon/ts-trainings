@@ -39,11 +39,12 @@ const ModuleDashboard = () => {
       navigate(`/student/courses/${courseId}/modules/${moduleId}`);
     }
   };
-
-  const finalTestModule = modules.find(module => module.isFinalTest);
+  
   const incompleteModules = modules.filter(module => !module.isFinalTest && !module.completed);
   const completedModules = modules.filter(module => module.completed);
+  const finalTestModule = modules.find(module => module.isFinalTest);
 
+  const isFinalTestLocked = incompleteModules.length > 0;
 
   if (loading) {
     return (
@@ -67,6 +68,13 @@ const ModuleDashboard = () => {
     );
   }
 
+  let alertMessage = "No modules available for this course.";
+  if (incompleteModules.length === 0 && finalTestModule && !finalTestModule.completed) {
+    alertMessage = "Take the final test to complete the course.";
+  } else if (incompleteModules.length === 0 && finalTestModule && finalTestModule.completed) {
+    alertMessage = "Congratulations! You have completed this course.";
+  }
+
   return (
     <Container>
       <h1 className="text-center mt-4 mb-4">Course Modules</h1>
@@ -82,13 +90,12 @@ const ModuleDashboard = () => {
                   </div>
                   <Button
                     className='mt-2'
-                    variant={module.isLocked || (module.isFinalTest && isFinalTestLocked) ? 'outline-danger' : 'outline-primary'}
-                    onClick={() => handleModuleClick(module._id, module.isLocked || (module.isFinalTest && isFinalTestLocked))}
-                    disabled={module.isLocked || (module.isFinalTest && isFinalTestLocked)}
+                    variant={module.isLocked ? 'outline-danger' : 'outline-primary'}
+                    onClick={() => handleModuleClick(module._id, module.isLocked)}
+                    disabled={module.isLocked}
                   >
-                    {module.isLocked || (module.isFinalTest && isFinalTestLocked) ? "Locked" : "Go to Module"}
+                    {module.isLocked ? "Locked" : "Go to Module"}
                   </Button>
-                  {/* <Button variant="outline-info" onClick={() => handleModuleClick(module._id)}>Go to Module</Button> */}
                 </Card.Body>
               </Card>
             </Col>
@@ -96,7 +103,7 @@ const ModuleDashboard = () => {
         </Row>
       ) : (
         <Alert variant="info" className="text-center">
-          No modules available for this course.
+          {alertMessage}
         </Alert>
       )}
 
@@ -113,10 +120,10 @@ const ModuleDashboard = () => {
                   </div>
                   <Button
                     className='mt-2'
-                    variant={finalTestModule.isLocked ? 'outline-danger' : 'outline-primary'}
-                    onClick={() => handleModuleClick(finalTestModule._id)}
-                    disabled={finalTestModule.isLocked}>
-                    {finalTestModule.isLocked ? "Locked" : (completedModules.some(module => module._id === finalTestModule._id) ? "Review Test" : "Go to Final Test")}
+                    variant={isFinalTestLocked ? 'outline-danger' : 'outline-primary'}
+                    onClick={() => handleModuleClick(finalTestModule._id, isFinalTestLocked)}
+                    disabled={isFinalTestLocked}>
+                    {isFinalTestLocked ? "Locked" : (completedModules.some(module => module._id === finalTestModule._id) ? "Review Test" : "Go to Final Test")}
                   </Button>
                 </Card.Body>
               </Card>
@@ -124,7 +131,6 @@ const ModuleDashboard = () => {
           </Row>
         </>
       )}
-
 
       {completedModules.length > 0 && (
         <>

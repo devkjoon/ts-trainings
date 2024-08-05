@@ -26,7 +26,7 @@ router.post(
     studentController.newStudent
     );
 
-router.delete("/:sid", studentController.deleteStudent);
+router.delete("/:sid", adminAuth, studentController.deleteStudent);
 
 router.get('/', studentController.getAllStudents);
 

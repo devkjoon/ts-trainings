@@ -50,8 +50,8 @@ app.use((error, req, res, next) => {
 const mongooseOptions = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    ssl: true,
-    sslValidate: true
+    tls: true,
+    tlsAllowInvalidCertificates: false
 };
 
 mongoose

@@ -21,9 +21,7 @@ router.post(
 
 router.post("/login", adminController.login);
 
-router.use(adminAuth)
-
-router.get("/get-admins", adminController.getAdmins)
+router.get("/get-admins", adminAuth, adminController.getAdmins)
 
 router.get('/protected-resource', adminAuth, adminController.getProtectedResource);
 

@@ -1,5 +1,9 @@
+import { useNavigate } from "react-router-dom";
+
 const jwt = require("jsonwebtoken");
 const HttpError = require("../models/http-error");
+
+const navigate = useNavigate();
 
 const adminAuth = (req, res, next) => {
   if (req.method === "OPTIONS") {
@@ -33,6 +37,7 @@ const adminAuth = (req, res, next) => {
       "Authentication failed. Invalid token or not admin",
       401
     );
+    navigate('/');
     return next(error);
   }
 };

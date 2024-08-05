@@ -1,8 +1,6 @@
 const jwt = require("jsonwebtoken");
 const HttpError = require("../models/http-error");
 
-const navigate = useNavigate();
-
 const adminAuth = (req, res, next) => {
   if (req.method === "OPTIONS") {
     return next();

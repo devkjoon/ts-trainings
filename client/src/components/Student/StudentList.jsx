@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import API_URL from '../../config';
 
 import AdminTokenVerification from '../../hooks/AdminTokenVerification';
-import AssignCourseModal from "../Modals/AssignCourseModal";
+import AssignCourseModal from "../Tools/AssignCourseModal";
 import '../../assets/css/StudentList.css';
 
 export default function StudentList() {

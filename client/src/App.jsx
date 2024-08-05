@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
+import ProgressBar from "./components/Tools/ProgressBar";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 

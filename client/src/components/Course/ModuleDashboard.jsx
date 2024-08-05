@@ -4,6 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import API_URL from '../../config';
 
+import ProgressBar from '../Tools/ProgressBar';
+
 import '../../assets/css/ModuleDashboard.css'
 
 const ModuleDashboard = () => {
@@ -48,6 +50,10 @@ const ModuleDashboard = () => {
 
   const isFinalTestLocked = incompleteModules.length > 0;
 
+  const totalModules = modules.length;
+  const progress = totalModules > 0 ? Math.round((completedModules.length / totalModules) * 100) : 0;
+
+
   if (loading) {
     return (
       <Container className="text-center mt-5">
@@ -80,6 +86,7 @@ const ModuleDashboard = () => {
   return (
     <Container>
       <h1 className="text-center mt-4 mb-4">Course Modules</h1>
+      <ProgressBar progress={progress}/>
       {incompleteModules.length > 0 ? (
         <Row className="justify-content-center align-items-stretch">
           {incompleteModules.map((module) => (

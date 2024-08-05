@@ -35,13 +35,12 @@ app.use('/contractor', contractorRoutes);
 // app.use('/certificate', certificateRoutes);
 
 // Serve static files from the React app's build directory
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, '../dist')));
 
 // Handle requests to any route and send the React app's index.html
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'), (err) => {
+    res.sendFile(path.join(__dirname, '../dist', 'index.html'), (err) => {
       if (err) {
-        console.error(err);
         res.status(500).send('Server Error');
       }
     });
@@ -58,7 +57,7 @@ app.use((error, req, res, next) => {
     }
     res.status(error.code || 500);
     res.json({ message: error.message || 'An unknown error occurred' });
-  });
+  });  
 
 const mongooseOptions = {
     tls: true,

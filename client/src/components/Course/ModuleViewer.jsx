@@ -153,40 +153,53 @@ const ModuleViewer = () => {
           {renderResource()}
         </Col>
       </Row>
-      
+
       {module?.quiz && !showQuiz && (
-        <div className="mt-3">
-          <Button className='mx-2 module-btn' variant="outline-warning" onClick={handleBackToDashboard}>Module Dashboard</Button>
-          <Button className='mx-2 module-btn' variant="outline-info" onClick={toggleQuizVisibility}>Take Test</Button>
+        <div className="mt-3 text-center">
+          <Button className="mx-2 module-btn" variant="outline-warning" onClick={handleBackToDashboard}>
+            Module Dashboard
+          </Button>
+          <Button className="mx-2 module-btn" variant="outline-info" onClick={toggleQuizVisibility}>
+            Take Test
+          </Button>
         </div>
       )}
 
       {showQuiz && module?.quiz && (
-        <Form onSubmit={handleQuizSubmit} className="mt-3">
-          {module.quiz.questions.map((q, idx) => (
-            <Form.Group key={idx} controlId={`question-${idx}`}>
-              <Form.Label>{q.question}</Form.Label>
-              {q.options.map((option, optionIdx) => (
-                <Form.Check
-                  type="radio"
-                  name={`question-${idx}`}
-                  key={optionIdx}
-                  label={option}
-                  value={optionIdx}
-                  checked={answers[idx] === optionIdx}
-                  onChange={(e) => handleAnswerChange(idx, e.target.value)}
-                />
+        <Form onSubmit={handleQuizSubmit} className="mt-3 test-form">
+          <Row>
+            <Col md={12} className="px-3">
+              {module.quiz.questions.map((q, idx) => (
+                <Form.Group key={idx} controlId={`question-${idx}`} style={{ textAlign: 'left' }}>
+                  <Form.Label style={{ display: 'block', textAlign: 'left' }}>
+                    <span className="font-weight-bold">{`${idx + 1}:`}</span> {q.question}
+                  </Form.Label>
+                  <div style={{ paddingLeft: '20px', marginLeft: '10px' }}>
+                    {q.options.map((option, optionIdx) => (
+                      <Form.Check
+                        type="radio"
+                        name={`question-${idx}`}
+                        key={optionIdx}
+                        label={option}
+                        value={optionIdx}
+                        checked={answers[idx] === optionIdx}
+                        onChange={(e) => handleAnswerChange(idx, e.target.value)}
+                        className="my-2"
+                      />
+                    ))}
+                  </div>
+                </Form.Group>
               ))}
-            </Form.Group>
-          ))}
-          <Button variant="primary" type="submit">
+            </Col>
+          </Row>
+          <Button variant="outline-info" type="submit" className="mt-3">
             Submit Quiz
           </Button>
         </Form>
       )}
 
       {quizResult && (
-        <Alert variant={quizResult === 'Quiz passed!' ? 'success' : 'danger'}>
+        <Alert variant={quizResult === 'Quiz passed!' ? 'success' : 'danger'} className="mt-3">
           {quizResult}
         </Alert>
       )}

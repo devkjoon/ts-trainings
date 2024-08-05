@@ -1,3 +1,12 @@
 .module-btn {
     min-width: 25%;
 }
+
+.test-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 85%; /* Set a max width for the form */
+    margin: 0 auto; /* Center the form horizontally */
+  }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Button, Form, Alert, Spinner } from 'react-bootstrap';
 
@@ -13,6 +13,8 @@ const ModuleViewer = () => {
   const [loading, setLoading] = useState(true);
   const [showQuiz, setShowQuiz] = useState(false);
   const navigate = useNavigate();
+
+  const quizRef = useRef(null);
 
   useEffect(() => {
     const fetchModule = async () => {
@@ -89,6 +91,11 @@ const ModuleViewer = () => {
 
   const toggleQuizVisibility = () => {
     setShowQuiz(!showQuiz);
+    setTimeout(() => {
+      if (quizRef.current) {
+        quizRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
   };
 
   const renderResource = () => {
@@ -166,7 +173,7 @@ const ModuleViewer = () => {
       )}
 
       {showQuiz && module?.quiz && (
-        <Form onSubmit={handleQuizSubmit} className="mt-3 test-form">
+        <Form ref={quizRef} onSubmit={handleQuizSubmit} className="mt-3 test-form">
           <Row>
             <Col md={12} className="px-3">
               {module.quiz.questions.map((q, idx) => (

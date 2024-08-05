@@ -8,12 +8,12 @@ export default function Admin() {
       <div className='buttonContainer'>
         <Row>
           <Col>
-            <Link to='/admin/registration'>
+            <Link to='/admin/registration' className='no-underline'>
               <Button className="mainButton mt-3" variant="outline-info" size="lg">Register</Button>
             </Link>
           </Col>
           <Col>
-            <Link to='/admin/login'>
+            <Link to='/admin/login' className='no-underline'>
               <Button className="mainButton mt-3" variant="outline-warning" size="lg">Login</Button>
             </Link>
           </Col>

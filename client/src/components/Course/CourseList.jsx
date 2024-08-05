@@ -65,7 +65,7 @@ export default function CourseList() {
       <Row>
         {courses.map((course) => (
           <Col key={course._id} md={4} className="mb-4">
-            <Link to={`/admin/courses/${course._id}`}>
+            <Link to={`/admin/courses/${course._id}`} className='no-underline'>
             <Card className="course-card">
               
                 <Card.Img variant="top" src={course.imageUrl} className="cardImage" />
@@ -79,7 +79,7 @@ export default function CourseList() {
         ))}
       </Row>
       <div className="text-center">
-        <Link to='/admin/dashboard'>
+        <Link to='/admin/dashboard' className='no-underline'>
           <Button className="mainButton mt-3" variant="outline-info" size="lg">Back</Button>
         </Link>
       </div>

@@ -116,7 +116,7 @@ export default function StudentList() {
           ))}
         </tbody>
       </Table>
-      <Link to='/admin/dashboard'>
+      <Link to='/admin/dashboard' className='no-underline'>
         <Button className="button-25 mt-3" variant="outline-info" size="lg">Back</Button>
       </Link>
     </div>

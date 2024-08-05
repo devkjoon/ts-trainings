@@ -71,7 +71,7 @@ const StudentDashboard = () => {
         <Row className="justify-content-center"> {/* Always centering but won't affect width */}
           {courses.map((course) => (
             <Col key={course._id} md={4} className="mb-4 d-flex justify-content-center">
-              <Link to={`/student/courses/${course._id}/modules`}>
+              <Link to={`/student/courses/${course._id}/modules`} className='no-underline'>
                 <Card className="course-card" style={{ width: '18rem' }}> {/* Fixed width */}
                   <Card.Img variant="top" src={course.imageUrl || "path/to/default/image.jpg"} className="cardImage" />
                   <Card.Body className="course-content">

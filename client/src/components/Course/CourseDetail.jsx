@@ -72,7 +72,7 @@ export default function CourseDetail() {
         </Row>
       ))}
       <div className="text-center">
-        <Link to='/admin/courses'>
+        <Link to='/admin/courses' className='no-underline'>
           <Button className="mainButton mt-3" variant="outline-info" size="lg">Back</Button>
         </Link>
       </div>

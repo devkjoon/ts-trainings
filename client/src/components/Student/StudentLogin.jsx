@@ -100,7 +100,7 @@ export default function StudentLogin() {
             <div className='loginButtonContainer'>
                 <Row>
                     <Col className="text-center">
-                        <Link to='/'>
+                        <Link to='/' className='no-underline'>
                             <Button className="mainButton mt-3" variant="outline-info" size="lg">
                                 Return Home
                             </Button>

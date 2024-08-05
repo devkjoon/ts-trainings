@@ -125,7 +125,7 @@ export default function NewStudent() {
             <div className='loginButtonContainer'>
                 <Row>
                     <Col className="text-center">
-                        <Link to="/admin/dashboard">
+                        <Link to="/admin/dashboard" className='no-underline'>
                             <Button className="mainButton registrationBottomBtn" variant="outline-info" size="lg">
                                     Return to Dashboard
                             </Button>

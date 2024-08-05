@@ -159,7 +159,7 @@ export default function AdminRegistration() {
             <div className='loginButtonContainer'>
                 <Row>
                     <Col className="text-center">
-                        <Link to='/'>
+                        <Link to='/' className='no-underline'>
                             <Button className="mainButton registrationBottomBtn" variant="outline-info" size="lg">
                                 Return Home
                             </Button>

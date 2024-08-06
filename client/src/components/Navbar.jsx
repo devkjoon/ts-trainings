@@ -10,13 +10,32 @@ const TopNavbar = () => {
     const location = useLocation();
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        const storedUserType = localStorage.getItem('userType');
-        if (token) {
+        // Function to check login status
+        const checkLoginStatus = () => {
+          const token = localStorage.getItem('token');
+          const storedUserType = localStorage.getItem('userType');
+          if (token) {
             setIsLoggedIn(true);
             setUserType(storedUserType);
-        }
-    }, []);
+          } else {
+            setIsLoggedIn(false);
+            setUserType('');
+          }
+        };
+    
+        checkLoginStatus(); // Check on initial render
+    
+        // Optionally, listen to storage events if the token can be set elsewhere
+        const handleStorageChange = () => {
+          checkLoginStatus();
+        };
+    
+        window.addEventListener('storage', handleStorageChange);
+    
+        return () => {
+          window.removeEventListener('storage', handleStorageChange);
+        };
+      }, [location]); // Re-run the effect when the location changes
 
     const handleLogout = () => {
         localStorage.removeItem('token');

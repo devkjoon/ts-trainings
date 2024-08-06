@@ -239,7 +239,7 @@ const ModuleViewer = () => {
             ) : (
               <>
               <Button className="mx-2 test-btn" variant="outline-warning" onClick={scrollToVideo} >
-              Review Video
+              Review Content
             </Button>
             <Button className="mx-2 test-btn" variant="outline-info" type="submit" >
               Submit Test

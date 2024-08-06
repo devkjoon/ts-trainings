@@ -179,7 +179,7 @@ const ModuleViewer = () => {
           
           {module?.optionalResource?.length > 0 && (
             <Button variant="outline-info" onClick={handleOpenModal}>
-              Optional Resources
+              Additional Resources
             </Button>
           )}
         </Col>

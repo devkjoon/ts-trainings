@@ -5,12 +5,13 @@
 }
 
 .moduleCardImg {
-    max-width: 250px;
+    min-width: 200px;
     margin: auto;
+    padding: auto;
 }
 
-.card-title {
-
+.course-card {
+    border-radius: 15px;
 }
 
 .card-text {

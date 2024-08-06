@@ -5,12 +5,12 @@ const moduleSchema = new mongoose.Schema({
   description: [{ type: String }],
   order: { type: Number },
   resource: {
-    type: { type: String, enum: ['video', 'powerpoint'] },
+    type: { type: String, enum: ['video', 'powerpoint', 'pdf'] },
     url: { type: String }
   },
   optionalResource: [{
     title: { type: String },
-    type: { type: String, enum: ['pdf'] },
+    type: { type: String, enum: ['video', 'powerpoint', 'pdf'] },
     url: { type: String }
   }],
   quiz: {

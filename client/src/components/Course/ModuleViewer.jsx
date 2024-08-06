@@ -144,6 +144,7 @@ const ModuleViewer = () => {
     }
     return null;
   };
+  
 
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => {
@@ -255,30 +256,77 @@ const ModuleViewer = () => {
         </Alert>
       )}
 
+      {/* Begin Modal Definition */}
       <Modal show={showModal} onHide={handleCloseModal} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Optional Resources</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <Row>
-          {module?.optionalResource?.map((resource, index) => (
-            <Col md={3} key={index} className="mb-3">
-              <Button variant="link" onClick={() => setActiveResource(resource)}>
-                {resource.title}
-              </Button>
-            </Col>
-          ))}
-        </Row>
+          <Row>
+            {module?.optionalResource?.map((resource, index) => (
+              <Col md={3} key={index} className="mb-3">
+                <div
+                  onClick={() => setActiveResource(resource)}
+                  style={{
+                    cursor: 'pointer',
+                    border: '1px solid #ccc',
+                    borderRadius: '10px', // Round the corners
+                    overflow: 'hidden',
+                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                  }}
+                >
+                  {resource.type === 'pdf' ? (
+                    <iframe
+                      src={resource.url}
+                      width="100%"
+                      height="200px"
+                      style={{ borderRadius: '10px', border: 'none' }} // Optional: remove border
+                      title={resource.title}
+                      frameBorder="0"
+                    ></iframe>
+                  ) : (
+                    <iframe
+                      src={resource.url}
+                      width="100%"
+                      height="200px"
+                      style={{ borderRadius: '10px', border: 'none' }}
+                      title={resource.title}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
+                  )}
+                  <div style={{ padding: '10px', textAlign: 'center', background: '#f8f9fa' }}>
+                    {resource.title}
+                  </div>
+                </div>
+              </Col>
+            ))}
+          </Row>
 
           {activeResource && (
             <div className="pdf-viewer">
-              <iframe
-                src={activeResource.url}
-                width="100%"
-                height="500px"
-                title={activeResource.title}
-                frameBorder="0"
-              ></iframe>
+              {activeResource.type === 'pdf' ? (
+                <iframe
+                  src={activeResource.url}
+                  width="100%"
+                  height="500px"
+                  style={{ borderRadius: '10px' }}
+                  title={activeResource.title}
+                  frameBorder="0"
+                ></iframe>
+              ) : (
+                <iframe
+                  src={activeResource.url}
+                  width="100%"
+                  height="500px"
+                  style={{ borderRadius: '10px', border: 'none' }}
+                  title={activeResource.title}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              )}
             </div>
           )}
         </Modal.Body>
@@ -293,6 +341,7 @@ const ModuleViewer = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      {/* End Modal Definition */}
     </Container>
   );
 };

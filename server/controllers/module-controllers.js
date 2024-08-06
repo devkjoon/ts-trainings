@@ -30,13 +30,16 @@ const getModuleById = async (req, res, next) => {
 };
 
 const createModule = async (req, res, next) => {
-  const { title, description, resource, quiz } = req.body;
+  const { title, description, order, resource, optionalResource, quiz, isFinalTest } = req.body;
 
   const createdModule = new Module({
     title,
     description,
+    order,
     resource,
-    quiz
+    optionalResource,
+    quiz,
+    isFinalTest
   });
 
   try {

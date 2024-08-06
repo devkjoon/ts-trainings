@@ -8,6 +8,11 @@ const moduleSchema = new mongoose.Schema({
     type: { type: String, enum: ['video', 'powerpoint'] },
     url: { type: String }
   },
+  optionalResource: [{
+    title: { type: String },
+    type: { type: String, enum: ['pdf'] },
+    url: { type: String }
+  }],
   quiz: {
     questions: [{
       question: { type: String },

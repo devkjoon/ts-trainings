@@ -11,7 +11,6 @@ const studentRoutes = require('./routes/student-routes');
 const courseRoutes = require('./routes/course-routes');
 const moduleRoutes = require('./routes/module-routes');
 const contractorRoutes = require('./routes/contractor-routes');
-// const progressRoutes = require('./routes/progress-routes');
 
 dotenv.config();
 

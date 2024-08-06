@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Button, Form, Alert, Spinner } from 'react-bootstrap';
+import { Modal, Container, Row, Col, Button, Form, Alert, Spinner } from 'react-bootstrap';
 
 import API_URL from '../../config';
 
@@ -15,6 +15,8 @@ const ModuleViewer = () => {
   const [loading, setLoading] = useState(true);
   const [showQuiz, setShowQuiz] = useState(false);
   const [quizPassed, setQuizPassed] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [activeResource, setActiveResource] = useState(null);
   const navigate = useNavigate();
 
   const quizRef = useRef(null);
@@ -138,9 +140,15 @@ const ModuleViewer = () => {
         </video>
       );
     } else if (module?.resource?.type === 'powerpoint') {
-      return <iframe ref={videoRef} src={module.resource.url} width="600" height="400" title={module.title}></iframe>;
+      return <iframe ref={videoRef} src={module.resource.url} width="510" height="407" title={module.title}></iframe>;
     }
     return null;
+  };
+
+  const handleOpenModal = () => setShowModal(true);
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setActiveResource(null);
   };
 
   if (loading) {
@@ -166,6 +174,12 @@ const ModuleViewer = () => {
                 <li key={index}>{item}</li>
               ))}
             </ul>
+          )}
+          
+          {module?.optionalResource?.length > 0 && (
+            <Button variant="outline-info" onClick={handleOpenModal}>
+              Optional Resources
+            </Button>
           )}
         </Col>
         {module?.resource?.type && (
@@ -234,11 +248,51 @@ const ModuleViewer = () => {
           </div>
         </Form>
       )}
+
       {quizResult && (
         <Alert ref={alertRef} variant={quizResult === 'Quiz passed!' ? 'success' : 'danger'} className="mt-3">
           {quizResult}
         </Alert>
       )}
+
+      <Modal show={showModal} onHide={handleCloseModal} size="lg">
+        <Modal.Header closeButton>
+          <Modal.Title>Optional Resources</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <Row>
+          {module?.optionalResource?.map((resource, index) => (
+            <Col md={3} key={index} className="mb-3">
+              <Button variant="link" onClick={() => setActiveResource(resource)}>
+                {resource.title}
+              </Button>
+            </Col>
+          ))}
+        </Row>
+
+          {activeResource && (
+            <div className="pdf-viewer">
+              <iframe
+                src={activeResource.url}
+                width="100%"
+                height="500px"
+                title={activeResource.title}
+                frameBorder="0"
+              ></iframe>
+            </div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          {activeResource && (
+            <Button variant="outline-secondary" onClick={() => setActiveResource(null)}>
+              Back to List
+            </Button>
+          )}
+          <Button variant="outline-secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };

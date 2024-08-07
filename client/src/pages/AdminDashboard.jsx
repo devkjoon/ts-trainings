@@ -14,19 +14,14 @@ export default function AdminDashboard() {
     <>
       <div className='dashboardContainer'>
         <Row>
-            <Col className='text-center'>
-            <Link to='/admin/new-student' className='no-underline'>
-              <Button className="dashboardBtn" variant="outline-info" size="lg">New Student</Button>
-            </Link>
-          </Col>
           <Col className='text-center'>
             <Link to='/admin/students' className='no-underline'>
-              <Button className="dashboardBtn" variant="outline-warning" size="lg">Student List</Button>
+              <Button className="dashboardBtn" variant="outline-warning" size="lg">Students</Button>
             </Link>
           </Col>
             <Col className='text-center'>
             <Link to='/admin/courses' className='no-underline'>
-              <Button className="dashboardBtn" variant="outline-info" size="lg">Course List</Button>
+              <Button className="dashboardBtn" variant="outline-info" size="lg">Course Directory</Button>
             </Link>
           </Col>
           <Col className='text-center'>

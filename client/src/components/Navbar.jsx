@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Nav, Navbar, Button, Offcanvas } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
+
 import '../assets/css/Navbar.css';
 
 const TopNavbar = () => {
@@ -12,30 +13,29 @@ const TopNavbar = () => {
     useEffect(() => {
         // Function to check login status
         const checkLoginStatus = () => {
-          const token = localStorage.getItem('token');
-          const storedUserType = localStorage.getItem('userType');
-          if (token) {
-            setIsLoggedIn(true);
-            setUserType(storedUserType);
-          } else {
-            setIsLoggedIn(false);
-            setUserType('');
-          }
+            const token = localStorage.getItem('token');
+            const storedUserType = localStorage.getItem('userType');
+            if (token) {
+                setIsLoggedIn(true);
+                setUserType(storedUserType);
+            } else {
+                setIsLoggedIn(false);
+                setUserType('');
+            }
         };
-    
-        checkLoginStatus(); // Check on initial render
-    
-        // Optionally, listen to storage events if the token can be set elsewhere
+
+        checkLoginStatus();
+
         const handleStorageChange = () => {
-          checkLoginStatus();
+            checkLoginStatus();
         };
-    
+
         window.addEventListener('storage', handleStorageChange);
-    
+
         return () => {
-          window.removeEventListener('storage', handleStorageChange);
+            window.removeEventListener('storage', handleStorageChange);
         };
-      }, [location]); // Re-run the effect when the location changes
+    }, [location]); // Re-run the effect when the location changes
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -47,49 +47,61 @@ const TopNavbar = () => {
     const handleDashboard = () => {
         if (userType === 'admin') {
             navigate('/admin/dashboard');
-        } else {
+        } else if (userType === 'student') {
             navigate('/student/dashboard');
+        } else {
+            navigate('/');
         }
     };
 
     const hiddenRoutes = ['/', '/admin', '/admin/registration', '/admin/login', '/student/login'];
     const isHiddenRoute = hiddenRoutes.includes(location.pathname);
 
+    // Define dashboard routes for admin and student
+    const dashboardRoutes = {
+        admin: '/admin/dashboard',
+        student: '/student/dashboard',
+    };
+
+    // Check if the current path is a dashboard route
+    const isDashboardRoute = location.pathname === dashboardRoutes[userType];
+
     return (
         <Navbar expand="lg" className='navbar navbar-expand-lg navbar-light bg-transparent border border-info navbarMain'>
-            
-                <Navbar.Brand className='text-warning navbar-title'>
-                    Think Safety Trainings
-                </Navbar.Brand>
-                {isLoggedIn && !isHiddenRoute && (
-                    <>
-                        <Navbar.Toggle aria-controls="offcanvasNavbar" className='justify-content-end burger-menu' />
-                        <Navbar.Offcanvas
-                            id="offcanvasNavbar"
-                            aria-labelledby="offcanvasNavbarLabel"
-                            placement="end">
-                            <Offcanvas.Header closeButton>
-                                <Offcanvas.Title id="offcanvasNavbarLabel">
-                                    Think Safety Trainings
-                                </Offcanvas.Title>
-                            </Offcanvas.Header>
-                            <Offcanvas.Body>
-                                <Nav className="justify-content-end flex-grow-1 pe-3">
-                                    <Nav.Link>
-                                        <Button variant="outline-warning" size='lg' onClick={handleDashboard}>
+            <Navbar.Brand className='text-warning navbar-title'>
+                Think Safety Trainings
+            </Navbar.Brand>
+            {isLoggedIn && !isHiddenRoute && (
+                <>
+                    <Navbar.Toggle aria-controls="offcanvasNavbar" className='justify-content-end burger-menu' />
+                    <Navbar.Offcanvas
+                        id="offcanvasNavbar"
+                        aria-labelledby="offcanvasNavbarLabel"
+                        placement="end">
+                        <Offcanvas.Header closeButton>
+                            <Offcanvas.Title id="offcanvasNavbarLabel">
+                                Think Safety Trainings
+                            </Offcanvas.Title>
+                        </Offcanvas.Header>
+                        <Offcanvas.Body>
+                            <Nav className="justify-content-end flex-grow-1 pe-3">
+                                {!isDashboardRoute && (
+                                    <Nav.Link className='navbar-anchor'>
+                                        <Button variant="outline-warning" onClick={handleDashboard}>
                                             Dashboard
                                         </Button>
                                     </Nav.Link>
-                                    <Nav.Link>
-                                        <Button variant='outline-warning' size='lg' onClick={handleLogout}>
-                                            Log Out
-                                        </Button>
-                                    </Nav.Link>
-                                </Nav>
-                            </Offcanvas.Body>
-                        </Navbar.Offcanvas>
-                    </>
-                )}
+                                )}
+                                <Nav.Link className='navbar-anchor'>
+                                    <Button variant='outline-warning' onClick={handleLogout}>
+                                        Log Out
+                                    </Button>
+                                </Nav.Link>
+                            </Nav>
+                        </Offcanvas.Body>
+                    </Navbar.Offcanvas>
+                </>
+            )}
         </Navbar>
     );
 };

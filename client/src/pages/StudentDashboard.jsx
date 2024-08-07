@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 
 import API_URL from '../config';
 
-const StudentDashboard = () => {
+export default function StudentDashboard() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -90,6 +90,3 @@ const StudentDashboard = () => {
     </Container>
   );
 };
-
-
-export default StudentDashboard;

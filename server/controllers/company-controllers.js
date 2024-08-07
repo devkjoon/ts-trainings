@@ -45,13 +45,13 @@ const newCompany = async (req, res, next) => {
     });
 
     try {
-        await createdCompany.save();
-        res.status(201).json({ success: true, message: 'New company added successfully' });
-    } catch (err) {
-        const error = new HttpError('Adding new company failed, please try again', 500);
-        console.log(err.message);
-        return next(error);
-    }
+    await createdCompany.save();
+    res.status(201).json({ success: true, message: 'New company added successfully', company: createdCompany }); // Add company object in response
+  } catch (err) {
+    const error = new HttpError('Adding new company failed, please try again', 500);
+    console.log(err.message);
+    return next(error);
+  }
 }
 
 module.exports = {

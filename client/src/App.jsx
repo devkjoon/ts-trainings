@@ -11,7 +11,6 @@ import AdminLogin from "./components/Admin/AdminLogin"
 import AdminRegistration from "./components/Admin/AdminRegistration"
 import StudentLogin from './components/Student/StudentLogin'
 import AdminDashboard from "./pages/AdminDashboard"
-import NewStudent from "./components/Student/NewStudent"
 import StudentList from './components/Student/StudentList'
 import Companies from './components//Company/Companies'
 import StudentDashboard from "./pages/StudentDashboard"
@@ -34,7 +33,6 @@ function App() {
           <Route path='/admin/login' element={<AdminLogin />} />
           <Route path='/admin/registration' element={<AdminRegistration />} />
           <Route path='/admin/dashboard' element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
-          <Route path='/admin/new-student' element={<NewStudent />} />
           <Route path='/admin/students' element={<StudentList />} />
           <Route path='/admin/courses' element={<CourseList />} />  
           <Route path='/admin/courses/:courseId' element={<CourseDetail />} />  

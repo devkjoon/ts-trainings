@@ -3,7 +3,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 
 import API_URL from '../../config';
 
-import '../../assets/css/AssignCourseModal.css'
+import '../../assets/css/Modals.css'
 
 const AssignCourseModal = ({ show, handleClose, studentId, showAlert }) => {
   const [courses, setCourses] = useState([]);

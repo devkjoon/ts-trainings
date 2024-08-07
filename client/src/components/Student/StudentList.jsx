@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, Alert } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 
 import API_URL from '../../config';
@@ -12,6 +12,7 @@ export default function StudentList() {
   const [students, setStudents] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
+  const [alert, setAlert] = useState({ show: false, message: '', variant: '' });
 
   AdminTokenVerification();
 
@@ -63,20 +64,32 @@ export default function StudentList() {
     }
   };
 
+  const showAlert = (message, variant) => {
+    setAlert({ show: true, message, variant });
+    setTimeout(() => setAlert({ show: false, message: '', variant: '' }), 3000);
+  };  
+
   const handleShowModal = (studentId) => {
     setSelectedStudent(studentId);
     setShowModal(true);
   };
 
-  const handleCloseModal = (studentId) => {
+  const handleCloseModal = () => {
     setShowModal(false);
     setSelectedStudent(null);
   };
+
+  
 
   return (
     <>
     <div className="table-container">
       <h1 className="text-center mt-4 mb-4">Student List</h1>
+      {alert.show && (
+        <Alert variant={alert.variant} onClose={() => setAlert({ show: false })} dismissible>
+          {alert.message}
+        </Alert>
+      )}
       <Table striped bordered hover className="custom-table">
         <thead>
           <tr>
@@ -121,11 +134,12 @@ export default function StudentList() {
       </Link>
     </div>
     {selectedStudent && (
-      <AssignCourseModal
+    <AssignCourseModal
       show={showModal}
       handleClose={handleCloseModal}
       studentId={selectedStudent}
-      />
+      showAlert={showAlert}
+    />
     )}
     </>
   );

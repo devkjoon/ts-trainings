@@ -5,9 +5,10 @@ import API_URL from '../../config';
 
 import '../../assets/css/AssignCourseModal.css'
 
-const AssignCourseModal = ({ show, handleClose, studentId }) => {
+const AssignCourseModal = ({ show, handleClose, studentId, showAlert }) => {
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState('');
+  const [studentCourses, setStudentCourses] = useState([]);
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -30,10 +31,42 @@ const AssignCourseModal = ({ show, handleClose, studentId }) => {
       }
     };
 
-    fetchCourses();
-  }, []);
+    const fetchStudentCourses = async () => {
+      try {
+        const response = await fetch(`${API_URL}/student/${studentId}/courses`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch student courses');
+        }
+
+        const data = await response.json();
+        setStudentCourses(data.courses || []);
+      } catch (error) {
+        console.error('Error fetching student courses:', error);
+      }
+    };
+
+    if (show) {
+      fetchCourses();
+      fetchStudentCourses();
+    }
+  }, [show, studentId]);
 
   const handleAssignCourse = async () => {
+
+    const alreadyAssigned = studentCourses.some(course => course._id === selectedCourse);
+
+    if (alreadyAssigned) {
+      handleClose();
+      showAlert('Student is already assigned to this course', 'warning');
+      return;
+    }
+
     try {
       const response = await fetch(`${API_URL}/student/${studentId}/assign-course`, {
         method: 'POST',
@@ -48,8 +81,10 @@ const AssignCourseModal = ({ show, handleClose, studentId }) => {
       }
 
       handleClose();
+      showAlert('Course assigned successfully', 'success');
     } catch (error) {
       console.error('Error assigning course:', error);
+      showAlert('Failed to assign course. Please try again later.', 'danger')
     }
   };
 

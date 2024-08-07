@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const contractorSchema = new mongoose.Schema({
+const companySchema = new mongoose.Schema({
     name: { type: String, required: true, unique: true },
     phoneNumber: { type: String, required: true },
     address: {
@@ -16,4 +16,4 @@ const contractorSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Contractor', contractorSchema);
+module.exports = mongoose.model('Company', companySchema);

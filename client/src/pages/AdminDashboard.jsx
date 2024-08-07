@@ -30,13 +30,8 @@ export default function AdminDashboard() {
             </Link>
           </Col>
           <Col className='text-center'>
-            <Link to='/admin/students' className='no-underline'>
-              <Button className="dashboardBtn" variant="outline-warning" size="lg">Add a Module</Button>
-            </Link>
-          </Col>
-          <Col className='text-center'>
-            <Link to="/admin/contractors" className='no-underline'>
-              <Button className="dashboardBtn" variant="outline-info" size="lg">Companies</Button>
+            <Link to="/admin/companies" className='no-underline'>
+              <Button className="dashboardBtn" variant="outline-warning" size="lg">Companies</Button>
             </Link>
           </Col>
         </Row>

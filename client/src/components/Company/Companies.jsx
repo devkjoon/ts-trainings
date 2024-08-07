@@ -1,6 +1,7 @@
 // src/components/Company/Companies.jsx
 import React, { useEffect, useState } from 'react';
 import { Container, Button, Row, Col, Table, Alert } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 import AdminTokenVerification from '../../hooks/AdminTokenVerification';
 import NewCompanyModal from '../Tools/NewCompanyModal'; // Import the new modal component
@@ -173,7 +174,9 @@ export default function Companies() {
           ))}
         </tbody>
       </Table>
-
+      <Link to='/admin/dashboard' className='no-underline'>
+          <Button className="button-25 mt-3" variant="outline-info" size="lg">Back</Button>
+      </Link>
       <NewCompanyModal
         show={showModal}
         handleClose={handleCloseModal}

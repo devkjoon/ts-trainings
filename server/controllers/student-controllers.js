@@ -1,6 +1,8 @@
-const { validationResult } = require("express-validator");
 const Student = require("../models/student");
 const Course = require("../models/course");
+
+const { validationResult } = require("express-validator");
+const { sendEmail } = require('../utility/emailService');
 const HttpError = require("../models/http-error");
 const jwt = require('jsonwebtoken');
 require('../middleware/studentAuth');
@@ -70,134 +72,143 @@ const login = async (req, res, next) => {
 };
 
 const newStudent = async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      console.log(errors);
-      return next(new HttpError("Invalid inputs passed", 422));
-    }
-  
-    const { firstname, lastname, email, company } = req.body;
-  
-    let existingStudent;
-  
-    try {
-      existingStudent = await Student.findOne({ email: email });
-    } catch (err) {
-      const error = new HttpError("Could not create new student, please contact Joon", 500);
-      console.log(err.message);
-      return next(error);
-    }
-  
-    if (existingStudent) {
-      const error = new HttpError("Student exists already, please direct student to login", 422);
-      return next(error);
-    }
-  
-    const createdStudent = new Student({
-      firstname,
-      lastname,
-      email,
-      company
-    });
-  
-    try {
-      await createdStudent.save();
-    } catch (err) {
-      const error = new HttpError("Registration failed, please try again", 500);
-      console.log(err.message);
-      return next(error);
-    }
-
-    let token;
-
-    try {
-      token = jwt.sign(
-        { userId: createdStudent.id, email: createdStudent.email, isAdmin: false },
-        process.env.STUDENT_TOKEN,
-        { expiresIn: '6h' });
-    } catch (err) {
-      const error = new HttpError('Signing up failed, please try again later', 500);
-      console.log(err.message);
-      return next(error)
-    }
-  
-    res.status(201).json({ Student: createdStudent.toObject({ getters: true }), success: true });
-  };
-
-  const getStudentCourses = async (req, res, next) => {
-    const studentId = req.params.sid;
-
-    try {
-      const student = await Student.findById(studentId).populate('enrolledCourses');
-      if (!student) {
-        return next(new HttpError('Student not found', 404));
-      }
-
-      res.json({
-        courses: student.enrolledCourses.map(course => course.toObject({ getters: true }))
-      });
-    } catch (error) {
-      return next(new HttpError('Fetching student courses failed', 500));
-    }
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors);
+    return next(new HttpError("Invalid inputs passed", 422));
   }
 
-  const getCompletedModules = async (req, res, next) => {
-    const studentId = req.params.sid;
-  
-    try {
-      const student = await Student.findById(studentId).populate('completedModules', 'title description');
-      if (!student) {
-        return next(new HttpError('Student not found', 404));
-      }
-  
-      res.status(200).json({ completedModules: student.completedModules });
-    } catch (err) {
-      console.error('Error fetching completed modules:', err);
-      const error = new HttpError('Fetching completed modules failed, please try again later.', 500);
-      return next(error);
-    }
-  };
+  const { firstname, lastname, email, company } = req.body;
 
-  const assignCourse = async (req, res, next) => {
-    const { sid } = req.params;
-    const { courseId } = req.body;
-  
-    let student;
-    try {
-      student = await Student.findById(sid);
-      if (!student) {
-        return next(new HttpError('Student not found', 404));
-      }
-  
-      if (!student.enrolledCourses.includes(courseId)) {
-        student.enrolledCourses.push(courseId);
-        await student.save();
-      }
-  
-      res.status(200).json({ message: 'Course assigned successfully' });
-    } catch (err) {
-      const error = new HttpError('Failed to assign course', 500);
-      return next(error);
-    }
-  };  
+  let existingStudent;
 
-  const deleteStudent = async (req, res, next) => {
-    const studentId = req.params.sid;
-  
-    try {
-      const student = await Student.findById(studentId);
-      if (!student) {
-        return next(new HttpError("Could not find student for provided id.", 404));
-      }
-  
-      await student.deleteOne();
-  
-      res.status(200).json({ message: "Deleted student." });
-    } catch (err) {
-      const error = new HttpError("Something went wrong, could not delete student.", 500);
-      return next(error);
+  try {
+    existingStudent = await Student.findOne({ email: email });
+  } catch (err) {
+    const error = new HttpError("Could not create new student, please contact Joon", 500);
+    console.log(err.message);
+    return next(error);
+  }
+
+  if (existingStudent) {
+    const error = new HttpError("Student exists already, please direct student to login", 422);
+    return next(error);
+  }
+
+  const createdStudent = new Student({
+    firstname,
+    lastname,
+    email,
+    company
+  });
+
+  try {
+    await createdStudent.save();
+  } catch (err) {
+    const error = new HttpError("Registration failed, please try again", 500);
+    console.log(err.message);
+    return next(error);
+  }
+
+  let token;
+
+  try {
+    token = jwt.sign(
+      { userId: createdStudent.id, email: createdStudent.email, isAdmin: false },
+      process.env.STUDENT_TOKEN,
+      { expiresIn: '6h' });
+  } catch (err) {
+    const error = new HttpError('Signing up failed, please try again later', 500);
+    console.log(err.message);
+    return next(error)
+  }
+
+  try {
+    const subject = 'Welcome to Think Safety Trainings';
+    const text = `Hello ${firstname}, \n\nYour student account has been created.\nYour login code: ${createdStudent.loginCode}\n\nThank you!`;
+    await sendEmail(email, subject, text);
+    console.log('Email sent to th estudent:', email);
+  } catch (err) {
+    console.error('Error sending email:', err);
+  }
+
+  res.status(201).json({ Student: createdStudent.toObject({ getters: true }), success: true });
+};
+
+const getStudentCourses = async (req, res, next) => {
+  const studentId = req.params.sid;
+
+  try {
+    const student = await Student.findById(studentId).populate('enrolledCourses');
+    if (!student) {
+      return next(new HttpError('Student not found', 404));
     }
-  };
+
+    res.json({
+      courses: student.enrolledCourses.map(course => course.toObject({ getters: true }))
+    });
+  } catch (error) {
+    return next(new HttpError('Fetching student courses failed', 500));
+  }
+}
+
+const getCompletedModules = async (req, res, next) => {
+  const studentId = req.params.sid;
+
+  try {
+    const student = await Student.findById(studentId).populate('completedModules', 'title description');
+    if (!student) {
+      return next(new HttpError('Student not found', 404));
+    }
+
+    res.status(200).json({ completedModules: student.completedModules });
+  } catch (err) {
+    console.error('Error fetching completed modules:', err);
+    const error = new HttpError('Fetching completed modules failed, please try again later.', 500);
+    return next(error);
+  }
+};
+
+const assignCourse = async (req, res, next) => {
+  const { sid } = req.params;
+  const { courseId } = req.body;
+
+  let student;
+  try {
+    student = await Student.findById(sid);
+    if (!student) {
+      return next(new HttpError('Student not found', 404));
+    }
+
+    if (!student.enrolledCourses.includes(courseId)) {
+      student.enrolledCourses.push(courseId);
+      await student.save();
+    }
+
+    res.status(200).json({ message: 'Course assigned successfully' });
+  } catch (err) {
+    const error = new HttpError('Failed to assign course', 500);
+    return next(error);
+  }
+};  
+
+const deleteStudent = async (req, res, next) => {
+  const studentId = req.params.sid;
+
+  try {
+    const student = await Student.findById(studentId);
+    if (!student) {
+      return next(new HttpError("Could not find student for provided id.", 404));
+    }
+
+    await student.deleteOne();
+
+    res.status(200).json({ message: "Deleted student." });
+  } catch (err) {
+    const error = new HttpError("Something went wrong, could not delete student.", 500);
+    return next(error);
+  }
+};
   
 exports.login = login;
 exports.getAllStudents = getAllStudents;

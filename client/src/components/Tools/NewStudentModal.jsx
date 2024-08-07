@@ -15,6 +15,7 @@ const NewStudentModal = ({
   setEmail,
   company,
   setCompany,
+  companies,
 }) => {
   return (
     <Modal show={show} onHide={handleClose} size="lg">
@@ -69,12 +70,19 @@ const NewStudentModal = ({
               <Form.Label>Company</Form.Label>
               <InputGroup className='registrationInput'>
                 <Form.Control
-                  type='text'
+                  as='select'
                   placeholder='Company'
                   value={company}
                   onChange={(e) => setCompany(e.target.value)}
                   required
-                />
+                >
+                    <option value="">Select a company</option>
+                    {companies.map((comp) => (
+                        <option key={comp._id} value={comp.name}>
+                            {comp.name}
+                        </option>
+                    ))}
+                </Form.Control>
                 <Form.Control.Feedback type='invalid'>Enter a company name</Form.Control.Feedback>
               </InputGroup>
             </Form.Group>

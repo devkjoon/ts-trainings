@@ -12,6 +12,7 @@ import '../../assets/css/StudentList.css';
 
 export default function StudentList() {
   const [students, setStudents] = useState([]);
+  const [companies, setCompanies] = useState([]);
   const [showAssignModal, setShowAssignModal] = useState(false);
   const [showNewStudentModal, setShowNewStudentModal] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
@@ -45,11 +46,38 @@ export default function StudentList() {
       }
     };
 
+    const fetchCompanies = async () => {
+      try {
+        const response = await fetch(`${API_URL}/company`, {
+          method:'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch companies');
+        }
+        const data = await response.json();
+        setCompanies(data.companies);
+      } catch (error) {
+        console.error('Error fetching companies:', error);
+      }
+    };
+
     fetchStudents();
+    fetchCompanies();
   }, []);
 
   const handleDeleteStudent = async (id) => {
     const token = localStorage.getItem('token');
+
+    const isConfirmed = window.confirm('Are you sure you want to delete this student? This action cannot be undone.');
+
+    if (!isConfirmed) {
+      return;
+    }
 
     try {
       const response = await fetch(`http://localhost:5000/student/${id}`, {
@@ -68,6 +96,7 @@ export default function StudentList() {
       setStudents((prevStudents) =>
         prevStudents.filter((student) => student._id !== id)
       );
+      setAlert({ show: true, message: 'Deleted student', variant: 'success' });
     } catch (error) {
       console.error("Error deleting student:", error);
       showAlert('Failed to delete student. Please try again later.', 'danger');
@@ -207,6 +236,7 @@ export default function StudentList() {
         setEmail={setEmail}
         company={company}
         setCompany={setCompany}
+        companies={companies}
       />
     </Container>
   );

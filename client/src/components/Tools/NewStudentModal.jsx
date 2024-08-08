@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button, Row, Col, InputGroup, Form } from 'react-bootstrap';
+import { Modal, Button, Row, Col, InputGroup, Form, Spinner } from 'react-bootstrap';
 
 import '../../assets/css/Modals.css'
 
@@ -16,6 +16,7 @@ const NewStudentModal = ({
   company,
   setCompany,
   companies,
+  isLoading
 }) => {
   return (
     <Modal show={show} onHide={handleClose} size="lg">
@@ -71,23 +72,24 @@ const NewStudentModal = ({
               <InputGroup className='registrationInput'>
                 <Form.Control
                   as='select'
-                  placeholder='Company'
                   value={company}
                   onChange={(e) => setCompany(e.target.value)}
                   required
                 >
-                    <option value="">Select a company</option>
-                    {companies.map((comp) => (
-                        <option key={comp._id} value={comp.name}>
-                            {comp.name}
-                        </option>
-                    ))}
+                  <option value="">Select a company</option>
+                  {companies.map((comp) => (
+                    <option key={comp._id} value={comp.name}>
+                      {comp.name}
+                    </option>
+                  ))}
                 </Form.Control>
-                <Form.Control.Feedback type='invalid'>Enter a company name</Form.Control.Feedback>
+                <Form.Control.Feedback type='invalid'>Select a company</Form.Control.Feedback>
               </InputGroup>
             </Form.Group>
           </Row>
-          <Button type='submit' variant='outline-info' className='mt-2'>Add Student</Button>
+          <Button type='submit' variant='outline-info' className='mt-2'>
+            {isLoading ? <Spinner animation="border" size="sm" /> : 'Add Student'}
+          </Button>
         </Form>
       </Modal.Body>
     </Modal>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Button, Row, Col, Table, Alert } from "react-bootstrap";
+import { Container, Button, Row, Col, Table, Alert, Spinner } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 
 import API_URL from '../../config';
@@ -17,12 +17,12 @@ export default function StudentList() {
   const [showNewStudentModal, setShowNewStudentModal] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [alert, setAlert] = useState({ show: false, message: '', variant: '' });
+  const [isLoading, setIsLoading] = useState(false); // Spinner state
 
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
   const [email, setEmail] = useState('');
   const [company, setCompany] = useState('');
-  const [validated, setValidated] = useState(false);
 
   AdminTokenVerification();
 
@@ -118,45 +118,62 @@ export default function StudentList() {
     setSelectedStudent(null);
   };
 
+  const resetForm = () => {
+    setFirstname('');
+    setLastname('');
+    setEmail('');
+    setCompany('');
+  };
+  
   const handleShowNewStudentModal = () => {
     setShowNewStudentModal(true);
   };
 
   const handleCloseNewStudentModal = () => {
     setShowNewStudentModal(false);
+    resetForm();
   };
 
   const handleStudentCreation = async (event) => {
-    const form = event.currentTarget;
     event.preventDefault();
-
-    if (form.checkValidity() === false) {
-      event.stopPropagation();
-      setValidated(true);
-      return;
-    }
+    setIsLoading(true); // Show spinner
 
     try {
       const response = await fetch(`${API_URL}/student/newStudent`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
         body: JSON.stringify({ firstname, lastname, email, company })
       });
 
       const result = await response.json();
-      console.log(result);
+      console.log('Add student result:', result);
+
       if (result.success) {
-        setAlert({ show: true, message: 'Created new student!', variant: 'success' });
-        setStudents((prevStudents) => [...prevStudents, { firstname, lastname, email, company, loginCode: result.loginCode }]);
+        const newStudent = {
+          _id: new Date().getTime().toString(), // Temporary unique ID
+          firstname,
+          lastname,
+          email,
+          company,
+          loginCode: result.loginCode || ''
+        };
+        setStudents((prevStudents) => [...prevStudents, newStudent]);
+
+        setAlert({ show: true, message: 'New student added successfully', variant: 'success' });
         handleCloseNewStudentModal();
       } else {
-        setAlert({ show: true, message: 'Unsuccessful, please try again later :(', variant: 'danger' });
+        console.log('Result indicates failure:', result);
+        const errorMessage = result.message || 'Unsuccessful, please try again later';
+        setAlert({ show: true, message: errorMessage, variant: 'danger' });
       }
     } catch (error) {
-      console.error('Error registering student:', error);
-      setAlert({ show: true, message: 'Failed to register student. Please try again later.', variant: 'danger' });
+      console.error('Error adding new student:', error);
+      setAlert({ show: true, message: 'Failed to add student. Please try again later.', variant: 'danger' });
+    } finally {
+      setIsLoading(false); // Hide spinner
     }
   };
 
@@ -237,6 +254,7 @@ export default function StudentList() {
         company={company}
         setCompany={setCompany}
         companies={companies}
+        isLoading={isLoading}
       />
     </Container>
   );

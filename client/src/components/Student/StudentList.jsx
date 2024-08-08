@@ -137,7 +137,7 @@ export default function StudentList() {
   const handleStudentCreation = async (event) => {
     event.preventDefault();
     setIsLoading(true); // Show spinner
-
+  
     try {
       const response = await fetch(`${API_URL}/student/newStudent`, {
         method: 'POST',
@@ -147,21 +147,13 @@ export default function StudentList() {
         },
         body: JSON.stringify({ firstname, lastname, email, company })
       });
-
+  
       const result = await response.json();
       console.log('Add student result:', result);
-
+  
       if (result.success) {
-        const newStudent = {
-          _id: new Date().getTime().toString(), // Temporary unique ID
-          firstname,
-          lastname,
-          email,
-          company,
-          loginCode: result.loginCode || ''
-        };
-        setStudents((prevStudents) => [...prevStudents, newStudent]);
-
+        setStudents((prevStudents) => [...prevStudents, result.student]); // Use the student from the result
+  
         setAlert({ show: true, message: 'New student added successfully', variant: 'success' });
         handleCloseNewStudentModal();
       } else {

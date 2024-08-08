@@ -81,7 +81,6 @@ const newStudent = async (req, res, next) => {
   const { firstname, lastname, email, company } = req.body;
 
   let existingStudent;
-
   try {
     existingStudent = await Student.findOne({ email: email });
   } catch (err) {
@@ -95,14 +94,11 @@ const newStudent = async (req, res, next) => {
     return next(error);
   }
 
-  const loginCode = await generateUniqueLoginCode();
-
   const createdStudent = new Student({
     firstname,
     lastname,
     email,
-    company,
-    loginCode
+    company
   });
 
   try {
@@ -114,18 +110,22 @@ const newStudent = async (req, res, next) => {
   }
 
   let token;
-
   try {
     token = jwt.sign(
       { userId: createdStudent.id, email: createdStudent.email, isAdmin: false },
       process.env.STUDENT_TOKEN,
-      { expiresIn: '6h' });
+      { expiresIn: '6h' }
+    );
   } catch (err) {
     const error = new HttpError('Signing up failed, please try again later', 500);
     console.log(err.message);
     return next(error);
   }
 
+  // Return response immediately after creation
+  res.status(201).json({ student: createdStudent.toObject({ getters: true }), success: true });
+
+  // Send email asynchronously after responding
   try {
     const subject = 'Welcome to Think Safety Trainings';
     const text = `Hello ${firstname},\n\nYour student account has been created.\nYour login code: ${createdStudent.loginCode}\n\nThank you!`;
@@ -133,38 +133,8 @@ const newStudent = async (req, res, next) => {
     console.log('Email sent to the student:', email);
   } catch (err) {
     console.error('Error sending email:', err.message);
-    return res.status(500).json({ message: 'Student created but email could not be sent', success: false });
   }
-
-  res.status(201).json({ student: createdStudent.toObject({ getters: true }), success: true });
 };
-
-// Generate a unique login code
-async function generateUniqueLoginCode() {
-  let unique = false;
-  let newCode;
-  
-  while (!unique) {
-    newCode = generateLoginCode();
-    const existingStudent = await Student.findOne({ loginCode: newCode });
-    if (!existingStudent) {
-      unique = true;
-    }
-  }
-  
-  return newCode;
-}
-
-// Function to generate a random login code
-function generateLoginCode() {
-  let loginCode = '';
-  const digits = '0123456789';
-  for (let i = 0; i < 6; i++) {
-    loginCode += digits.charAt(Math.floor(Math.random() * digits.length));
-  }
-  return loginCode;
-}
-
 
 
 const getStudentCourses = async (req, res, next) => {

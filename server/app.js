@@ -18,6 +18,7 @@ const app = express();
 
 const allowedOrigins = [
   'http://localhost:5173',
+  'https://ts-trainings.com',
   'https://ts-trainings-2f55296deb14.herokuapp.com'
 ];
 

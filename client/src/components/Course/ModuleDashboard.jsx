@@ -6,13 +6,14 @@ import API_URL from '../../config';
 
 import ProgressBar from '../Tools/ProgressBar';
 
-import '../../assets/css/ModuleDashboard.css'
+import '../../assets/css/ModuleDashboard.css';
 
 const ModuleDashboard = () => {
   const { courseId } = useParams();
   const [modules, setModules] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [flippedCards, setFlippedCards] = useState({});
   const navigate = useNavigate();
 
   const studentId = localStorage.getItem('studentId');  
@@ -38,10 +39,11 @@ const ModuleDashboard = () => {
     fetchModules();
   }, [courseId, studentId]);
 
-  const handleModuleClick = (moduleId, isLocked) => {
-    if (!isLocked) {
-      navigate(`/student/courses/${courseId}/modules/${moduleId}`);
-    }
+  const handleModuleClick = (moduleId) => {
+    setFlippedCards((prevState) => ({
+      ...prevState,
+      [moduleId]: !prevState[moduleId],
+    }));
   };
   
   const incompleteModules = modules.filter(module => !module.isFinalTest && !module.completed);
@@ -91,21 +93,47 @@ const ModuleDashboard = () => {
         <Row className="justify-content-center align-items-stretch">
           {incompleteModules.map((module) => (
             <Col key={module._id} xs={12} sm={6} md={4} className="mb-4 d-flex">
-              <Card className="course-card h-100 w-100" style={{ width: '18rem' }}>
-                <Card.Img className="moduleCardImg" variant="top" src={module.moduleIconUrl || 'default-image-url.jpg'} alt="Module Image" />
-                <Card.Body className="d-flex flex-column justify-content-between">
-                  <div m-auto>
-                    <Card.Title>{module.title}</Card.Title>
+              <Card className={`course-card h-100 w-100 ${flippedCards[module._id] ? 'flipped' : ''}`} onClick={() => handleModuleClick(module._id)}>
+                <div className="card-inner">
+                  <div className="card-front">
+                    <Card.Img className="moduleCardImg" variant="top" src={module.moduleIconUrl || 'default-image-url.jpg'} alt="Module Image" />
+                    <Card.Body className="card-body-flex">
+                      <div className="m-auto">
+                        <Card.Title>{module.title}</Card.Title>
+                      </div>
+                      <Card.Footer className="card-footer"> {/* Ensure button is at the bottom */}
+                        <Button
+                          className='mt-2 module-btn'
+                          variant={module.isLocked ? 'outline-danger' : 'outline-primary'}
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent card flip when clicking the button
+                            if (!module.isLocked) {
+                              navigate(`/student/courses/${courseId}/modules/${module._id}`);
+                            }
+                          }}
+                          disabled={module.isLocked}
+                        >
+                          {module.isLocked ? "Locked" : "Go to Module"}
+                        </Button>
+                      </Card.Footer>
+                    </Card.Body>
                   </div>
-                  <Button
-                    className='mt-2'
-                    variant={module.isLocked ? 'outline-danger' : 'outline-primary'}
-                    onClick={() => handleModuleClick(module._id, module.isLocked)}
-                    disabled={module.isLocked}
-                  >
-                    {module.isLocked ? "Locked" : "Go to Module"}
-                  </Button>
-                </Card.Body>
+                  <div className="card-back">
+                    <Card.Body className="d-flex flex-column justify-content-center align-items-center">
+                      <ul className="description-list scrollable-description">
+                        {module.description.map((desc, index) => (
+                          <li key={index}>{desc}</li>
+                        ))}
+                      </ul>
+                      <Button
+                        className='mt-2'
+                        variant="outline-secondary"
+                      >
+                        Flip Back
+                      </Button>
+                    </Card.Body>
+                  </div>
+              </div>
               </Card>
             </Col>
           ))}
@@ -121,20 +149,47 @@ const ModuleDashboard = () => {
           <h2 className="text-center mt-4 mb-4">Final Test</h2>
           <Row className="justify-content-center align-items-stretch">
             <Col key={finalTestModule._id} xs={12} sm={6} md={4} className="mb-4 d-flex">
-              <Card className="course-card h-100 w-100" style={{ width: '18rem' }}>
-                <Card.Img className="moduleCardImg" variant="top" src={finalTestModule.moduleIconUrl || 'default-image-url.jpg'} alt="Final Test Image" />
-                <Card.Body className="d-flex flex-column justify-content-between">
-                  <div m-auto>
-                    <Card.Title>{finalTestModule.title}</Card.Title>
+              <Card className={`course-card h-100 w-100 ${flippedCards[finalTestModule._id] ? 'flipped' : ''}`} onClick={() => handleModuleClick(finalTestModule._id)}>
+                <div className="card-inner">
+                  <div className="card-front">
+                    <Card.Img className="moduleCardImg" variant="top" src={finalTestModule.moduleIconUrl || 'default-image-url.jpg'} alt="Final Test Image" />
+                    <Card.Body className="card-body-flex">
+                      <div className="m-auto">
+                        <Card.Title>{finalTestModule.title}</Card.Title>
+                      </div>
+                      <Card.Footer className="card-footer">
+                        <Button
+                          className='mt-2 module-btn'
+                          variant={isFinalTestLocked ? 'outline-danger' : 'outline-primary'}
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent card flip when clicking the button
+                            if (!isFinalTestLocked) {
+                              navigate(`/student/courses/${courseId}/modules/${finalTestModule._id}`);
+                            }
+                          }}
+                          disabled={isFinalTestLocked}
+                        >
+                          {isFinalTestLocked ? "Locked" : (completedModules.some(module => module._id === finalTestModule._id) ? "Review Test" : "Go to Final Test")}
+                        </Button>
+                      </Card.Footer>
+                    </Card.Body>
                   </div>
-                  <Button
-                    className='mt-2'
-                    variant={isFinalTestLocked ? 'outline-danger' : 'outline-primary'}
-                    onClick={() => handleModuleClick(finalTestModule._id, isFinalTestLocked)}
-                    disabled={isFinalTestLocked}>
-                    {isFinalTestLocked ? "Locked" : (completedModules.some(module => module._id === finalTestModule._id) ? "Review Test" : "Go to Final Test")}
-                  </Button>
-                </Card.Body>
+                  <div className="card-back">
+                    <Card.Body className="d-flex flex-column justify-content-center align-items-center">
+                      <ul className="description-list scrollable-description">
+                        {finalTestModule.description.map((desc, index) => (
+                          <li key={index}>{desc}</li>
+                        ))}
+                      </ul>
+                      <Button
+                        className='mt-2'
+                        variant="outline-secondary"
+                      >
+                        Flip Back
+                      </Button>
+                    </Card.Body>
+                  </div>
+                </div>
               </Card>
             </Col>
           </Row>
@@ -147,14 +202,44 @@ const ModuleDashboard = () => {
           <Row className="justify-content-center align-items-stretch">
             {completedModules.map((module) => (
               <Col key={module._id} xs={12} sm={6} md={4} className="mb-4 d-flex">
-                <Card className="course-card h-100 w-100" style={{ width: '18rem' }}>
-                  <Card.Img className="moduleCardImg" variant="top" src={module.moduleIconUrl || 'default-image-url.jpg'} alt="Module Image" />
-                  <Card.Body className="d-flex flex-column justify-content-between">
-                    <div m-auto>
-                      <Card.Title>{module.title}</Card.Title>
+                <Card className={`course-card h-100 w-100 ${flippedCards[module._id] ? 'flipped' : ''}`} onClick={() => handleModuleClick(module._id)}>
+                  <div className="card-inner">
+                    <div className="card-front">
+                      <Card.Img className="moduleCardImg" variant="top" src={module.moduleIconUrl || 'default-image-url.jpg'} alt="Module Image" />
+                      <Card.Body className="card-body-flex">
+                        <div className='m-auto'>
+                          <Card.Title>{module.title}</Card.Title>
+                        </div>
+                        <Card.Footer className="card-footer">
+                          <Button
+                            className='mt-2 module-btn'
+                            variant="outline-warning"
+                            onClick={(e) => {
+                              e.stopPropagation(); // Prevent card flip when clicking the button
+                              navigate(`/student/courses/${courseId}/modules/${module._id}`);
+                            }}
+                          >
+                            Review Module
+                          </Button>
+                        </Card.Footer>
+                      </Card.Body>
                     </div>
-                    <Button className='mt-2' variant="outline-warning" onClick={() => handleModuleClick(module._id)}>Review Module</Button>
-                  </Card.Body>
+                    <div className="card-back">
+                      <Card.Body className="d-flex flex-column justify-content-center align-items-center">
+                        <ul className="description-list scrollable-description">
+                          {module.description.map((desc, index) => (
+                            <li key={index}>{desc}</li>
+                          ))}
+                        </ul>
+                        <Button
+                          className='mt-2'
+                          variant="outline-secondary"
+                        >
+                          Flip Back
+                        </Button>
+                      </Card.Body>
+                    </div>
+                  </div>
                 </Card>
               </Col>
             ))}

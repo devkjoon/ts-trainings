@@ -80,7 +80,7 @@ export default function StudentList() {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/student/${id}`, {
+      const response = await fetch(`${API_URL}/student/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

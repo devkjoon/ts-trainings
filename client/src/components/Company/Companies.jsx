@@ -36,7 +36,7 @@ export default function Companies() {
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
-        const response = await fetch('http://localhost:5000/company', {
+        const response = await fetch(`${API_URL}/company`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ export default function Companies() {
     event.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5000/company/new-company', {
+      const response = await fetch(`${API_URL}/company/new-company`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

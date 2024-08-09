@@ -119,18 +119,18 @@ const ModuleDashboard = () => {
                     </Card.Body>
                   </div>
                   <div className="card-back">
-                    <Card.Body className="d-flex flex-column justify-content-center align-items-center">
-                      <ul className="description-list scrollable-description">
+                  <Card.Body className="d-flex flex-column justify-content-center align-items-center" onclick={(e) => {
+                    e.stopPropagation();
+                    handleModuleClick(module._id);
+                  }}>
+                    <div className="description-header">
+                      <strong>About this Module:</strong>
+                    </div>
+                      <ul className="description-list scrollable-description text-left">
                         {module.description.map((desc, index) => (
                           <li key={index}>{desc}</li>
                         ))}
                       </ul>
-                      <Button
-                        className='mt-2'
-                        variant="outline-secondary"
-                      >
-                        Flip Back
-                      </Button>
                     </Card.Body>
                   </div>
               </div>
@@ -175,18 +175,18 @@ const ModuleDashboard = () => {
                     </Card.Body>
                   </div>
                   <div className="card-back">
-                    <Card.Body className="d-flex flex-column justify-content-center align-items-center">
-                      <ul className="description-list scrollable-description">
+                  <Card.Body className="d-flex flex-column justify-content-center align-items-center" onclick={(e) => {
+                    e.stopPropagation();
+                    handleModuleClick(module._id);
+                  }}>
+                    <div className="description-header">
+                      <strong>About this Module:</strong>
+                    </div>
+                      <ul className="description-list scrollable-description text-left">
                         {finalTestModule.description.map((desc, index) => (
                           <li key={index}>{desc}</li>
                         ))}
                       </ul>
-                      <Button
-                        className='mt-2'
-                        variant="outline-secondary"
-                      >
-                        Flip Back
-                      </Button>
                     </Card.Body>
                   </div>
                 </div>
@@ -225,18 +225,18 @@ const ModuleDashboard = () => {
                       </Card.Body>
                     </div>
                     <div className="card-back">
-                      <Card.Body className="d-flex flex-column justify-content-center align-items-center">
-                        <ul className="description-list scrollable-description">
+                    <Card.Body className="d-flex flex-column justify-content-center align-items-center" onclick={(e) => {
+                    e.stopPropagation();
+                    handleModuleClick(module._id);
+                  }}>
+                      <div className="description-header">
+                        <strong>About this Module:</strong>
+                      </div>
+                        <ul className="description-list scrollable-description text-left">
                           {module.description.map((desc, index) => (
                             <li key={index}>{desc}</li>
                           ))}
                         </ul>
-                        <Button
-                          className='mt-2'
-                          variant="outline-secondary"
-                        >
-                          Flip Back
-                        </Button>
                       </Card.Body>
                     </div>
                   </div>

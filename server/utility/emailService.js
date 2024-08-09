@@ -1,40 +1,42 @@
-const nodemailer = require('nodemailer');
+const mailjet = require('node-mailjet');
 const dotenv = require('dotenv');
 
 dotenv.config();
 
-const transporter = nodemailer.createTransport({
-    host: 'smtp.office365.com', // For Outlook/Office 365
-    port: 587,
-    secure: false, // Use TLS
-    auth: {
-      user: process.env.OUTLOOK_EMAIL, // Your personal email address
-      pass: process.env.OUTLOOK_PASS  // Your personal email password or app password if MFA is enabled
-    },
-    tls: {
-      ciphers: 'SSLv3'
-    },
-    logger: true,
-    debug: true
-  });
-
+const mailjetClient = mailjet.apiConnect(
+  process.env.MAILJET_API_KEY, 
+  process.env.MAILJET_SECRET_KEY
+);
 async function sendEmail(to, subject, text) {
-    try {
-      let info = await transporter.sendMail({
-        from: '"Think Safety" <info@thinksafetyllcs.com>', // Sender address
-        to: to, // Receiver address
-        subject: subject, // Subject line
-        text: text, // Plain text body
-        replyTo: 'info@thinksafetyllcs.com' // Reply-to address
-      });
-  
-      console.log('Message sent: %s', info.messageId);
-      console.log('Email:', process.env.OUTLOOK_EMAIL);
-      console.log('Password:', process.env.OUTLOOK_PASS);
-      
-    } catch (error) {
-      console.error('Error sending email:', error);
-    }
+  try {
+    const request = mailjetClient.post("send", { version: "v3.1" }).request({
+      Messages: [
+        {
+          From: {
+            Email: "info@thinksafetyllcs.com",
+            Name: "Think Safety"
+          },
+          To: [
+            {
+              Email: to,
+              Name: "Recipient"
+            }
+          ],
+          Subject: subject,
+          TextPart: text,
+          ReplyTo: {
+            Email: "info@thinksafetyllcs.com",
+            Name: "Think Safety"
+          }
+        }
+      ]
+    });
+
+    const response = await request;
+    console.log('Email sent:', response.body);
+  } catch (error) {
+    console.error('Error sending email:', error);
   }
+}
 
 module.exports = { sendEmail };

@@ -103,7 +103,7 @@ const ModuleDashboard = () => {
                       </div>
                       <Card.Footer className="card-footer"> {/* Ensure button is at the bottom */}
                         <Button
-                          className='mt-2 module-btn'
+                          className='module-btn'
                           variant={module.isLocked ? 'outline-danger' : 'outline-primary'}
                           onClick={(e) => {
                             e.stopPropagation(); // Prevent card flip when clicking the button
@@ -159,7 +159,7 @@ const ModuleDashboard = () => {
                       </div>
                       <Card.Footer className="card-footer">
                         <Button
-                          className='mt-2 module-btn'
+                          className='module-btn'
                           variant={isFinalTestLocked ? 'outline-danger' : 'outline-primary'}
                           onClick={(e) => {
                             e.stopPropagation(); // Prevent card flip when clicking the button
@@ -212,7 +212,7 @@ const ModuleDashboard = () => {
                         </div>
                         <Card.Footer className="card-footer">
                           <Button
-                            className='mt-2 module-btn'
+                            className='module-btn'
                             variant="outline-warning"
                             onClick={(e) => {
                               e.stopPropagation(); // Prevent card flip when clicking the button

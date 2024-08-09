@@ -1,3 +1,7 @@
+.navbar {
+    flex: 0 0 auto;
+}
+
 .navbarMain {
     border-radius: 25px;
 }

@@ -8,7 +8,7 @@
 
 @media screen and (max-width: 768px) {
     .registrationInput {
-        width: 80%;
+        width: 60%;
         margin: auto;
     }
     .registrationBottomBtn {

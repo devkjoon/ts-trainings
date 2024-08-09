@@ -90,7 +90,7 @@ const ModuleDashboard = () => {
       {incompleteModules.length > 0 ? (
         <Row className="justify-content-center align-items-stretch">
           {incompleteModules.map((module) => (
-            <Col key={module._id} md={4} className="mb-4 d-flex">
+            <Col key={module._id} xs={12} sm={6} md={4} className="mb-4 d-flex">
               <Card className="course-card h-100 w-100" style={{ width: '18rem' }}>
                 <Card.Img className="moduleCardImg" variant="top" src={module.moduleIconUrl || 'default-image-url.jpg'} alt="Module Image" />
                 <Card.Body className="d-flex flex-column justify-content-between">
@@ -120,7 +120,7 @@ const ModuleDashboard = () => {
         <>
           <h2 className="text-center mt-4 mb-4">Final Test</h2>
           <Row className="justify-content-center align-items-stretch">
-            <Col key={finalTestModule._id} md={4} className="mb-4 d-flex">
+            <Col key={finalTestModule._id} xs={12} sm={6} md={4} className="mb-4 d-flex">
               <Card className="course-card h-100 w-100" style={{ width: '18rem' }}>
                 <Card.Img className="moduleCardImg" variant="top" src={finalTestModule.moduleIconUrl || 'default-image-url.jpg'} alt="Final Test Image" />
                 <Card.Body className="d-flex flex-column justify-content-between">
@@ -146,7 +146,7 @@ const ModuleDashboard = () => {
           <h2 className="text-center mt-4 mb-4">Completed Modules</h2>
           <Row className="justify-content-center align-items-stretch">
             {completedModules.map((module) => (
-              <Col key={module._id} md={4} className="mb-4 d-flex">
+              <Col key={module._id} xs={12} sm={6} md={4} className="mb-4 d-flex">
                 <Card className="course-card h-100 w-100" style={{ width: '18rem' }}>
                   <Card.Img className="moduleCardImg" variant="top" src={module.moduleIconUrl || 'default-image-url.jpg'} alt="Module Image" />
                   <Card.Body className="d-flex flex-column justify-content-between">

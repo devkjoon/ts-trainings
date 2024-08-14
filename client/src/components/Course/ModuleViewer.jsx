@@ -191,7 +191,7 @@ const ModuleViewer = () => {
       </Row>
 
       {module?.quiz && !showQuiz && (
-        <div className="mt-3 text-center">
+        <div className='mt-3 text-center module-btn-container'>
           <Button className="mx-2 module-btn" variant="outline-warning" onClick={handleReturnToDashboard}>
             Module Dashboard
           </Button>
@@ -229,7 +229,7 @@ const ModuleViewer = () => {
             </Col>
           </Row>
 
-          <div className='mt-3 text-center test-btn-container'>
+          <div className='mt-3 text-center module-btn-container'>
             {quizPassed ? (
               <>
               <Button className="mx-2 test-btn" variant="outline-info" onClick={handleReturnToDashboard} >

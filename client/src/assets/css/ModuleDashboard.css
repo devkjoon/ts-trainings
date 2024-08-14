@@ -2,9 +2,8 @@
     perspective: 1000px;
     cursor: pointer;
     width: 100%; /* Ensure full width of the column */
-    height: 300px; /* Set a consistent height for cards */
     margin-bottom: 20px; /* Space between cards */
-    min-height: 300px; /* Minimum height for consistency */
+    min-height: 330px; /* Minimum height for consistency */
     display: flex; /* New: Use flex layout */
     flex-direction: column; /* New: Align items in a column */
 }

@@ -11,6 +11,12 @@ body {
   background-color: #ffffe3;
 }
 
+.container {
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .no-underline {
   text-decoration: none;
 }

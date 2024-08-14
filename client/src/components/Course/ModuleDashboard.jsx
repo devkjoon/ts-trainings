@@ -92,7 +92,7 @@ const ModuleDashboard = () => {
       {incompleteModules.length > 0 ? (
         <Row className="justify-content-center align-items-stretch">
           {incompleteModules.map((module) => (
-            <Col key={module._id} xs={12} sm={6} md={4} className="mb-4 d-flex">
+            <Col key={module._id} sm={12} md={6} lg={4} className="mb-4 d-flex">
               <Card className={`course-card h-100 w-100 ${flippedCards[module._id] ? 'flipped' : ''}`} onClick={() => handleModuleClick(module._id)}>
                 <div className="card-inner">
                   <div className="card-front">
@@ -148,7 +148,7 @@ const ModuleDashboard = () => {
         <>
           <h2 className="text-center mt-4 mb-4">Final Test</h2>
           <Row className="justify-content-center align-items-stretch">
-            <Col key={finalTestModule._id} xs={12} sm={6} md={4} className="mb-4 d-flex">
+            <Col key={finalTestModule._id} sm={12} md={6} lg={4} className="mb-4 d-flex">
               <Card className={`course-card h-100 w-100 ${flippedCards[finalTestModule._id] ? 'flipped' : ''}`} onClick={() => handleModuleClick(finalTestModule._id)}>
                 <div className="card-inner">
                   <div className="card-front">
@@ -201,7 +201,7 @@ const ModuleDashboard = () => {
           <h2 className="text-center mt-4 mb-4">Completed Modules</h2>
           <Row className="justify-content-center align-items-stretch">
             {completedModules.map((module) => (
-              <Col key={module._id} xs={12} sm={6} md={4} className="mb-4 d-flex">
+              <Col key={module._id} sm={12} md={6} lg={4} className="mb-4 d-flex">
                 <Card className={`course-card h-100 w-100 ${flippedCards[module._id] ? 'flipped' : ''}`} onClick={() => handleModuleClick(module._id)}>
                   <div className="card-inner">
                     <div className="card-front">

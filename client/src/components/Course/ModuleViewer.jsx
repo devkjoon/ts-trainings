@@ -113,12 +113,14 @@ const ModuleViewer = () => {
 
   const renderResource = () => {
     if (module?.resource?.type === 'video') {
-      // Check if the URL is from YouTube or another supported video platform
-      const isYouTube = module.resource.url.includes('youtube.com') || module.resource.url.includes('youtu.be');
+      const url = module.resource.url;
+  
+      // Check if the URL is from YouTube
+      const isYouTube = url.includes('youtube.com') || url.includes('youtu.be');
       
       if (isYouTube) {
         // Extract the video ID for embedding
-        const videoId = module.resource.url.split('v=')[1] || module.resource.url.split('/').pop();
+        const videoId = url.split('v=')[1] || url.split('/').pop();
         return (
           <iframe
             width="600"
@@ -131,11 +133,26 @@ const ModuleViewer = () => {
           ></iframe>
         );
       }
+      
+      // Check if the URL is from OneDrive (or any other direct video link)
+      const isOneDrive = url.includes('onedrive.live.com') || url.includes('1drv.ms');
+      if (isOneDrive) {
+        return (
+          <iframe
+            width="600"
+            height="400"
+            src={url}
+            frameBorder="0"
+            allowFullScreen
+            title={module.title}
+          ></iframe>
+        );
+      }
   
-      // If it's a direct MP4 link, use the <video> tag
+      // If it's a direct MP4 link or any other video type, use the <video> tag
       return (
         <video ref={videoRef} width="600" controls>
-          <source src={module.resource.url} type="video/mp4" />
+          <source src={url} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       );
@@ -144,6 +161,7 @@ const ModuleViewer = () => {
     }
     return null;
   };
+  
   
 
   const handleOpenModal = () => setShowModal(true);

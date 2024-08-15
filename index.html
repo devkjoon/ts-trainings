@@ -3,9 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <script>
-      var host = "www.ts-trainings.com" || "ts-trainings.com";
-      if ((host == window.location.host) && (window.location.protocol != "https:")){
-        window.location.protocol = "https";
+      const domain1 = "www.ts-trainings.com";
+      const domain2 = "ts-trainings.com"
+      if ((domain === host || domain2 === host) && (window.location.protocol !== "https:")){
+        window.location.href = "https://ts-trainings.com";
       }
     </script>
     <link

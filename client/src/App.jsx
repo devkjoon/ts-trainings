@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Tools/Navbar";
 import ProgressBar from "./components/Tools/ProgressBar";
 
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/Tools/ProtectedRoute";
 
 import Home from "./pages/Home";
 import Admin from "./pages/Admin"

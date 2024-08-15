@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Nav, Navbar, Button, Offcanvas, Row, Col } from 'react-bootstrap';
+import { Nav, Navbar, Button, Offcanvas } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import '../assets/css/Navbar.css';
+import '../../assets/css/Navbar.css';
 
 const TopNavbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -67,7 +67,7 @@ const TopNavbar = () => {
     const isDashboardRoute = location.pathname === dashboardRoutes[userType];
 
     return (
-        <Navbar expand="lg" className='navbar navbar-expand-lg navbar-light bg-transparent border border-info navbarMain'>
+        <Navbar expand="lg" className='navbar navbar-expand-md navbar-light bg-transparent border border-info navbarMain'>
             <Navbar.Brand className='text-warning navbar-title'>
                 Think Safety Trainings
             </Navbar.Brand>
@@ -77,32 +77,27 @@ const TopNavbar = () => {
                     <Navbar.Offcanvas
                         id="offcanvasNavbar"
                         aria-labelledby="offcanvasNavbarLabel"
-                        placement="end">
+                        placement="end"
+                        className="offcanvas-customization">
                         <Offcanvas.Header closeButton>
                             <Offcanvas.Title id="offcanvasNavbarLabel">
                                 Think Safety Trainings
                             </Offcanvas.Title>
                         </Offcanvas.Header>
                         <Offcanvas.Body>
-                            <Nav className="justify-content-end flex-grow-1 pe-3">
-                                <Row className="w-100">
-                                    {!isDashboardRoute && (
-                                        <Col xs={12} className="mb-2">
-                                            <Nav.Link className='navbar-anchor p-0'>
-                                                <Button variant="outline-warning" className="w-100" onClick={handleDashboard}>
-                                                    Dashboard
-                                                </Button>
-                                            </Nav.Link>
-                                        </Col>
-                                    )}
-                                    <Col xs={12}>
-                                        <Nav.Link className='navbar-anchor p-0'>
-                                            <Button variant='outline-warning' className="w-100" onClick={handleLogout}>
-                                                Log Out
-                                            </Button>
-                                        </Nav.Link>
-                                    </Col>
-                                </Row>
+                            <Nav className="justify-content-end flex-grow-1">
+                                {!isDashboardRoute && (
+                                    <Nav.Link className='navbar-anchor'>
+                                        <Button variant="outline-warning" onClick={handleDashboard}>
+                                            Dashboard
+                                        </Button>
+                                    </Nav.Link>
+                                )}
+                                <Nav.Link className='navbar-anchor'>
+                                    <Button variant='outline-warning' onClick={handleLogout}>
+                                        Log Out
+                                    </Button>
+                                </Nav.Link>
                             </Nav>
                         </Offcanvas.Body>
                     </Navbar.Offcanvas>
@@ -112,4 +107,4 @@ const TopNavbar = () => {
     );
 };
 
-export default TopNavbar;
+export default TopNavbar

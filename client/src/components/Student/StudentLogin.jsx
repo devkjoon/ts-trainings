@@ -4,7 +4,7 @@ import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap'
 
 import API_URL from '../../config';
 
-import '../../assets/css/AdminLogin.css';
+import '../../assets/css/Login.css';
 
 export default function StudentLogin() {
     const [email, setEmail] = useState('');
@@ -60,7 +60,7 @@ export default function StudentLogin() {
     return (
         <Form noValidate validated={validated} onSubmit={handleLogin} className="formContainer">
             <Row className="mb-2">
-                <Form.Group as={Col} md="6">
+                <Form.Group as={Col} md="6" sm="8" className='mt-3'>
                     <Form.Label>Email</Form.Label>
                     <InputGroup hasValidation className='loginInput'>
                         <Form.Control
@@ -76,7 +76,7 @@ export default function StudentLogin() {
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
-                <Form.Group as={Col} md="6" controlId="validationCustom01">
+                <Form.Group as={Col} md="6" sm="4" controlId="validationCustom01" className='mt-3'>
                     <Form.Label>Login Code</Form.Label>
                         <InputGroup className='loginInput'>
                         <Form.Control
@@ -97,17 +97,17 @@ export default function StudentLogin() {
                     {alert.message}
                 </Alert>
             )}
-            <div className='loginButtonContainer'>
+            <div className='login-btn-container'>
                 <Row>
                     <Col className="text-center">
                         <Link to='/' className='no-underline'>
-                            <Button className="mainButton mt-3" variant="outline-info" size="lg">
+                            <Button className="login-btn mt-3" variant="outline-info" size="lg">
                                 Return Home
                             </Button>
                         </Link>
                     </Col>
                     <Col className="text-center">
-                        <Button className="mainButton mt-3" type="submit" variant="outline-warning" size="lg" disabled={loading}>
+                        <Button className="login-btn mt-3" type="submit" variant="outline-warning" size="lg" disabled={loading}>
                             {loading ? 'Logging in...' : 'Login'}
                         </Button>
                     </Col>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Nav, Navbar, Button, Offcanvas } from 'react-bootstrap';
+import { Nav, Navbar, Button, Offcanvas, Row, Col } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import '../assets/css/Navbar.css';
@@ -85,18 +85,24 @@ const TopNavbar = () => {
                         </Offcanvas.Header>
                         <Offcanvas.Body>
                             <Nav className="justify-content-end flex-grow-1 pe-3">
-                                {!isDashboardRoute && (
-                                    <Nav.Link className='navbar-anchor'>
-                                        <Button variant="outline-warning" onClick={handleDashboard}>
-                                            Dashboard
-                                        </Button>
-                                    </Nav.Link>
-                                )}
-                                <Nav.Link className='navbar-anchor'>
-                                    <Button variant='outline-warning' onClick={handleLogout}>
-                                        Log Out
-                                    </Button>
-                                </Nav.Link>
+                                <Row className="w-100">
+                                    {!isDashboardRoute && (
+                                        <Col xs={12} className="mb-2">
+                                            <Nav.Link className='navbar-anchor p-0'>
+                                                <Button variant="outline-warning" className="w-100" onClick={handleDashboard}>
+                                                    Dashboard
+                                                </Button>
+                                            </Nav.Link>
+                                        </Col>
+                                    )}
+                                    <Col xs={12}>
+                                        <Nav.Link className='navbar-anchor p-0'>
+                                            <Button variant='outline-warning' className="w-100" onClick={handleLogout}>
+                                                Log Out
+                                            </Button>
+                                        </Nav.Link>
+                                    </Col>
+                                </Row>
                             </Nav>
                         </Offcanvas.Body>
                     </Navbar.Offcanvas>

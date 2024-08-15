@@ -1,22 +1,50 @@
+.admin-registration-text {
+    margin-top: 5%;
+}
+
 .registrationContainer {
-    margin-top: 15%;
+    margin-top: 5%;
 }
 
 .registrationBottomBtn {
     margin-top: 10%;
 }
 
-@media screen and (max-width: 768px) {
-    .registrationInput {
-        width: 60%;
-        margin: auto;
-    }
+@media screen and (max-width: 1200px) {
     .registrationBottomBtn {
         margin-top: 10%;
     }
-  }
+}
+
+@media screen and (max-width: 992px) {
+    .registrationInput {
+        width: 100%;
+        margin: auto;
+    }
+
+    .registrationBottomBtn {
+        margin-top: 10%;
+        width: 255px;
+        height: 50px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .registrationInput {
+        margin: auto;
+    }
+
+    .registrationBottomBtn {
+        margin-top: 10px;
+    }
+}
 
 @media screen and (max-width: 535px) {
+    .registrationInput {
+        width: 100%;
+        margin: auto;
+    }
+
     .registrationBottomBtn {
         margin-top: 5%;
     }

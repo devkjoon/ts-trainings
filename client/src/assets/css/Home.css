@@ -2,15 +2,36 @@
   margin-top: 30%;
 }
 
+.mainButton {
+  width: 50%; /* Ensure the button takes up 50% of its container */
+  min-width: 225px; /* Ensure a minimum consistent width */
+  min-height: 50px; /* Ensure a minimum consistent height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
 @media screen and (max-width: 992px) {
   .buttonContainer {
     margin-top: 40%;
+  }
+
+  .mainButton {
+    height: 78px;
   }
 }
 
 @media screen and (max-width: 768px) {
   .buttonContainer {
     margin-top: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .mainButton {
+    width: 100%; /* Ensure the button takes up full width when stacked */
   }
 }
 
@@ -26,7 +47,5 @@
   }
 }
 
-.mainButton {
-  min-width: 50%;
-  margin: auto;
-}
+
+

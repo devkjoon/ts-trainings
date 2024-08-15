@@ -11,12 +11,12 @@ export default function Home() {
         <Row>
           <Col className='text-center'>
             <Link to="/admin" className='no-underline'>
-              <Button className="mainButton mt-3" variant="outline-info" size="lg">I am an Administrator</Button>
+              <Button className="mainButton mt-2" variant="outline-info" size="lg">Administrator Portal</Button>
             </Link>
           </Col>
           <Col className='text-center'>
             <Link to="/student/login" className='no-underline'>
-              <Button className="mainButton mt-3" variant="outline-warning" size="lg">I am a Student</Button>
+              <Button className="mainButton mt-2" variant="outline-warning" size="lg">Student Login</Button>
             </Link>
           </Col>
         </Row>

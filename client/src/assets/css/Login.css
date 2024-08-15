@@ -8,6 +8,15 @@
   border-radius: 25px;
 }
 
+.login-btn-container {
+  margin-top: 5%;
+}
+
+.login-btn {
+  min-width: 250px;
+  min-height: 50px;
+}
+
 @media screen and (max-width: 992px) {
     .formContainer {
       margin-top: 30%;

@@ -4,6 +4,8 @@ import { useNavigate, Link } from 'react-router-dom';
 
 import API_URL from '../config';
 
+import '../assets/css/StudentDashboard.css'
+
 export default function StudentDashboard() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -70,9 +72,9 @@ export default function StudentDashboard() {
       {courses.length > 0 ? (
         <Row className="justify-content-center"> {/* Always centering but won't affect width */}
           {courses.map((course) => (
-            <Col key={course._id} md={4} className="mb-4 d-flex justify-content-center">
+            <Col key={course._id} lg={4} md={6} className="mb-4 d-flex justify-content-center card-container">
               <Link to={`/student/courses/${course._id}/modules`} className='no-underline'>
-                <Card className="course-card" style={{ width: '18rem' }}> {/* Fixed width */}
+                <Card className="course-card">
                   <Card.Img variant="top" src={course.imageUrl || "path/to/default/image.jpg"} className="cardImage" />
                   <Card.Body className="course-content">
                     <Card.Title>{course.title}</Card.Title>

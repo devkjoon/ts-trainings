@@ -1,4 +1,4 @@
-.course-card {
+.module-card {
     perspective: 1000px;
     cursor: pointer;
     width: 100%; /* Ensure full width of the column */
@@ -18,7 +18,7 @@
     flex-direction: column; /* New: Align items in a column */
 }
 
-.course-card.flipped .card-inner {
+.module-card.flipped .card-inner {
     transform: rotateY(180deg);
 }
 

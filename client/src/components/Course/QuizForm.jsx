@@ -24,7 +24,9 @@ const QuizForm = ({ quiz, moduleId, scrollToContent, quizRef, onSubmitResult }) 
       });
 
       const result = await response.json();
+
       onSubmitResult(result.message);
+      
     } catch (error) {
       console.error('Error submitting quiz:', error);
       onSubmitResult('An error occurred while submitting the quiz. Please try again.');

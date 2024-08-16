@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Button, Spinner, Alert } from 'react-bootstrap';
 
 import ResourceViewer from '../../components/Course/ResourceViewer';
-import QuizForm from '../../components/Course/QuizForm'
+import QuizForm from '../../components/Course/QuizForm';
 import ModalViewer from '../../components/Course/ModalViewer';
 import API_URL from '../../config';
 
@@ -16,6 +16,8 @@ const ModuleViewer = () => {
   const [loading, setLoading] = useState(true);
   const [quizResult, setQuizResult] = useState(null);
   const [showQuiz, setShowQuiz] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
+  const [showRedirectMessage, setShowRedirectMessage] = useState(false);  // New state
   const navigate = useNavigate();
 
   const alertRef = useRef(null);
@@ -44,6 +46,21 @@ const ModuleViewer = () => {
   }, [courseId, moduleId]);
 
   useEffect(() => {
+    if (quizResult && quizResult === 'Quiz passed!') {
+      // Show the "Quiz passed!" message for 2 seconds
+      setTimeout(() => {
+        setShowRedirectMessage(true);  // After 2 seconds, show redirecting message
+      }, 3000);
+
+      // Redirect after 3 more seconds (total 5 seconds from quiz passed)
+      setTimeout(() => {
+        setRedirecting(true);
+        navigate(`/student/courses/${courseId}/modules`);
+      }, 5000);
+    }
+  }, [quizResult, courseId, navigate]);
+
+  useEffect(() => {
     if (quizResult && alertRef.current) {
       alertRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -58,24 +75,13 @@ const ModuleViewer = () => {
         quizRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }, 100);
-  }
+  };
 
   const scrollToContent = () => {
     if (contentRef.current) {
       contentRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
-
-  if (loading) {
-    return (
-      <Container className="text-center mt-5">
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Loading module...</span>
-        </Spinner>
-        <p>Loading module...</p>
-      </Container>
-    );
-  }
 
   return (
     <Container>
@@ -129,6 +135,15 @@ const ModuleViewer = () => {
         <Alert ref={alertRef} variant={quizResult === 'Quiz passed!' ? 'success' : 'danger'} className="mt-3">
           {quizResult}
         </Alert>
+      )}
+
+      {showRedirectMessage && (
+        <div className="text-center mt-5">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+          <p>Redirecting to module dashboard...</p>
+        </div>
       )}
     </Container>
   );

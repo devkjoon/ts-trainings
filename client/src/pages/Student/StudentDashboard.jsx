@@ -73,15 +73,19 @@ export default function StudentDashboard() {
         <Row className="justify-content-center"> {/* Always centering but won't affect width */}
           {courses.map((course) => (
             <Col key={course._id} lg={4} md={6} className="mb-4 d-flex justify-content-center card-container">
-              <Link to={`/student/courses/${course._id}/modules`} className='no-underline'>
-                <Card className="course-card">
-                  <Card.Img variant="top" src={course.imageUrl || "path/to/default/image.jpg"} className="cardImage" />
+            <Link to={`/student/courses/${course._id}/modules`} className='no-underline'>
+              <Card className="course-card">
+                <div className="course-image-container">
+                  <Card.Img src={course.imageUrl || "path/to/default/image.jpg"} className="cardImage" />
+                </div>
+                <div className="course-content-container">
                   <Card.Body className="course-content">
-                    <Card.Title>{course.title}</Card.Title>
+                    <Card.Title className='course-card-title'>{course.title}</Card.Title>
                   </Card.Body>
-                </Card>
-              </Link>
-            </Col>
+                </div>
+              </Card>
+            </Link>
+          </Col>
           ))}
         </Row>
       ) : (

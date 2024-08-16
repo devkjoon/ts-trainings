@@ -127,8 +127,8 @@ const newStudent = async (req, res, next) => {
 
   // Send email asynchronously after responding
   try {
-    const subject = 'Think Safety Training - Student Account';
-    const text = `Hello ${firstname},\n\nYour student account has been created.\nYour login code is ${createdStudent.loginCode}.\nYou may use your login code to start training.\n\nThank you!`;
+    const subject = 'Student Account Login Code';
+    const text = `Hello ${firstname},\n\nYour student account has been created.\nYour login code is ${createdStudent.loginCode}.\nYou may use your login credentials at https://ts-trainings.com\n\nThank you!`;
     await sendEmail(email, subject, text);
     console.log('Email sent to the student:', email);
   } catch (err) {

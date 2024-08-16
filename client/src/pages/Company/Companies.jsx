@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { Container, Button, Row, Col, Table, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+import API_URL from '../../config';
 import AdminTokenVerification from '../../hooks/AdminTokenVerification';
-import NewCompanyModal from '../Tools/NewCompanyModal'; // Import the new modal component
+import NewCompanyModal from '../../components/Modals/AddNewCompany'; // Import the new modal component
 
 import '../../assets/css/StudentList.css'
 

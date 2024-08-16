@@ -5,7 +5,7 @@ import API_URL from '../../config';
 
 import '../../assets/css/Modals.css'
 
-const AssignCourseModal = ({ show, handleClose, studentId, showAlert }) => {
+const AssignCourse = ({ show, handleClose, studentId, showAlert }) => {
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState('');
   const [studentCourses, setStudentCourses] = useState([]);
@@ -124,4 +124,4 @@ const AssignCourseModal = ({ show, handleClose, studentId, showAlert }) => {
   );
 };
 
-export default AssignCourseModal;
+export default AssignCourse;

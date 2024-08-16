@@ -2,7 +2,7 @@
 import React from 'react';
 import { Modal, Button, Row, Col, InputGroup, Form } from 'react-bootstrap';
 
-const NewCompanyModal = ({
+const AddNewCompany = ({
   show,
   handleClose,
   handleSubmit,
@@ -164,4 +164,4 @@ const NewCompanyModal = ({
   );
 };
 
-export default NewCompanyModal;
+export default AddNewCompany;

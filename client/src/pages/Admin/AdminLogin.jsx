@@ -5,7 +5,7 @@ import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
 import API_URL from '../../config';
 
 import '../../assets/css/Login.css';
-import '../../pages/AdminDashboard';
+import './AdminDashboard';
 
 export default function AdminLogin() {
     const [username, setUsername] = useState('');

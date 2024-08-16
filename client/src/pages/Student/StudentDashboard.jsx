@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Container, Card, Row, Col,  Alert, Spinner } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
 
-import API_URL from '../config';
+import API_URL from '../../config';
 
-import '../assets/css/StudentDashboard.css'
+import '../../assets/css/StudentDashboard.css'
 
 export default function StudentDashboard() {
   const [courses, setCourses] = useState([]);

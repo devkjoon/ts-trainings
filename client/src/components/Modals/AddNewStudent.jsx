@@ -3,7 +3,7 @@ import { Modal, Button, Row, Col, InputGroup, Form, Spinner } from 'react-bootst
 
 import '../../assets/css/Modals.css'
 
-const NewStudentModal = ({
+const AddNewStudent = ({
   show,
   handleClose,
   handleSubmit,
@@ -96,4 +96,4 @@ const NewStudentModal = ({
   );
 };
 
-export default NewStudentModal;
+export default AddNewStudent;

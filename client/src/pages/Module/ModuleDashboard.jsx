@@ -3,8 +3,8 @@ import { Container, Alert, Spinner } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import API_URL from '../../config';
-import ProgressBar from '../Tools/ProgressBar';
-import ModuleList from './ModuleList'; // Import the ModuleList component
+import ProgressBar from '../../components/Course/ProgressBar';
+import ModuleList from '../../components/Course/ModuleList';
 
 import '../../assets/css/ModuleDashboard.css';
 
@@ -39,17 +39,20 @@ const ModuleDashboard = () => {
   }, [courseId, studentId]);
 
   const handleModuleClick = (moduleId) => {
-  setFlippedCards((prevState) => ({
-    ...prevState,
-    [moduleId]: !prevState[moduleId], // Toggle the flipped state
-  }));
-};
+    setFlippedCards((prevState) => ({
+      ...prevState,
+      [moduleId]: !prevState[moduleId], // Toggle the flipped state
+    }));
+  };
+
+  const handleButtonClick = (moduleId) => {
+    navigate(`/student/courses/${courseId}/modules/${moduleId}`);
+  };
 
   const incompleteModules = modules.filter(module => !module.isFinalTest && !module.completed);
   const completedModules = modules.filter(module => module.completed);
   const finalTestModule = modules.find(module => module.isFinalTest);
 
-  const isFinalTestLocked = incompleteModules.length > 0;
   const progress = modules.length > 0 ? Math.round((completedModules.length / modules.length) * 100) : 0;
 
   if (loading) {
@@ -90,8 +93,7 @@ const ModuleDashboard = () => {
           modules={incompleteModules}
           flippedCards={flippedCards}
           handleModuleClick={handleModuleClick}
-          navigate={navigate}
-          courseId={courseId}
+          handleButtonClick={handleButtonClick}
         />
       ) : (
         <Alert variant="info" className="text-center">
@@ -106,8 +108,7 @@ const ModuleDashboard = () => {
             modules={[finalTestModule]}
             flippedCards={flippedCards}
             handleModuleClick={handleModuleClick}
-            navigate={navigate}
-            courseId={courseId}
+            handleButtonClick={handleButtonClick}
           />
         </>
       )}
@@ -119,8 +120,7 @@ const ModuleDashboard = () => {
             modules={completedModules}
             flippedCards={flippedCards}
             handleModuleClick={handleModuleClick}
-            navigate={navigate}
-            courseId={courseId}
+            handleButtonClick={handleButtonClick}
           />
         </>
       )}

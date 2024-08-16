@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import API_URL from '../../config';
 
-const QuizForm = ({ quiz, moduleId, onSubmitResult }) => {
+const QuizForm = ({ quiz, moduleId, scrollToContent, quizRef, onSubmitResult }) => {
   const [answers, setAnswers] = useState(new Array(quiz.questions.length).fill(null));
 
   const handleAnswerChange = (idx, value) => {
@@ -32,7 +32,7 @@ const QuizForm = ({ quiz, moduleId, onSubmitResult }) => {
   };
 
   return (
-    <Form onSubmit={handleQuizSubmit} className="mt-3 test-form">
+    <Form ref={quizRef} onSubmit={handleQuizSubmit} className="mt-3 test-form">
       <Row>
         <Col md={12} className="px-3">
           {quiz.questions.map((q, idx) => (
@@ -59,6 +59,9 @@ const QuizForm = ({ quiz, moduleId, onSubmitResult }) => {
         </Col>
       </Row>
       <div className='mt-3 text-center module-btn-container'>
+        <Button className="mx-2 test-btn" variant="outline-warning" onClick={scrollToContent} >
+          Review Content
+        </Button>
         <Button className="mx-2 test-btn" variant="outline-info" type="submit">
           Submit Test
         </Button>

@@ -19,6 +19,8 @@ const ModuleViewer = () => {
   const navigate = useNavigate();
 
   const alertRef = useRef(null);
+  const quizRef = useRef(null);
+  const contentRef = useRef(null);
 
   useEffect(() => {
     const fetchModuleData = async () => {
@@ -49,7 +51,20 @@ const ModuleViewer = () => {
 
   const handleReturnToDashboard = () => navigate(`/student/courses/${courseId}/modules`);
 
-  const toggleQuizVisibility = () => setShowQuiz((prevShowQuiz) => !prevShowQuiz);
+  const toggleQuizVisibility = () => {
+    setShowQuiz((prevShowQuiz) => !prevShowQuiz);
+    setTimeout(() => {
+      if (quizRef.current && !showQuiz) {
+        quizRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
+  }
+
+  const scrollToContent = () => {
+    if (contentRef.current) {
+      contentRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   if (loading) {
     return (
@@ -65,26 +80,29 @@ const ModuleViewer = () => {
   return (
     <Container>
       <h2 className="text-center mt-4 mb-4">{module?.title}</h2>
-      <Row>
-        <Col md={module?.resource?.type ? 5 : 12}>
-          <h4 className='objectives-text'>Objectives</h4>
-          {module?.description && (
-            <ul className="objectives-list">
-              {module.description.map((item, index) => (
-                <li key={index}>{item}</li>
-              ))}
-            </ul>
-          )}
-          {module?.optionalResource?.length > 0 && (
-            <ModalViewer resources={module.optionalResource} />
-          )}
-        </Col>
-        {module?.resource?.type && (
-          <Col md={7} className="d-flex justify-content-center">
-            <ResourceViewer resource={module.resource} title={module.title} />
+
+      <div className="module-content">
+        <Row>
+          <Col lg={module?.resource?.type ? 5 : 12} className='secondary-content-container'>
+            <h4 className='objectives-text'>Objectives</h4>
+            {module?.description && (
+              <ul className="objectives-list">
+                {module.description.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+            )}
+            {module?.optionalResource?.length > 0 && (
+              <ModalViewer resources={module.optionalResource} />
+            )}
           </Col>
-        )}
-      </Row>
+          {module?.resource?.type && (
+            <Col lg={7} className="d-flex justify-content-center mx-auto">
+              <ResourceViewer resource={module.resource} title={module.title} contentRef={contentRef} />
+            </Col>
+          )}
+        </Row>
+      </div>
 
       {module?.quiz && (
         <div className="mt-3 text-center module-btn-container">
@@ -101,6 +119,8 @@ const ModuleViewer = () => {
         <QuizForm
           quiz={module.quiz}
           moduleId={module._id}
+          scrollToContent={scrollToContent}
+          quizRef={quizRef}
           onSubmitResult={setQuizResult}
         />
       )}

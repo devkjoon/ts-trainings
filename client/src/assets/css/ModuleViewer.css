@@ -1,6 +1,14 @@
+.module-content {
+    height: 50%;
+}
+
+.secondary-content-container {
+    padding-bottom: 10px;
+}
+
 .module-btn {
-    min-width: 25%;
-    max-width: 35%;
+    min-width: 170px;
+    min-height: 35px;
 }
 
 .test-form {
@@ -12,7 +20,6 @@
     margin: 0 auto; /* Center the form horizontally */
   }
 
-
 .module-btn-container {
     display: flex;
     max-width: 85%;
@@ -23,7 +30,7 @@
 }
 
 .test-btn {
-    min-width: 50%;
+    min-width: 170px;
 }
 
 .objectives-list {

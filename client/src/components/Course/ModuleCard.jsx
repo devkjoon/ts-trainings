@@ -13,7 +13,7 @@ const ModuleCard = ({ module, flipped, onFlip, onButtonClick, buttonText, button
             </div>
             <Card.Footer className="card-footer">
               <Button
-                className='module-btn'
+                className='module-dashboard-btn'
                 variant={buttonVariant}
                 onClick={(e) => {
                   e.stopPropagation(); // Prevent card flip when clicking the button

@@ -2,14 +2,14 @@ import React from 'react';
 
 import '../../assets/css/ResourceViewer.css'
 
-const ResourceViewer = ({ resource, title }) => {
+const ResourceViewer = ({ resource, title, contentRef }) => {
 
   const renderResource = () => {
     const url = resource.url;
 
     if (resource.type === 'video') {
         return (
-            <div className="responsive-iframe">
+            <div className="responsive-iframe" ref={contentRef}>
             <iframe
               src={url}
               frameBorder="0"
@@ -21,11 +21,14 @@ const ResourceViewer = ({ resource, title }) => {
     }
 
     if (resource.type === 'powerpoint') {
-        return <iframe 
-            src={resource.url} 
+        return <iframe
+            ref={contentRef}
+            className='powerpoint-iframe' 
+            src={url} 
             width="510" 
             height="407" 
             title={title}
+            
             ></iframe>;
     }
 

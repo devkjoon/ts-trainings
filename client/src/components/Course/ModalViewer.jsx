@@ -13,7 +13,7 @@ const ModalViewer = ({ resources }) => {
 
   return (
     <>
-      <Button variant="outline-info" onClick={handleOpenModal}>
+      <Button variant="outline-info additional-resources-btn" onClick={handleOpenModal}>
         Additional Resources
       </Button>
       <Modal show={showModal} onHide={handleCloseModal} size="lg">

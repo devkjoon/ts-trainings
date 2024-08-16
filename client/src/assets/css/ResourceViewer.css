@@ -15,3 +15,9 @@
     height: 100%;
     border: none;
   }
+
+.powerpoint-iframe {
+  min-width: 402px;
+  min-height: 375px;
+}
+  

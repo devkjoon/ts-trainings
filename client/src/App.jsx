@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Tools/Navbar";
-import ProgressBar from "./components/Course/ProgressBar";
 
 import ProtectedRoute from "./components/Tools/ProtectedRoute";
 
@@ -18,7 +17,6 @@ import CourseList from './pages/Course/CourseList'
 import CourseDetail from './pages/Course/CourseDetail'
 import ModuleDashboard from './pages/Module/ModuleDashboard';
 import ModuleViewer from './pages/Module/ModuleViewer';
-import AdminTokenVerification from "./hooks/AdminTokenVerification";
 
 import './App.css'
 

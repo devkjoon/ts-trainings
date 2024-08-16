@@ -25,3 +25,9 @@
 .test-btn {
     min-width: 50%;
 }
+
+.objectives-list {
+    font-style: italic;
+    padding-left: 20px;
+    text-align: left;
+}

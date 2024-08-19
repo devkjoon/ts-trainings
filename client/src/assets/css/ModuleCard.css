@@ -3,9 +3,8 @@
     cursor: pointer;
     width: 100%;
     margin-bottom: 20px;
-    min-height: 330px;
-    display: flex;
-    flex-direction: column;
+    min-height: 315px;
+    box-sizing: border-box;
 }
 
 .card-inner {
@@ -14,8 +13,6 @@
     height: 100%;
     transition: transform 0.6s;
     transform-style: preserve-3d;
-    display: flex;
-    flex-direction: column;
 }
 
 .module-card.flipped .card-inner {
@@ -32,38 +29,41 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 }
 
 .card-back {
     transform: rotateY(180deg);
 }
 
-.moduleCardImg {
+.card-back-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.img-title-container {
     width: 100%;
-    height: 60%;
-    object-fit: contain;
-    object-position: center;
-    padding: 1rem;
+}
+
+.module-card-img {
+    width: 150px;
+    height: 150px;
+    margin: 10px auto;
 }
 
 .card-body-flex {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 10px;
     flex-grow: 1;
-}
-
-.card-text {
-    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
 }
 
 .card-footer {
-    margin-top: auto;
-    width: 100%;
     display: flex;
     justify-content: center;
-    padding: 10px;
+    width: 100%;
 }
 
 .module-dashboard-btn {
@@ -72,41 +72,59 @@
     font-weight: bold;
 }
 
-/* Responsive styling when viewport width is 480px or less */
-@media (max-width: 480px) {
+.scrollable-description {
+    overflow-y: auto;
+    height: 100%;
+    margin: 5px;
+}
+
+/* Responsive styling when viewport width is 640px or less */
+@media (max-width: 640px) {
     .module-card {
         flex-direction: row;
-        align-items: center;
-        text-align: left;
-        min-height: auto;
+        min-height: 175px;
+        align-items: stretch;
     }
 
-    .moduleCardImg {
-        width: 35%;
+    .card-front {
+        display: flex;
+        justify-content: center;
+        flex-grow: 1;
+    }
+
+    .img-title-container {
+        display: flex;
+        align-items: center;
+        padding: 5px;
+        flex-grow: 1;
+    }
+
+    .img-container {
+        width: 25%;
+    }
+
+    .module-card-img {
+        width: 80%; 
         height: auto;
-        object-fit: cover;
-        border-radius: 8px 0 0 8px;
-        padding: 0.5rem;
+        margin: 0 auto;
     }
 
     .card-body-flex {
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;
-        padding: 10px;
-        width: 65%;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        text-align: center;
+        padding: 10px 20px;
     }
 
     .card-footer {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
         width: 100%;
-        padding: 10px 0 0 10px;
-        margin-top: 10px;
-        justify-content: flex-start;
-    }
-
-    .module-dashboard-btn {
-        width: 100%;
-        text-align: center;
-        margin-top: 10px;
+        padding-bottom: 10px;
+        margin-top: auto; /* Pushes the footer to the bottom */
     }
 }

@@ -94,19 +94,19 @@
 
     .img-title-container {
         display: flex;
+        height: 100%;
+        justify-content: center;
         align-items: center;
-        padding: 5px;
-        flex-grow: 1;
     }
 
     .img-container {
-        width: 25%;
+        width: 30%;
+        margin: 5px auto;
     }
 
     .module-card-img {
         width: 80%; 
         height: auto;
-        margin: 0 auto;
     }
 
     .card-body-flex {

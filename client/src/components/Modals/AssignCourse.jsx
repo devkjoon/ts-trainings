@@ -113,10 +113,10 @@ const AssignCourse = ({ show, handleClose, studentId, showAlert }) => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="outline-secondary" onClick={handleClose}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleAssignCourse}>
+        <Button variant="outline-primary" onClick={handleAssignCourse}>
           Assign Course
         </Button>
       </Modal.Footer>

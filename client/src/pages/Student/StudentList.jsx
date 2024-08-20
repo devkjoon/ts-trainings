@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Button, Row, Col, Table, Alert, Spinner } from "react-bootstrap";
+import { Container, Button, Row, Col, Table, Alert, Spinner, Collapse } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 
 import API_URL from '../../config';
@@ -17,7 +17,8 @@ export default function StudentList() {
   const [showNewStudentModal, setShowNewStudentModal] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [alert, setAlert] = useState({ show: false, message: '', variant: '' });
-  const [isLoading, setIsLoading] = useState(false); // Spinner state
+  const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState({});
 
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
@@ -169,6 +170,13 @@ export default function StudentList() {
     }
   };
 
+  const toggleCollapse = (id) => {
+    setOpen((prevOpen) => ({
+      ...prevOpen,
+      [id]: !prevOpen[id],
+    }));
+  };
+
   return (
     <Container>
       <Row>
@@ -188,39 +196,62 @@ export default function StudentList() {
           </Alert>
         )}
         <Table striped bordered hover className="custom-table">
-          <thead>
-            <tr>
-              <th>Last Name</th>
-              <th>First Name</th>
-              <th>Email</th>
-              <th>Company</th>
-              <th>Login Code</th>
-              <th>Assign</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {students.map((student) => (
-              <tr key={student._id}>
-                <td className="table-vertical-center">{student.lastname}</td>
-                <td className="table-vertical-center">{student.firstname}</td>
-                <td className="table-vertical-center">{student.email}</td>
-                <td className="table-vertical-center">{student.company}</td>
-                <td className="table-vertical-center">{student.loginCode}</td>
-                <td className="table-vertical-center">
-                  <Button variant="outline-info" onClick={() => handleShowAssignModal(student._id)}>
-                    Assign Course 
-                  </Button>
-                </td>
-                <td className="table-vertical-center">
-                  <Button variant="outline-warning" onClick={() => handleDeleteStudent(student._id)}>
-                    Delete
-                  </Button>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Login Code</th>
+          </tr>
+        </thead>
+        <tbody>
+          {students.map((student) => (
+            <React.Fragment key={student._id}>
+              <tr onClick={() => toggleCollapse(student._id)}>
+                <td>{`${student.firstname} ${student.lastname}`}</td>
+                <td>{student.loginCode}</td>
+              </tr>
+              <tr>
+                <td colSpan="2" style={{ padding: 0 }}>
+                  <Collapse in={open[student._id]}>
+                    <div className="p-2">
+                      <Table bordered>
+                        <tbody>
+                          <tr>
+                            <td><strong>First Name:</strong></td>
+                            <td>{student.firstname}</td>
+                          </tr>
+                          <tr>
+                            <td><strong>Last Name:</strong></td>
+                            <td>{student.lastname}</td>
+                          </tr>
+                          <tr>
+                            <td><strong>Email:</strong></td>
+                            <td>{student.email}</td>
+                          </tr>
+                          <tr>
+                            <td><strong>Company:</strong></td>
+                            <td>{student.company}</td>
+                          </tr>
+                          <tr>
+                            <td><strong>Actions:</strong></td>
+                            <td>
+                              <Button className="student-list-btn" variant="outline-info" onClick={() => handleShowAssignModal(student._id)}>
+                                Assign Course
+                              </Button>
+                              <Button className="student-list-btn" variant="outline-warning" onClick={() => handleDeleteStudent(student._id)}>
+                                Delete
+                              </Button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    </div>
+                  </Collapse>
                 </td>
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            </React.Fragment>
+          ))}
+        </tbody>
+      </Table>
         <Link to='/admin/dashboard' className='no-underline'>
           <Button className="button-25 mt-3" variant="outline-info" size="lg">Back</Button>
         </Link>

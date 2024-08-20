@@ -150,7 +150,7 @@ const getProtectedResource = async (req, res, next) => {
       console.error(`Admin not found for ID: ${req.userData.userId}`);
       throw new HttpError('Admin not found', 404);
     }
-    console.log('Admin data retrieved successfully');
+    // console.log('Admin data retrieved successfully');
     res.json({ admin: admin.toObject({ getters: true }) });
   } catch (err) {
     console.error('Error in getProtectedResource:', err.message, err.stack);  // Log the error stack trace

@@ -1,31 +1,109 @@
-.table-container {
-    margin: 0 1% auto;
+/* Ensure the table is centered */
+.custom-table {
+    width: 600px;
+    border-collapse: collapse;
+    table-layout: auto; 
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+/* Ensure that the back button is centered */
+.button-25-container {
+    text-align: center; /* Center-align the content inside the container */
+    margin: 20px 0; /* Add some vertical margin to create space around the button */
+}
+
+/* Other existing styles */
+.actions-cell {
+    text-align: left;
+    padding: 10px 0;
+    white-space: nowrap;
+}
+
+.actions-cell .btn {
+    margin: 0 10px; /* Add spacing between buttons */
+    padding: 5px 15px;
+    display: inline-block;
+    vertical-align: middle;
+    border: none;
 }
 
 .custom-table tbody td,
 .custom-table thead th {
-    border-color: #17a2b8; /*  Border color matching outline-info button */
-    padding: 8px 15px; /* Uniform padding for better alignment */
-}
-
-.table-vertical-center {
+    border-color: #17a2b8;
+    padding: 8px 15px;
+    white-space: nowrap;
     vertical-align: middle;
 }
 
-.button-25 {
-    min-width: 15%;
+.label-prefix {
+    display: none;
 }
 
-.custom-table thead th {
-    background-color: #f8f9fa; /* Light background for header */
-    text-align: center;
-    padding: 10px 15px; /* Reduce padding for a more compact look */
-    font-weight: bold;
-}
+@media (max-width: 600px) {
+    .label-prefix {
+      display: inline;
+      font-weight: bold;
+      text-align: left;
+    }
 
-.custom-table tbody tr {
-    background-color: #fff; /* White background for table rows */
-    transition: background-color 0.3s ease; /* Smooth transition on hover */
-}
+    .data-text {
+        float: right;
+    }
 
-.student-list-btn {}
+    .custom-table {
+      display: block;
+      width: 100%; /* Ensure the table uses the full width */
+    }
+  
+    .custom-table thead,
+    .custom-table tbody,
+    .custom-table th,
+    .custom-table td,
+    .custom-table tr {
+      display: block;
+      width: 100%;
+    }
+  
+    .custom-table thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+  
+    .custom-table tr {
+      margin: 0 0 1rem 0;
+      border: 1px solid #17a2b8;
+    }
+  
+    .custom-table td {
+      border: none;
+      border-bottom: 1px solid #17a2b8;
+      position: relative;
+      padding-left: 50%;
+      text-align: left;
+      white-space: normal;
+    }
+  
+    .custom-table td:before {
+      position: absolute;
+      top: 0;
+      left: 6px;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap;
+      text-align: left;
+      font-weight: bold;
+    }
+  
+    .actions-cell {
+      text-align: left;
+      padding-left: 50%;
+    }
+  
+    .actions-cell .btn {
+      display: block;
+      margin: 5px 0;
+    }
+  }
+  

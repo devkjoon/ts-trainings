@@ -73,12 +73,7 @@ export default function StudentList() {
 
   const handleDeleteStudent = async (id) => {
     const token = localStorage.getItem('token');
-
-    const isConfirmed = window.confirm('Are you sure you want to delete this student? This action cannot be undone.');
-
-    if (!isConfirmed) {
-      return;
-    }
+    if (!window.confirm('Are you sure you want to delete this student? This action cannot be undone.')) return;
 
     try {
       const response = await fetch(`${API_URL}/student/${id}`, {
@@ -88,16 +83,9 @@ export default function StudentList() {
           "Authorization": `Bearer ${token}`
         },
       });
-
-      if (!response.ok) {
-        console.log(response.message)
-        throw new Error("Failed to delete student");
-      }
-
-      setStudents((prevStudents) =>
-        prevStudents.filter((student) => student._id !== id)
-      );
-      setAlert({ show: true, message: 'Deleted student', variant: 'success' });
+      if (!response.ok) throw new Error("Failed to delete student");
+      setStudents((prevStudents) => prevStudents.filter((student) => student._id !== id));
+      showAlert('Deleted student', 'success');
     } catch (error) {
       console.error("Error deleting student:", error);
       showAlert('Failed to delete student. Please try again later.', 'danger');
@@ -150,23 +138,18 @@ export default function StudentList() {
       });
   
       const result = await response.json();
-      console.log('Add student result:', result);
-  
       if (result.success) {
-        setStudents((prevStudents) => [...prevStudents, result.student]); // Use the student from the result
-  
-        setAlert({ show: true, message: 'New student added successfully', variant: 'success' });
+        setStudents((prevStudents) => [...prevStudents, result.student]);
+        showAlert('New student added successfully', 'success');
         handleCloseNewStudentModal();
       } else {
-        console.log('Result indicates failure:', result);
-        const errorMessage = result.message || 'Unsuccessful, please try again later';
-        setAlert({ show: true, message: errorMessage, variant: 'danger' });
+        showAlert(result.message || 'Unsuccessful, please try again later', 'danger');
       }
     } catch (error) {
       console.error('Error adding new student:', error);
-      setAlert({ show: true, message: 'Failed to add student. Please try again later.', variant: 'danger' });
+      showAlert('Failed to add student. Please try again later.', 'danger');
     } finally {
-      setIsLoading(false); // Hide spinner
+      setIsLoading(false);
     }
   };
 
@@ -180,10 +163,10 @@ export default function StudentList() {
   return (
     <Container>
       <Row>
-        <Col xs={10}>
-         <h1 className="mt-4 mb-4">Student List</h1>
+        <Col sm={12}>
+         <h1 className="mt-4 mb-2">Student List</h1>
         </Col>
-        <Col className='m-auto p-auto'>
+        <Col sm={12} className='mx-auto p-auto'>
           <Button className='company-button mb-2' variant="outline-info" onClick={handleShowNewStudentModal}>
             New Student
           </Button>
@@ -206,8 +189,14 @@ export default function StudentList() {
           {students.map((student) => (
             <React.Fragment key={student._id}>
               <tr onClick={() => toggleCollapse(student._id)}>
-                <td>{`${student.firstname} ${student.lastname}`}</td>
-                <td>{student.loginCode}</td>
+              <td>
+                <span className="label-prefix">Student: </span>
+                <span className="data-text">{`${student.firstname} ${student.lastname}`}</span>
+              </td>
+              <td>
+                <span className="label-prefix">Login Code: </span>
+                <span className="data-text">{student.loginCode}</span>
+              </td>
               </tr>
               <tr>
                 <td colSpan="2" style={{ padding: 0 }}>
@@ -233,11 +222,11 @@ export default function StudentList() {
                           </tr>
                           <tr>
                             <td><strong>Actions:</strong></td>
-                            <td>
-                              <Button className="student-list-btn" variant="outline-info" onClick={() => handleShowAssignModal(student._id)}>
+                            <td className="actions-cell">
+                              <Button variant="outline-info" onClick={() => handleShowAssignModal(student._id)}>
                                 Assign Course
                               </Button>
-                              <Button className="student-list-btn" variant="outline-warning" onClick={() => handleDeleteStudent(student._id)}>
+                              <Button variant="outline-warning" onClick={() => handleDeleteStudent(student._id)}>
                                 Delete
                               </Button>
                             </td>

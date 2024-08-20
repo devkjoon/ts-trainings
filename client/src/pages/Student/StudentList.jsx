@@ -13,6 +13,7 @@ import '../../assets/css/StudentList.css';
 export default function StudentList() {
   const [students, setStudents] = useState([]);
   const [companies, setCompanies] = useState([]);
+  const [courseProgress, setCourseProgress] = useState({});
   const [showAssignModal, setShowAssignModal] = useState(false);
   const [showNewStudentModal, setShowNewStudentModal] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
@@ -41,16 +42,6 @@ export default function StudentList() {
           throw new Error("Failed to fetch students");
         }
         const data = await response.json();
-
-        const studentsWithCourses = await Promise.all(data.students.map(async (student) => {
-          const courseResponse = await fetch(`${API_URL}/student/${student._id}/courses`);
-          const courseData = await courseResponse.json();
-          return {
-            ...student,
-            courses: courseData.courses // Assuming the API returns a list of courses with progress
-          };
-        }));
-
         setStudents(data.students);
       } catch (error) {
         console.error("Error fetching students:", error);
@@ -163,7 +154,26 @@ export default function StudentList() {
     }
   };
 
-  const toggleCollapse = (id) => {
+  const toggleCollapse = async (id) => {
+    if (!open[id]) {
+      try {
+        const response = await fetch(`${API_URL}/student/${id}/course-progress`, {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem('token')}`
+          },
+        });
+        if (!response.ok) throw new Error("Failed to fetch course progress");
+        const data = await response.json();
+        setCourseProgress((prevProgress) => ({
+          ...prevProgress,
+          [id]: data.courses
+        }));
+      } catch (error) {
+        console.error("Error fetching course progress:", error);
+        showAlert("Failed to load course progress. Please try again later.", "danger");
+      }
+    }
     setOpen((prevOpen) => ({
       ...prevOpen,
       [id]: !prevOpen[id],
@@ -230,20 +240,15 @@ export default function StudentList() {
                             <td><strong>Company:</strong></td>
                             <td>{student.company}</td>
                           </tr>
-                          <tr>
+                          <tr className="courses-assigned-row">
                             <td><strong>Courses Assigned:</strong></td>
                             <td>
-                              {student.courses && student.courses.length > 0 ? (
-                                <ul>
-                                  {student.courses.map(course => (
-                                    <li key={course.courseId}>
-                                      <span>{course.courseName}</span> - <strong>{course.progress}% Complete</strong>
-                                    </li>
-                                  ))}
-                                </ul>
-                              ) : (
-                                <span>No courses assigned</span>
-                              )}
+                              {courseProgress[student._id]?.map(course => (
+                                <div key={course.courseId} className="courses-assigned-content">
+                                  <span className="course-name">{course.courseName}</span>
+                                  <span className="course-progress">{course.progress}% Completed</span>
+                                </div>
+                              )) || "Loading..."}
                             </td>
                           </tr>
                           <tr>

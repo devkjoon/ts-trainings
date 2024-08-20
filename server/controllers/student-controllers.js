@@ -1,5 +1,6 @@
 const Student = require("../models/student");
 const Course = require("../models/course");
+const Module = require('../models/module');
 
 const { validationResult } = require("express-validator");
 const { sendEmail } = require('../utility/emailService');
@@ -213,6 +214,39 @@ const deleteStudent = async (req, res, next) => {
   }
 };
 
+const getStudentCourseProgress = async (req, res, next) => {
+  const studentId = req.params.sid;
+
+  try {
+    const student = await Student.findById(studentId).populate('enrolledCourses');
+    if (!student) {
+      return next(new HttpError('Student not found', 404));
+    }
+
+    const progressData = await Promise.all(student.enrolledCourses.map(async (course) => {
+      // Fetch modules by filtering based on courseId
+      const modules = await Module.find({ _id: { $in: course.modules } });
+
+      const completedModulesCount = modules.filter(module => student.completedModules.includes(module._id)).length;
+      const totalModulesCount = modules.length;
+      const progress = totalModulesCount > 0 ? Math.round((completedModulesCount / totalModulesCount) * 100) : 0;
+
+      return {
+        courseId: course._id,
+        courseName: course.title,
+        progress
+      };
+    }));
+
+    res.json({ courses: progressData });
+  } catch (err) {
+    console.error('Error fetching course progress:', err);
+    const error = new HttpError('Fetching course progress failed, please try again later.', 500);
+    return next(error);
+  }
+};
+
+
 module.exports = {
   login,
   getAllStudents,
@@ -220,5 +254,6 @@ module.exports = {
   getStudentCourses,
   assignCourse,
   deleteStudent,
-  getCompletedModules
+  getCompletedModules,
+  getStudentCourseProgress
 }

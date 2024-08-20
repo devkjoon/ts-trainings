@@ -33,8 +33,6 @@ router.get('/', studentController.getAllStudents);
 router.get('/:sid/courses', studentController.getStudentCourses);
 
 router.get('/:sid/completed-modules', studentController.getCompletedModules);
-
-router.get('/:sid/course-progress', studentController.getStudentCourseProgress);
     
 router.post('/:sid/assign-course', studentController.assignCourse);
 

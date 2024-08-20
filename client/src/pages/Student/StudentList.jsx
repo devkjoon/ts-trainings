@@ -13,7 +13,6 @@ import '../../assets/css/StudentList.css';
 export default function StudentList() {
   const [students, setStudents] = useState([]);
   const [companies, setCompanies] = useState([]);
-  const [courseProgress, setCourseProgress] = useState({});
   const [showAssignModal, setShowAssignModal] = useState(false);
   const [showNewStudentModal, setShowNewStudentModal] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
@@ -154,26 +153,7 @@ export default function StudentList() {
     }
   };
 
-  const toggleCollapse = async (id) => {
-    if (!open[id]) {
-      try {
-        const response = await fetch(`${API_URL}/student/${id}/course-progress`, {
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem('token')}`
-          },
-        });
-        if (!response.ok) throw new Error("Failed to fetch course progress");
-        const data = await response.json();
-        setCourseProgress((prevProgress) => ({
-          ...prevProgress,
-          [id]: data.courses
-        }));
-      } catch (error) {
-        console.error("Error fetching course progress:", error);
-        showAlert("Failed to load course progress. Please try again later.", "danger");
-      }
-    }
+  const toggleCollapse = (id) => {
     setOpen((prevOpen) => ({
       ...prevOpen,
       [id]: !prevOpen[id],
@@ -243,10 +223,10 @@ export default function StudentList() {
                           <tr className="courses-assigned-row">
                             <td><strong>Courses Assigned:</strong></td>
                             <td>
-                              {courseProgress[student._id]?.map(course => (
+                              {student.courseProgress?.map(course => (
                                 <div key={course.courseId} className="courses-assigned-content">
                                   <span className="course-name">{course.courseName}</span>
-                                  <span className="course-progress">{course.progress}% Completed</span>
+                                  <span className="course-progress">{course.progress}% Complete</span>
                                 </div>
                               )) || "Loading..."}
                             </td>

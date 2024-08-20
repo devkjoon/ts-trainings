@@ -16,13 +16,12 @@ const adminAuth = (req, res, next) => {
     if (!decodedToken.isAdmin) {
       throw new Error('Not authorized as admin.');
     }
-    // To check if decoded token matches the admin's token
-    /* req.userData = {
+    req.userData = {
       userId: decodedToken.userId,
       email: decodedToken.email,
       isAdmin: decodedToken.isAdmin,
-    }; */
-    console.log('Middleware userData:', req.userData); // Verify userData
+    };/* 
+    console.log('Middleware userData:', req.userData); // Verify userData */
     next(); // Proceed to the next middleware or route handler
   } catch (err) {
     console.error('Authentication Error:', err.message);

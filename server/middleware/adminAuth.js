@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
-const HttpError = require("../models/http-error");
+const jwt = require('jsonwebtoken');
+const HttpError = require('../models/http-error');
 
 const adminAuth = (req, res, next) => {
   if (req.method === 'OPTIONS') {
@@ -13,18 +13,20 @@ const adminAuth = (req, res, next) => {
     }
 
     const decodedToken = jwt.verify(token, process.env.ADMIN_TOKEN);
-    if (decodedToken.isAdmin) {
-      req.userData = {
-        userId: decodedToken.userId,
-        email: decodedToken.email,
-      };
-      next(); // Proceed to the next middleware or route handler
-    } else {
-      throw new Error('Not authorized as admin');
+    if (!decodedToken.isAdmin) {
+      throw new Error('Not authorized as admin.');
     }
+    // To check if decoded token matches the admin's token
+    /* req.userData = {
+      userId: decodedToken.userId,
+      email: decodedToken.email,
+      isAdmin: decodedToken.isAdmin,
+    }; */
+    console.log('Middleware userData:', req.userData); // Verify userData
+    next(); // Proceed to the next middleware or route handler
   } catch (err) {
     console.error('Authentication Error:', err.message);
-    const error = new HttpError('Authentication failed. Invalid token or not admin', 401);
+    const error = new HttpError(err.message || 'Authentication failed.', 401);
     return next(error);
   }
 };

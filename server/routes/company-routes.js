@@ -9,4 +9,6 @@ router.get('/', adminAuth, companyController.getAllCompanies);
 
 router.post('/new-company', adminAuth, companyController.newCompany);
 
+router.delete('/:cid', adminAuth, companyController.deleteCompany);
+
 module.exports = router;

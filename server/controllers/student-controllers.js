@@ -212,11 +212,13 @@ const deleteStudent = async (req, res, next) => {
     return next(error);
   }
 };
-  
-exports.login = login;
-exports.getAllStudents = getAllStudents;
-exports.newStudent = newStudent;
-exports.getStudentCourses = getStudentCourses;
-exports.assignCourse = assignCourse;
-exports.deleteStudent = deleteStudent;
-exports.getCompletedModules = getCompletedModules
+
+module.exports = {
+  login,
+  getAllStudents,
+  newStudent,
+  getStudentCourses,
+  assignCourse,
+  deleteStudent,
+  getCompletedModules
+}

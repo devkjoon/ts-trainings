@@ -1,15 +1,14 @@
-// src/components/Company/Companies.jsx
 import React, { useEffect, useState } from 'react';
 import { Container, Button, Row, Col, Table, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import API_URL from '../../config';
 import AdminTokenVerification from '../../hooks/AdminTokenVerification';
-import NewCompanyModal from '../../components/Modals/AddNewCompany'; // Import the new modal component
+import NewCompanyModal from '../../components/Modals/AddNewCompany';
 
-import '../../assets/css/StudentList.css'
+import '../../assets/css/CompanyList.css';
 
-export default function Companies() {
+export default function CompanyList() {
   const [companies, setCompanies] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [alert, setAlert] = useState({ show: false, message: '', variant: '' });
@@ -100,25 +99,9 @@ export default function Companies() {
       });
 
       const result = await response.json();
-      console.log('Add company result:', result);
 
       if (result.success) {
-        // Assume result.company is available here if the backend is supposed to return it
-        if (result.company) {
-          setCompanies((prevCompanies) => [...prevCompanies, result.company]);
-        } else {
-          // Manually create a new company object if the result doesn't include it
-          const newCompany = {
-            _id: new Date().getTime().toString(), // Or another way to generate a unique ID
-            name: companyName,
-            contact: {
-              name: companyContactName,
-              email: companyContactEmail,
-              phoneNumber: companyContactPhone
-            }
-          };
-          setCompanies((prevCompanies) => [...prevCompanies, newCompany]);
-        }
+        setCompanies((prevCompanies) => [...prevCompanies, result.company]);
 
         setAlert({ show: true, message: 'New company added successfully', variant: 'success' });
 
@@ -126,17 +109,48 @@ export default function Companies() {
         handleCloseModal();
         resetForm();
       } else {
-        console.log('Result indicates failure:', result);
-
-        // Use a generic error message if the result does not indicate success
         const errorMessage = result.message || 'Unsuccessful, please try again later';
         setAlert({ show: true, message: errorMessage, variant: 'danger' });
       }
     } catch (error) {
       console.error('Error adding new company:', error);
-      setAlert({ show: true, message: 'Failed to add company. Hit up Joon and ask him why', variant: 'danger' });
+      setAlert({ show: true, message: 'Failed to add company. Please try again later.', variant: 'danger' });
     }
   };
+
+  const handleDeleteCompany = async (companyId) => {
+    const token = localStorage.getItem('token');
+
+    const isConfirmed = window.confirm('Are you sure you want to delete this company? This action cannot be undone.');
+
+    if (!isConfirmed) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_URL}/company/${companyId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            const result = await response.json();
+            throw new Error(result.message || 'Failed to delete company');
+        }
+
+        setCompanies((prevCompanies) =>
+            prevCompanies.filter((company) => company._id !== companyId)
+        );
+        setAlert({ show: true, message: 'Company deleted successfully', variant: 'success' });
+    } catch (error) {
+        console.error('Error deleting company:', error.message);
+        setAlert({ show: true, message: error.message, variant: 'danger' });
+    }
+};
+
 
   return (
     <Container>
@@ -162,6 +176,7 @@ export default function Companies() {
             <th>Company Representative</th>
             <th>Contact Email</th>
             <th>Contact Number</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -171,12 +186,20 @@ export default function Companies() {
               <td>{company.contact.name}</td>
               <td>{company.contact.email}</td>
               <td>{formatPhoneNumber(company.contact.phoneNumber)}</td>
+              <td>
+                <Button 
+                  variant="outline-danger" 
+                  onClick={() => handleDeleteCompany(company._id)}
+                >
+                  Delete
+                </Button>
+              </td>
             </tr>
           ))}
         </tbody>
       </Table>
       <Link to='/admin/dashboard' className='no-underline'>
-          <Button className="button-25 mt-3" variant="outline-info" size="lg">Back</Button>
+        <Button className="button-25 mt-3" variant="outline-info" size="lg">Back</Button>
       </Link>
       <NewCompanyModal
         show={showModal}

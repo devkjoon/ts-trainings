@@ -11,7 +11,7 @@ import AdminRegistration from "./pages/Admin/AdminRegistration"
 import StudentLogin from './pages/Student/StudentLogin'
 import AdminDashboard from "./pages/Admin/AdminDashboard"
 import StudentList from './pages/Student/StudentList'
-import Companies from './pages/Company/Companies'
+import CompanyList from './pages/Company/CompanyList'
 import StudentDashboard from "./pages/Student/StudentDashboard"
 import CourseList from './pages/Course/CourseList'
 import CourseDetail from './pages/Course/CourseDetail'
@@ -34,7 +34,7 @@ function App() {
           <Route path='/admin/students' element={<StudentList />} />
           <Route path='/admin/courses' element={<CourseList />} />  
           <Route path='/admin/courses/:courseId' element={<CourseDetail />} />  
-          <Route path='/admin/companies' element={<Companies />} />
+          <Route path='/admin/companies' element={<CompanyList />} />
           <Route path='/student/login' element={<StudentLogin />} />
           <Route path='/student/dashboard' element={<ProtectedRoute><StudentDashboard /></ProtectedRoute>} />
           <Route path='/student/courses/:courseId/modules' element={<ModuleDashboard />} />

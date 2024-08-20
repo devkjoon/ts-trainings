@@ -1,4 +1,6 @@
 const Company = require('../models/company');
+
+const { validationResult } = require("express-validator");
 const HttpError = require('../models/http-error');
 
 const getAllCompanies = async (req, res, next) => {
@@ -54,7 +56,34 @@ const newCompany = async (req, res, next) => {
   }
 }
 
+const deleteCompany = async (req, res, next) => {
+    const companyId = req.params.cid;
+
+    if (!req.userData || !req.userData.isAdmin) {
+        console.log('Unauthorized Access Attempt:', req.userData);
+        const error = new HttpError('Unauthorized: Admin privileges required', 403);
+        return next(error);
+    }
+
+    try {
+        const company = await Company.findById(companyId);
+        if (!company) {
+            console.log('Company Not Found:', companyId);
+            return next(new HttpError("Could not find company for provided id.", 404));
+        }
+        await company.deleteOne();
+        console.log('Company Deleted:', companyId);
+        res.status(200).json({ message: "Deleted company." });
+    } catch (err) {
+        console.log('Error Deleting Company:', err.message);
+        const error = new HttpError("Something went wrong. Could not delete company.", 500);
+        return next(error);
+    }
+};
+
+
 module.exports = {
     getAllCompanies,
-    newCompany
+    newCompany,
+    deleteCompany
 }

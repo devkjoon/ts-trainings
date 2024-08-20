@@ -85,65 +85,75 @@ const ModuleViewer = () => {
 
   return (
     <Container>
-      <h2 className="text-center mt-4 mb-4">{module?.title}</h2>
-
-      <div className="module-content">
-        <Row>
-          <Col lg={module?.resource?.type ? 5 : 12} className='secondary-content-container'>
-            <h4 className='objectives-text'>Objectives</h4>
-            {module?.description && (
-              <ul className="objectives-list">
-                {module.description.map((item, index) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
-            )}
-            {module?.optionalResource?.length > 0 && (
-              <ModalViewer resources={module.optionalResource} />
-            )}
-          </Col>
-          {module?.resource?.type && (
-            <Col lg={7} className="d-flex justify-content-center mx-auto">
-              <ResourceViewer resource={module.resource} title={module.title} contentRef={contentRef} />
-            </Col>
-          )}
-        </Row>
-      </div>
-
-      {module?.quiz && (
-        <div className="mt-3 text-center module-btn-container">
-          <Button className="mx-2 module-btn" variant="outline-warning" onClick={handleReturnToDashboard}>
-            Module Dashboard
-          </Button>
-          <Button className="mx-2 module-btn" variant="outline-info" onClick={toggleQuizVisibility}>
-            {showQuiz ? 'Hide Test' : 'Take Test'}
-          </Button>
-        </div>
-      )}
-
-      {showQuiz && module?.quiz && (
-        <QuizForm
-          quiz={module.quiz}
-          moduleId={module._id}
-          scrollToContent={scrollToContent}
-          quizRef={quizRef}
-          onSubmitResult={setQuizResult}
-        />
-      )}
-
-      {quizResult && (
-        <Alert ref={alertRef} variant={quizResult === 'Quiz passed!' ? 'success' : 'danger'} className="mt-3">
-          {quizResult}
-        </Alert>
-      )}
-
-      {showRedirectMessage && (
+      {loading ? (
         <div className="text-center mt-5">
           <Spinner animation="border" role="status">
             <span className="visually-hidden">Loading...</span>
           </Spinner>
-          <p>Redirecting to module dashboard...</p>
         </div>
+      ) : (
+        <>
+          <h2 className="text-center mt-4 mb-4">{module?.title}</h2>
+
+          <div className="module-content">
+            <Row>
+              <Col lg={module?.resource?.type ? 5 : 12} className='secondary-content-container'>
+                <h4 className='objectives-text'>Objectives</h4>
+                {module?.description && (
+                  <ul className="objectives-list">
+                    {module.description.map((item, index) => (
+                      <li key={index}>{item}</li>
+                    ))}
+                  </ul>
+                )}
+                {module?.optionalResource?.length > 0 && (
+                  <ModalViewer resources={module.optionalResource} />
+                )}
+              </Col>
+              {module?.resource?.type && (
+                <Col lg={7} className="d-flex justify-content-center mx-auto">
+                  <ResourceViewer resource={module.resource} title={module.title} contentRef={contentRef} />
+                </Col>
+              )}
+            </Row>
+          </div>
+
+          {module?.quiz && (
+            <div className="mt-3 text-center module-btn-container">
+              <Button className="mx-2 module-btn" variant="outline-warning" onClick={handleReturnToDashboard}>
+                Module Dashboard
+              </Button>
+              <Button className="mx-2 module-btn" variant="outline-info" onClick={toggleQuizVisibility}>
+                {showQuiz ? 'Hide Test' : 'Take Test'}
+              </Button>
+            </div>
+          )}
+
+          {showQuiz && module?.quiz && (
+            <QuizForm
+              quiz={module.quiz}
+              moduleId={module._id}
+              scrollToContent={scrollToContent}
+              quizRef={quizRef}
+              onSubmitResult={setQuizResult}
+            />
+          )}
+
+          {quizResult && (
+            <Alert ref={alertRef} variant={quizResult === 'Quiz passed!' ? 'success' : 'danger'} className="mt-3">
+              {quizResult}
+            </Alert>
+          )}
+
+          {showRedirectMessage && (
+            <div className="text-center mt-5">
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+              <p>Redirecting to module dashboard...</p>
+            </div>
+          )}
+        </>
       )}
     </Container>
   );

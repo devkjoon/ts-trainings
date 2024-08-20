@@ -40,6 +40,10 @@
     display: none;
 }
 
+.button-25 {
+    min-width: 15%;
+}
+
 @media (max-width: 600px) {
     .label-prefix {
       display: inline;

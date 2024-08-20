@@ -41,6 +41,16 @@ export default function StudentList() {
           throw new Error("Failed to fetch students");
         }
         const data = await response.json();
+
+        const studentsWithCourses = await Promise.all(data.students.map(async (student) => {
+          const courseResponse = await fetch(`${API_URL}/student/${student._id}/courses`);
+          const courseData = await courseResponse.json();
+          return {
+            ...student,
+            courses: courseData.courses // Assuming the API returns a list of courses with progress
+          };
+        }));
+
         setStudents(data.students);
       } catch (error) {
         console.error("Error fetching students:", error);
@@ -166,11 +176,11 @@ export default function StudentList() {
         <Col sm={12}>
          <h1 className="mt-4 mb-2">Student List</h1>
         </Col>
-        <Col sm={12} className='mx-auto p-auto'>
+        <div className="button-25-container">
           <Button className='company-button mb-2' variant="outline-info" onClick={handleShowNewStudentModal}>
             New Student
           </Button>
-        </Col>
+        </div>
       </Row>
       <div className="table-container">
         {alert.show && (
@@ -219,6 +229,22 @@ export default function StudentList() {
                           <tr>
                             <td><strong>Company:</strong></td>
                             <td>{student.company}</td>
+                          </tr>
+                          <tr>
+                            <td><strong>Courses Assigned:</strong></td>
+                            <td>
+                              {student.courses && student.courses.length > 0 ? (
+                                <ul>
+                                  {student.courses.map(course => (
+                                    <li key={course.courseId}>
+                                      <span>{course.courseName}</span> - <strong>{course.progress}% Complete</strong>
+                                    </li>
+                                  ))}
+                                </ul>
+                              ) : (
+                                <span>No courses assigned</span>
+                              )}
+                            </td>
                           </tr>
                           <tr>
                             <td><strong>Actions:</strong></td>

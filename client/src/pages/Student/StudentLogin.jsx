@@ -80,7 +80,7 @@ export default function StudentLogin() {
                     <Form.Label>Login Code</Form.Label>
                         <InputGroup className='loginInput'>
                         <Form.Control
-                            type="text"
+                            type="number"
                             placeholder="Login Code"
                             value={loginCode}
                             onChange={(e) => setLoginCode(e.target.value)}

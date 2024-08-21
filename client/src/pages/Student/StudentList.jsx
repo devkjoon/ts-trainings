@@ -53,7 +53,7 @@ export default function StudentList() {
           method:'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': Bearer `${localStorage.getItem('token')}`
+            'Authorization': `Bearer ${localStorage.getItem('token')}` // Corrected string interpolation
           },
         });
 
@@ -80,7 +80,7 @@ export default function StudentList() {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": Bearer `${token}`
+          "Authorization": `Bearer ${token}` // Corrected string interpolation
         },
       });
       if (!response.ok) throw new Error("Failed to delete student");

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Button, Row, Col, Table, Alert, Spinner, Collapse } from "react-bootstrap";
+import { Container, Button, Row, Col, Table, Alert, Collapse } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 
 import API_URL from '../../config';
@@ -53,7 +53,7 @@ export default function StudentList() {
           method:'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
+            'Authorization': Bearer `${localStorage.getItem('token')}`
           },
         });
 
@@ -80,7 +80,7 @@ export default function StudentList() {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
+          "Authorization": Bearer `${token}`
         },
       });
       if (!response.ok) throw new Error("Failed to delete student");
@@ -132,7 +132,7 @@ export default function StudentList() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': Bearer `${localStorage.getItem('token')}`
         },
         body: JSON.stringify({ firstname, lastname, email, company })
       });

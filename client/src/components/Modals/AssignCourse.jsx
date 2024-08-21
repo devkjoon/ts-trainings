@@ -3,7 +3,8 @@ import { Modal, Button, Form } from 'react-bootstrap';
 
 import API_URL from '../../config';
 
-import '../../assets/css/Modals.css'
+import '../../assets/css/ForgotAdminPassword.css';
+import '../../assets/css/Modals.css';
 
 const AssignCourse = ({ show, handleClose, studentId, showAlert }) => {
   const [courses, setCourses] = useState([]);

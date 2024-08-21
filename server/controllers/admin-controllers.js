@@ -100,7 +100,7 @@ const forgotPassword = async (req, res, next) => {
     admin.generatePasswordReset();
     await admin.save();
 
-    const resetLink = `http://localhost:5173/admin/reset-password/${admin.resetPasswordToken}`;
+    const resetLink = `http://ts-trainings.com/admin/reset-password/${admin.resetPasswordToken}`;
     const subject = 'Password Reset Request';
     const message = `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n` +
       `Please click on the following link, or paste this into your browser to complete the process:\n\n${resetLink}\n\n` +

@@ -6,6 +6,7 @@ const adminController = require("../controllers/admin-controllers");
 
 const router = express.Router();
 
+// Public routes
 router.post(
   "/signup",
   [
@@ -20,9 +21,11 @@ router.post(
 );
 
 router.post("/login", adminController.login);
+router.post('/forgot-password', adminController.forgotPassword);
+router.post('/reset-password/:token', adminController.resetPassword);
 
-router.get("/get-admins", adminAuth, adminController.getAdmins)
-
+// Protected routes
+router.get("/get-admins", adminAuth, adminController.getAdmins);
 router.get('/protected-resource', adminAuth, adminController.getProtectedResource);
 
 module.exports = router;

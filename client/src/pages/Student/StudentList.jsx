@@ -164,13 +164,13 @@ export default function StudentList() {
     <Container>
       <Row>
         <Col sm={12}>
-         <h1 className="mt-4 mb-2">Student List</h1>
+         <h1 className="mt-4 mb-3">Student List</h1>
         </Col>
-        <div className="button-25-container">
-          <Button className='company-button mb-2' variant="outline-info" onClick={handleShowNewStudentModal}>
-            New Student
-          </Button>
-        </div>
+        <Col className='m-auto p-auto'>
+        <Button className='company-button mb-2' variant="outline-info" onClick={handleShowNewStudentModal}>
+          Add New Company
+        </Button>
+      </Col>
       </Row>
       <div className="table-container">
         {alert.show && (

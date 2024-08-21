@@ -167,9 +167,10 @@ const toggleCollapse = (id) => {
 return (
   <Container>
     <Row>
-      <Col xs={10}>
-        <h1 className='mt-4 mb-4'>Company List</h1>
+      <Col sm={12}>
+         <h1 className="mt-4 mb-3">Company List</h1>
       </Col>
+
       <Col className='m-auto p-auto'>
         <Button className='company-button mb-2' variant="outline-info" onClick={handleShowModal}>
           Add New Company
@@ -192,8 +193,11 @@ return (
         {companies.map((company) => (
           <React.Fragment key={company._id}>
             <tr onClick={() => toggleCollapse(company._id)}>
-              <td>{company.name}</td>
-              <td>{company.contact.name}</td>
+              <td classname='company-name-display'>{company.name}</td>
+              <td>
+                <span className="label-prefix">Representative: </span>
+                <span className="data-text">{company.contact.name}</span>
+              </td>
             </tr>
             <tr>
               <td colSpan="2" style={{ padding: 0 }}>
@@ -210,8 +214,12 @@ return (
                           <td>{formatPhoneNumber(company.phoneNumber)}</td>
                         </tr>
                         <tr>
-                          <td><strong>Address:</strong></td>
-                          <td>{`${company.address.streetAddress}, ${company.address.city}, ${company.address.state} ${company.address.zipcode}`}</td>
+                          <td><strong>Street Address:</strong></td>
+                          <td>{`${company.address.streetAddress}`}</td>
+                        </tr>
+                        <tr>
+                          <td><strong>City, State, Zip:</strong></td>
+                          <td>{`${company.address.city}, ${company.address.state} ${company.address.zipcode}`}</td>
                         </tr>
                         <tr>
                           <td><strong>Contact Name:</strong></td>

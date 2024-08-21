@@ -68,14 +68,11 @@ const deleteCompany = async (req, res, next) => {
     try {
         const company = await Company.findById(companyId);
         if (!company) {
-            console.log('Company Not Found:', companyId);
             return next(new HttpError("Could not find company for provided id.", 404));
         }
         await company.deleteOne();
-        console.log('Company Deleted:', companyId);
         res.status(200).json({ message: "Deleted company." });
     } catch (err) {
-        console.log('Error Deleting Company:', err.message);
         const error = new HttpError("Something went wrong. Could not delete company.", 500);
         return next(error);
     }

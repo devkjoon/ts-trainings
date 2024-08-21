@@ -58,17 +58,18 @@ export default function AdminPasswordReset() {
     
 
     return (
-        <div className="container">
+        <div className="rsp-container">
             <Form noValidate validated={validated} onSubmit={handlePasswordReset}>
-                <h2>Reset Password</h2>
+                <h2 className='rsp-h2'>Reset Password</h2>
                 {alert.show && (
-                    <Alert variant={alert.variant} onClose={() => setAlert({ show: false })} dismissible>
+                    <Alert className='rsp-alert' variant={alert.variant} onClose={() => setAlert({ show: false })} dismissible>
                         {alert.message}
                     </Alert>
                 )}
                 <Form.Group controlId="formPassword">
-                    <Form.Label>New Password</Form.Label>
+                    <Form.Label className='rsp-form-label'>New Password</Form.Label>
                     <Form.Control
+                        className='rsp-form-control'
                         type="password"
                         placeholder="Enter new password"
                         value={password}
@@ -82,6 +83,7 @@ export default function AdminPasswordReset() {
                 <Form.Group controlId="formConfirmPassword">
                     <Form.Label className='confirm-label'>Confirm New Password</Form.Label>
                     <Form.Control
+                        className='rsp-form-control'
                         type="password"
                         placeholder="Confirm new password"
                         value={confirmPassword}
@@ -92,7 +94,7 @@ export default function AdminPasswordReset() {
                         Please confirm your new password.
                     </Form.Control.Feedback>
                 </Form.Group>
-                <Button variant="outline-primary" type="submit" disabled={loading} className="mt-3">
+                <Button variant="outline-primary" type="submit" disabled={loading} className="rsp-button">
                     {loading ? 'Resetting...' : 'Reset Password'}
                 </Button>
             </Form>

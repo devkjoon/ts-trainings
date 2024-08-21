@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Nav, Navbar, Button, Offcanvas } from 'react-bootstrap';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, matchPath } from 'react-router-dom';
 
 import '../../assets/css/Navbar.css';
 
@@ -54,8 +54,10 @@ const TopNavbar = () => {
         }
     };
 
-    const hiddenRoutes = ['/', '/admin', '/admin/registration', '/admin/login', '/student/login'];
-    const isHiddenRoute = hiddenRoutes.includes(location.pathname);
+    const hiddenRoutes = ['/', '/admin', '/admin/registration', '/admin/login', '/student/login', '/admin/reset-password/:token'];
+
+    // Check if the current route is hidden
+    const isHiddenRoute = hiddenRoutes.some(route => matchPath(route, location.pathname));
 
     // Define dashboard routes for admin and student
     const dashboardRoutes = {
@@ -107,4 +109,4 @@ const TopNavbar = () => {
     );
 };
 
-export default TopNavbar
+export default TopNavbar;

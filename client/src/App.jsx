@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Tools/Navbar";
 
 import ProtectedRoute from "./components/Tools/ProtectedRoute";
+import AdminPasswordReset from './components/Tools/AdminPasswordReset';
 
 import Home from "./pages/Home";
 import Admin from "./pages/Admin/Admin"
@@ -40,6 +41,7 @@ function App() {
           <Route path='/student/courses/:courseId/modules' element={<ModuleDashboard />} />
           {/* <Route path='/student/courses' element={<StudentCourseDashboard />} /> */}
           <Route path='/student/courses/:courseId/modules/:moduleId' element={<ModuleViewer />} />
+          <Route path='/admin/reset-password/:token' element={<AdminPasswordReset />} />
         </Routes>
       </BrowserRouter>
     </div>

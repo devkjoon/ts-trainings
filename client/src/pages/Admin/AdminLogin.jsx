@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
 
+import ForgotAdminPassword from '../../components/Modals/ForgotAdminPassword';
 import API_URL from '../../config';
 
 import '../../assets/css/Login.css';
-import './AdminDashboard';
 
 export default function AdminLogin() {
     const [username, setUsername] = useState('');
@@ -13,6 +13,7 @@ export default function AdminLogin() {
     const [validated, setValidated] = useState(false);
     const [alert, setAlert] = useState({ show: false, message: '', variant: '' });
     const [loading, setLoading] = useState(false);
+    const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
 
     const navigate = useNavigate();
 
@@ -27,8 +28,6 @@ export default function AdminLogin() {
         }
 
         setLoading(true);
-
-        // console.log('Submitting login form with:', { username, password });
 
         try {
             const response = await fetch(`${API_URL}/admin/login`, {
@@ -56,7 +55,6 @@ export default function AdminLogin() {
     }
 };
 
-
     return (
         <Form noValidate validated={validated} onSubmit={handleLogin} className="formContainer">
             <Row className="mb-2">
@@ -79,7 +77,7 @@ export default function AdminLogin() {
                 </Form.Group>
                 <Form.Group as={Col} md="6" controlId="validationCustom01" className='mt-3'>
                     <Form.Label>Password</Form.Label>
-                        <InputGroup className='loginInput'>
+                    <InputGroup className='loginInput'>
                         <Form.Control
                             type="password"
                             placeholder="Password"
@@ -90,7 +88,12 @@ export default function AdminLogin() {
                         <Form.Control.Feedback type="invalid">
                             Enter a password
                         </Form.Control.Feedback>
-                        </InputGroup>
+                    </InputGroup>
+                    <div className="forgot-password-container">
+                        <Link to="#" onClick={() => setShowForgotPasswordModal(true)}>
+                    <em>Forgot Password?</em>
+                </Link>
+                    </div>
                 </Form.Group>
             </Row>
             {alert.show && (
@@ -114,7 +117,13 @@ export default function AdminLogin() {
                     </Col>
                 </Row>
             </div>
+
+            {/* Forgot Password Modal */}
+            <ForgotAdminPassword
+                show={showForgotPasswordModal}
+                handleClose={() => setShowForgotPasswordModal(false)}
+                showAlert={setAlert}
+            />
         </Form>
     );
 };
-

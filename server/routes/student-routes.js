@@ -23,10 +23,20 @@ router.post(
         check("email").normalizeEmail().isEmail(),
         check("company").not().isEmpty(),
     ],
-    studentController.newStudent
-    );
+  studentController.newStudent
+);
 
 router.delete("/:sid", adminAuth, studentController.deleteStudent);
+
+router.put('/:sid', adminAuth,
+  [
+    check('firstname').not().isEmpty(),
+    check('lastname').not().isEmpty(),
+    check('email').normalizeEmail().isEmail(),
+    check('company').not().isEmpty()
+  ],
+  studentController.updateStudent
+);
 
 router.get('/', studentController.getAllStudents);
 

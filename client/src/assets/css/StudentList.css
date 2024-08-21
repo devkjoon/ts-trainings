@@ -135,7 +135,7 @@
     }
 
     .actions-cell .btn {
-        display: block;
+        display: inline;
         margin: 5px 0;
     }
 }

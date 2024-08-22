@@ -81,7 +81,7 @@ export default function StudentLogin() {
                         <InputGroup className='loginInput'>
                         <Form.Control
                             type="tel"
-                            pattern="[0-9]"
+                            pattern="\d{6}"
                             placeholder="Login Code"
                             value={loginCode}
                             onChange={(e) => setLoginCode(e.target.value)}

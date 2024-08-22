@@ -61,7 +61,7 @@ const EditStudentModal = ({
       setFirstname(student.firstname);
       setLastname(student.lastname);
       setEmail(student.email);
-      setCompany(student.company);
+      setCompany(student.company ? student.company._id : '');
     }
   }, [student]);
 

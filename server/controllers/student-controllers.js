@@ -1,6 +1,7 @@
 const Student = require("../models/student");
 const Course = require("../models/course");
 const Module = require('../models/module');
+const Company = require('../models/company');
 
 const { validationResult } = require("express-validator");
 const { sendEmail } = require('../utility/emailService');
@@ -87,6 +88,7 @@ const newStudent = async (req, res, next) => {
 
   try {
     await createdStudent.save();
+    await createdStudent.populate('company');
   } catch (err) {
     const error = new HttpError("Registration failed, please try again", 500);
     console.log(err.message);
@@ -181,7 +183,7 @@ const assignCourse = async (req, res, next) => {
 
   let student;
   try {
-    student = await Student.findById(sid);
+    student = await Student.findById(sid).populate('enrolledCourses', 'title modules');
     if (!student) {
       return next(new HttpError('Student not found', 404));
     }
@@ -189,14 +191,15 @@ const assignCourse = async (req, res, next) => {
     if (!student.enrolledCourses.includes(courseId)) {
       student.enrolledCourses.push(courseId);
       await student.save();
+      await student.populate('enrolledCourses', 'title modules');
     }
 
-    res.status(200).json({ message: 'Course assigned successfully' });
+    res.status(200).json({ success: true, student });
   } catch (err) {
     const error = new HttpError('Failed to assign course', 500);
     return next(error);
   }
-};  
+}; 
 
 const getAllStudents = async (req, res, next) => {
   try {

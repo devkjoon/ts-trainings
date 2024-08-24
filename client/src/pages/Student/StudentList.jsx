@@ -65,7 +65,7 @@ export default function StudentList() {
 					method: 'GET',
 					headers: {
 						'Content-Type': 'application/json',
-						Authorization: `Bearer ${localStorage.getItem('token')}`,
+						'Authorization': `Bearer ${localStorage.getItem('token')}`,
 					},
 				});
 
@@ -92,7 +92,7 @@ export default function StudentList() {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					Authorization: Bearer`${localStorage.getItem('token')}`,
+					'Authorization': `Bearer${localStorage.getItem('token')}`,
 				},
 				body: JSON.stringify({ firstname, lastname, email, company }),
 			});
@@ -137,7 +137,7 @@ export default function StudentList() {
 				method: 'DELETE',
 				headers: {
 					'Content-Type': 'application/json',
-					Authorization: `Bearer ${localStorage.getItem('token')}`,
+					'Authorization': `Bearer ${localStorage.getItem('token')}`,
 				},
 			});
 			if (!response.ok) throw new Error('Failed to delete student');
@@ -249,7 +249,7 @@ export default function StudentList() {
 						className='company-button mb-2'
 						variant='outline-info'
 						onClick={handleShowNewStudentModal}>
-						Add New Company
+						Add New Student
 					</Button>
 				</Col>
 			</Row>
@@ -322,18 +322,18 @@ export default function StudentList() {
 																<strong>Courses Assigned:</strong>
 															</td>
 															<td>
-																{student.courseProgress?.map((course) => (
+																{student.courseProgress && student.courseProgress.length > 0 && student.courseProgress.map((course) => (
 																	<div
-																		key={course.courseId}
-																		className='courses-assigned-content'>
-																		<span className='course-name'>
-																			{course.courseName}
-																		</span>
-																		<span className='course-progress'>
-																			{course.progress}% Complete
-																		</span>
+																	key={course.courseId}
+																	className='courses-assigned-content'>
+																	<span className='course-name'>
+																		{course.courseName}
+																	</span>
+																	<span className='course-progress'>
+																		{course.progress}% Complete
+																	</span>
 																	</div>
-																)) || 'Loading...'}
+																))}
 															</td>
 														</tr>
 														<tr>

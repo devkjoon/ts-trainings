@@ -143,10 +143,10 @@ const EditStudentModal = ({
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="outline-secondary" onClick={handleClose}>
           Cancel
         </Button>
-        <Button variant="primary" onClick={handleSave}>
+        <Button variant="outline-primary" onClick={handleSave}>
           Save Changes
         </Button>
       </Modal.Footer>

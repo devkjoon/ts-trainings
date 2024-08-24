@@ -78,7 +78,7 @@ const AddNewStudent = ({
                 >
                   <option value="">Select a company</option>
                   {companies.map((comp) => (
-                    <option key={comp._id} value={comp.name}>
+                    <option key={comp._id} value={comp._id}>
                       {comp.name}
                     </option>
                   ))}

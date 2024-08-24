@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=MonteCarlo&display=swap" rel="stylesheet">
+    <title>Certificate</title>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Libre Baskerville', serif;
+            background-color: #1f2338;
+            color: #c6c8d5;
+            text-align: center;
+            margin: 0;
+        }
+
+        .certificate-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            padding: 20px 20px 0 20px;
+            background-color: #1f2338;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .curved-text {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 48px;
+            font-weight: bold;
+            letter-spacing: 3px;
+        }
+
+        .curved-text svg {
+            width: 100%;
+            height: 200px;
+        }
+
+        .curved-text text {
+            fill: #abadbb;
+            font-size: 48px;
+        }
+
+        .awarded-to {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        .student-name {
+            font-family: 'Montecarlo', cursive;
+            font-size: 68px;
+            margin: 10px 0;
+        }
+
+        .separator-line {
+            width: 70%;
+            height: 3px;
+            background-color: #c6c8d5;
+            margin: 5px auto;
+        }
+
+        .details {
+            font-size: 15px;
+            max-width: 70%;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+            padding: 0 50px;
+            font-size: 16px;
+            position: relative;
+            margin-top: auto;
+        }
+
+        .footer .cert-details,
+        .footer .signature {
+            flex: 1;
+        }
+
+        .footer .cert-details {
+            text-align: left;
+        }
+
+        .footer .signature {
+            text-align: right;
+            padding-top: 5px;
+            position: relative;
+        }
+
+        .footer .signature::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80%;
+            border-top: 1px solid white;
+        }
+
+        .signature-svg {
+            width: 160px;
+            position: absolute;
+            bottom: 90px;
+            right: 40px;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            flex: 1;
+        }
+
+        .logo {
+            height: 120px;
+            width: auto;
+        }
+
+        @media print {
+            body, .certificate-container {
+                width: 11in;
+                height: 8.5in;
+                margin: 0;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="certificate-container">
+        <div class="curved-text">
+            <svg viewBox="0 0 1200 250">
+                <!-- Adjusted path for better centering -->
+                <path id="curve" fill="transparent" d="M 150,200 Q 600,0 1050,200" />
+                <text width="100%">
+                    <textPath href="#curve">
+                        CERTIFICATE OF COMPLETION
+                    </textPath>
+                </text>
+            </svg>
+        </div>
+
+        <p class="awarded-to">This certificate is awarded to</p>
+        <div class="student-name">{{studentName}}</div>
+        
+        <div class="separator-line"></div>
+
+        <div class="details">
+            {{courseDetails}}
+        </div>
+
+        <div class="footer">
+            <div class="cert-details">
+                <p>Certification Number: {{certificationNumber}}</p>
+                <p>Issue Date: {{completionDate}}</p>
+            </div>
+            <div class="logo-container">
+                <img src="../../assets/think-safety-logo.png" class="logo" alt="Logo">
+            </div>
+            <div class="signature">
+                <img src="../../assets/signature.svg" class="signature-svg" alt="signature-svg">
+                <p>Instructor: Kevin Alvarenga</p>
+                <p>Think Safety</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

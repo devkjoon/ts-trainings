@@ -59,33 +59,56 @@ const AssignCourse = ({ show, handleClose, studentId, showAlert }) => {
   }, [show, studentId]);
 
   const handleAssignCourse = async () => {
-
     const alreadyAssigned = studentCourses.some(course => course._id === selectedCourse);
-
+  
     if (alreadyAssigned) {
       handleClose();
       showAlert('Student is already assigned to this course', 'warning');
       return;
     }
-
+  
     try {
       const response = await fetch(`${API_URL}/student/${studentId}/assign-course`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({ courseId: selectedCourse }),
       });
-
+  
       if (!response.ok) {
         throw new Error('Failed to assign course');
       }
-
-      handleClose();
-      showAlert('Course assigned successfully', 'success');
+  
+      const result = await response.json();
+  
+      if (result.success) {
+        // Find the newly assigned course in the response
+        const newlyAssignedCourse = result.student.enrolledCourses.find(course => course._id === selectedCourse);
+  
+        if (newlyAssignedCourse) {
+          // Update the studentCourses state immediately
+          setStudentCourses(prevCourses => [...prevCourses, newlyAssignedCourse]);
+  
+          // Update the student object if needed to reflect the new course in the UI
+          setStudents(prevStudents =>
+            prevStudents.map(student =>
+              student._id === studentId ? { ...student, enrolledCourses: [...student.enrolledCourses, newlyAssignedCourse] } : student
+            )
+          );
+  
+          handleClose();
+          showAlert('Course assigned successfully', 'success');
+        } else {
+          console.error('Newly assigned course not found in the response.');
+        }
+      } else {
+        showAlert('Failed to assign course. Please try again later.', 'danger');
+      }
     } catch (error) {
       console.error('Error assigning course:', error);
-      showAlert('Failed to assign course. Please try again later.', 'danger')
+      showAlert('Failed to assign course. Please try again later.', 'danger');
     }
   };
 

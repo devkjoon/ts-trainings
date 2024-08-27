@@ -34,22 +34,18 @@ const getCourseModules = async (req, res, next) => {
   const studentId = req.query.sid;
 
   try {
-    // Fetch the course to get the moduleIconUrl
     const course = await Course.findById(courseId).populate('modules');
     if (!course) {
       return next(new HttpError('Course not found', 404));
     }
 
-    // Fetch the student to get completed modules
     const student = await Student.findById(studentId);
     if (!student) {
       return next(new HttpError('Student not found', 404));
     }
 
-    // Identify completed modules
     const completedModules = student.completedModules.map(m => m.toString());
 
-    // Prepare modules with iconUrl
     const modulesWithIcons = course.modules.map(module => ({
       ...module.toObject({ getters: true }),
       moduleIconUrl: course.moduleIconUrl,

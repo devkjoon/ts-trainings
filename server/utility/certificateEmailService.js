@@ -9,7 +9,6 @@ dotenv.config();
 const generateCertificate = async (studentName, courseName, details, certificationNumber) => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-
     
     const templatePath = path.join(__dirname, '../certificate/templates/certificate-template.html');
     let content = fs.readFileSync(templatePath, 'utf8');
@@ -28,7 +27,6 @@ const generateCertificate = async (studentName, courseName, details, certificati
                      
     await page.setContent(content);
   
-    // Define the output path for the PDF
     const pdfPath = path.join(__dirname, '../certificate/certificates', `${certificationNumber}.pdf`);
   
     await page.pdf({
@@ -39,8 +37,6 @@ const generateCertificate = async (studentName, courseName, details, certificati
     });
   
     await browser.close();
-  
-    console.log('PDF generated successfully at:', pdfPath);
     return pdfPath;
   };
 
@@ -84,7 +80,7 @@ const mailjetClient = mailjet.apiConnect(
       });
   
       const response = await request;
-      console.log('Certificate email sent:', response.body);
+      console.log('Certificate email sent');
     } catch (error) {
       console.error('Error sending certificate email:', error);
     }

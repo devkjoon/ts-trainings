@@ -17,6 +17,7 @@ const mailjetClient = mailjet.apiConnect(
 
 const generateCertificate = async (studentName, courseName, details, certificationNumber) => {
   const browser = await puppeteer.launch({
+    executablePath: process.env.CHROME_BIN || null,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
     headless: true,
   });

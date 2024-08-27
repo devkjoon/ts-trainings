@@ -6,6 +6,10 @@ const courseSchema = new mongoose.Schema({
   imageUrl: { type: String },
   moduleIconUrl: {type: String },
   modules: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Module' }],
+  details: {
+    primary: { type: String },
+    secondary: { type: String }
+  },
   createdAt: { type: Date, default: Date.now },
 });
 

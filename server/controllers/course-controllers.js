@@ -65,13 +65,14 @@ const getCourseModules = async (req, res, next) => {
 };
 
 const createCourse = async (req, res, next) => {
-  const { title, description, imageUrl, modules } = req.body;
+  const { title, description, imageUrl, modules, details } = req.body;
 
   const createdCourse = new Course({
     title,
     description,
     imageUrl,
-    modules
+    modules,
+    details
   });
 
   try {

@@ -6,47 +6,38 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const generateCertificate = async (studentName, courseName, courseDetails, certificationNumber) => {
-    // Launch a headless browser
+const generateCertificate = async (studentName, courseName, details, certificationNumber) => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
+
+    
+    const templatePath = path.join(__dirname, '../certificate/templates/certificate-template.html');
+    let content = fs.readFileSync(templatePath, 'utf8');
 
     const options = {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
-    };
-  
-    // Load the HTML template and replace placeholders with dynamic content
-    const templatePath = path.join(__dirname, '../certificate/templates/certificate-template.html');
-    let content = fs.readFileSync(templatePath, 'utf8');
-  
+      day: 'numeric'};
+
     content = content.replace('{{studentName}}', studentName)
                      .replace('{{courseName}}', courseName)
-                     .replace('{{courseDetails}}', courseDetails)
                      .replace('{{certificationNumber}}', certificationNumber)
-                     .replace('{{completionDate}}', new Date().toLocaleDateString('en-US', options));
-  
-    // Set the page content
+                     .replace('{{completionDate}}', new Date().toLocaleDateString('en-US', options))
+                     .replace('{{primaryDetail}}', details.primary)
+                     .replace('{{secondaryDetail}}', details.secondary)
+                     
     await page.setContent(content);
   
     // Define the output path for the PDF
     const pdfPath = path.join(__dirname, '../certificate/certificates', `${certificationNumber}.pdf`);
   
-    // Generate the PDF
     await page.pdf({
-  path: pdfPath,
-  format: 'letter',
-  printBackground: true,
-  margin: {
-    top: '10mm',
-    bottom: '10mm',
-    left: '10mm',
-    right: '10mm'
-  },
-});
+      path: pdfPath,
+      format: 'letter',
+      landscape: true,
+      printBackground: true,
+    });
   
-    // Close the browser
     await browser.close();
   
     console.log('PDF generated successfully at:', pdfPath);

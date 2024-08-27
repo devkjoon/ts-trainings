@@ -6,9 +6,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=MonteCarlo&display=swap" rel="stylesheet">
     <title>Certificate</title>
     <style>
-        html, body {
-            width: 100%;
-            height: 100%;
+        @page {
+            size: 11in 8.5in;
+            margin: 0;
+        }
+
+        html, body, .certificate-container {
+            width: 11in;
+            height: 8.5in;
             font-family: 'Libre Baskerville', serif;
             background-color: #1f2338;
             color: #c6c8d5;
@@ -21,16 +26,13 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            width: 100%;
-            height: 100%;
-            padding: 20px 20px 0 20px;
-            background-color: #1f2338;
+            padding: 10px;
+            border: 10px solid #202238;
             box-sizing: border-box;
             position: relative;
         }
 
         .curved-text {
-            font-family: 'Libre Baskerville', serif;
             font-size: 48px;
             font-weight: bold;
             letter-spacing: 3px;
@@ -38,53 +40,58 @@
 
         .curved-text svg {
             width: 100%;
-            height: 200px;
+            height: 180px;
         }
 
         .curved-text text {
             fill: #abadbb;
-            font-size: 48px;
+        }
+
+        .awarded-to,
+        .student-name,
+        .separator-line {
+            margin: 10px 0;
         }
 
         .awarded-to {
             font-size: 20px;
-            margin: 10px 0;
         }
 
         .student-name {
             font-family: 'Montecarlo', cursive;
             font-size: 68px;
-            margin: 10px 0;
         }
 
         .separator-line {
             width: 70%;
             height: 3px;
             background-color: #c6c8d5;
-            margin: 5px auto;
         }
 
         .details {
-            font-size: 15px;
-            max-width: 70%;
-            text-align: center;
+            font-size: 13px;
+            max-width: 85%;
             margin-top: 20px;
         }
 
         .footer {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
             width: 100%;
-            padding: 0 50px;
             font-size: 16px;
-            position: relative;
+            box-sizing: border-box;
             margin-top: auto;
+        }
+
+        .footer p {
+            margin: 5px;
         }
 
         .footer .cert-details,
         .footer .signature {
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
         }
 
         .footer .cert-details {
@@ -100,29 +107,28 @@
         .footer .signature::before {
             content: "";
             position: absolute;
-            top: 0;
+            top: 50px;
             right: 0;
-            width: 80%;
+            width: 70%;
             border-top: 1px solid white;
         }
 
         .signature-svg {
             width: 160px;
             position: absolute;
-            bottom: 90px;
-            right: 40px;
+            bottom: 70px;
+            right: 55px;
         }
 
         .logo-container {
             display: flex;
             justify-content: center;
             align-items: flex-end;
-            flex: 1;
         }
 
         .logo {
             height: 120px;
-            width: auto;
+            opacity: 0.9;
         }
 
         @media print {
@@ -132,7 +138,6 @@
                 margin: 0;
             }
         }
-
     </style>
 </head>
 <body>
@@ -155,7 +160,8 @@
         <div class="separator-line"></div>
 
         <div class="details">
-            {{courseDetails}}
+            <p>{{primaryDetail}}</p>
+            <p>{{secondaryDetail}}</p>
         </div>
 
         <div class="footer">
@@ -164,10 +170,10 @@
                 <p>Issue Date: {{completionDate}}</p>
             </div>
             <div class="logo-container">
-                <img src="../../assets/think-safety-logo.png" class="logo" alt="Logo">
+                <img src="https://github.com/devkjoon/ts-trainings/blob/main/server/assets/think-safety-logo.png?raw=true" class="logo" alt="Logo">
             </div>
             <div class="signature">
-                <img src="../../assets/signature.svg" class="signature-svg" alt="signature-svg">
+                <img src="https://raw.githubusercontent.com/devkjoon/ts-trainings/e681e33a32c0083f4d7adb4cd1fcb813c56c7ed2/server/assets/signature.svg" class="signature-svg" alt="signature-svg">
                 <p>Instructor: Kevin Alvarenga</p>
                 <p>Think Safety</p>
             </div>

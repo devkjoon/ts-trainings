@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 const mailjet = require('node-mailjet');
 const { Storage } = require('@google-cloud/storage'); 
 const dotenv = require('dotenv');
@@ -17,7 +17,7 @@ const mailjetClient = mailjet.apiConnect(
 
 const generateCertificate = async (studentName, courseName, details, certificationNumber) => {
   const browser = await puppeteer.launch({
-    executablePath: process.env.CHROME_BIN || null,
+    executablePath: '/app/.apt/usr/bin/google-chrome',
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
     headless: true,
   });

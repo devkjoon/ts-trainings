@@ -2,6 +2,9 @@
   "name": "ts-trainings",
   "private": true,
   "version": "0.0.0",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -9,7 +12,7 @@
     "preview": "vite preview",
     "start": "babel-node server/app.js",
     "heroku-postbuild": "npm run build",
-    "postinstall": "npx puppeteer install chrome"
+    "postinstall": "PUPPETEER_SKIP_DOWNLOAD=true npx puppeteer install"
   },
   "dependencies": {
     "@babel/cli": "^7.24.7",

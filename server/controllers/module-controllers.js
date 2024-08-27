@@ -93,7 +93,6 @@ const submitQuiz = async (req, res, next) => {
         const certificatePath = await generateCertificate(studentName, course.title, course.details, certificationNumber);
 
         await sendCertificateEmail(student.email, certificatePath);
-        console.log('Certificate email sent successfully to:', student.email);
       }
     }
 

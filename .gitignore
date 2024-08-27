@@ -25,3 +25,6 @@ dist-ssr
 
 # dotenv environment variables file
 .env
+
+# google cloud services keys
+polished-bridge-433814-i1-e9f38625e7c6.json

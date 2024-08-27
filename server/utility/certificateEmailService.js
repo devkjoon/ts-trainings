@@ -7,9 +7,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const storage = new Storage({
-  keyFilename: path.join(__dirname, '../../polished-bridge-433814-i1-e9f38625e7c6.json'),
-});
+const storage = new Storage({});
 const bucketName = 'ts-trainings-certifications';
 
 const mailjetClient = mailjet.apiConnect(

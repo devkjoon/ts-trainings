@@ -20,6 +20,8 @@ const generateCertificate = async (studentName, courseName, details, certificati
   const chromePath = isHeroku ? (process.env.CHROME_BIN || '/app/.apt/usr/bin/google-chrome-stable') : undefined;
 
   const browser = await puppeteer.launch({
+    headless: false,
+    devtools: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
 

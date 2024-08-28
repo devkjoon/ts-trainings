@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "start": "babel-node server/app.js",
     "heroku-postbuild": "npm run build",
-    "postinstall": "npx puppeteer install"
+    "postinstall": "npx puppeteer browsers install"
   },
   "dependencies": {
     "@babel/cli": "^7.24.7",

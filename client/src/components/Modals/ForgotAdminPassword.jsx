@@ -11,6 +11,7 @@ export default function ForgotAdminPassword({ show, handleClose }) {
 	const handlePasswordReset = async (event) => {
 		const form = event.currentTarget;
 		event.preventDefault();
+		event.stopPropagation();
 
 		if (form.checkValidity() === false) {
 			event.stopPropagation();
@@ -33,7 +34,7 @@ export default function ForgotAdminPassword({ show, handleClose }) {
 			if (response.ok) {
 				setAlert({
 					show: true,
-					message: 'Password reset link sent to your email.',
+					message: 'If an account is associated with the email provided, a password reset link will be sent to that email.',
 					variant: 'success',
 				});
 				setEmail(''); // Clear the email input after success
@@ -56,6 +57,13 @@ export default function ForgotAdminPassword({ show, handleClose }) {
 			setLoading(false);
 		}
 	};
+
+	const handleKeyDown = (event) => {
+		if (event.key === 'Enter') {
+			event.preventDefault();
+			handlePasswordReset(event);
+		}
+	}
 
 	return (
 		<Modal show={show} onHide={handleClose}>

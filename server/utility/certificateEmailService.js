@@ -8,10 +8,10 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const storage = new Storage({
-  projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
+  projectId: process.env.GOOGLE_PROJECT_ID,
   credentials: {
-    client_email: process.env.GOOGLE_CLOUD_CLIENT_EMAIL,
-    private_key: process.env.GOOGLE_CLOUD_PRIVATE_KEY.replace(/\\n/g, '\n'),
+    client_email: process.env.GOOGLE_CLIENT_EMAIL,
+    private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
   },
 });
 const bucketName = 'ts-trainings-certifications';

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap'
 
+import StudentLoginCode from '../../components/Modals/StudentLoginCode';
 import API_URL from '../../config';
 
 import '../../assets/css/Login.css';
@@ -12,6 +13,9 @@ export default function StudentLogin() {
     const [validated, setValidated] = useState(false);
     const [alert, setAlert] = useState({ show: false, message: '', variant: '' });
     const [loading, setLoading] = useState(false);
+    const [showStudentLoginCodeModal, setShowStudentLoginCodeModal] = useState(false);
+
+
 
     const navigate = useNavigate();
 
@@ -91,6 +95,11 @@ export default function StudentLogin() {
                             Enter a login code
                         </Form.Control.Feedback>
                         </InputGroup>
+                        <div className='forgot-login-code-container'>
+                            <Link to='#' onClick={() => setShowStudentLoginCodeModal (true)}>
+                                <em>Forgot Login Code</em>
+                            </Link>
+                        </div>
                 </Form.Group>
             </Row>
             {alert.show && (
@@ -114,6 +123,11 @@ export default function StudentLogin() {
                     </Col>
                 </Row>
             </div>
+
+            <StudentLoginCode
+                show={showStudentLoginCodeModal}
+                handleClose={()=> setShowStudentLoginCodeModal(false)}
+            />
         </Form>
     );
 };

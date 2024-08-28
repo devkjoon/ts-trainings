@@ -15,6 +15,8 @@ router.post(
   studentController.login
 );
 
+router.post('/request-login-code', studentController.requestLoginCode);
+
 router.post(
     "/newStudent",
     [

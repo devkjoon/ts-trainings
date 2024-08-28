@@ -2,19 +2,18 @@ import React, { useState } from 'react';
 import { Modal, Button, Form, Alert } from 'react-bootstrap';
 import API_URL from '../../config';
 
-export default function ForgotAdminPassword({ show, handleClose }) {
+export default function StudentLoginCode({ show, handleClose }) {
 	const [email, setEmail] = useState('');
 	const [validated, setValidated] = useState(false);
 	const [alert, setAlert] = useState({ show: false, message: '', variant: '' });
 	const [loading, setLoading] = useState(false);
 
-	const handlePasswordReset = async (event) => {
+	const requestLoginCode = async (event) => {
 		const form = event.currentTarget;
 		event.preventDefault();
 		event.stopPropagation();
 
 		if (form.checkValidity() === false) {
-			event.stopPropagation();
 			setValidated(true);
 			return;
 		}
@@ -22,7 +21,7 @@ export default function ForgotAdminPassword({ show, handleClose }) {
 		setLoading(true);
 
 		try {
-			const response = await fetch(`${API_URL}/admin/forgot-password`, {
+			const response = await fetch(`${API_URL}/student/request-login-code`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -34,20 +33,20 @@ export default function ForgotAdminPassword({ show, handleClose }) {
 			if (response.ok) {
 				setAlert({
 					show: true,
-					message: 'If an account is associated with the email provided, a password reset link will be sent to that email.',
+					message: 'If an account is associated with the email provided, a login code will be sent to that email.',
 					variant: 'success',
 				});
-				setEmail(''); // Clear the email input after success
-				setValidated(false); // Reset the form validation state
+				setEmail('');
+				setValidated(false);
 			} else {
 				setAlert({
 					show: true,
-					message: result.message || 'Failed to send password reset link.',
+					message: result.message || 'Failed to send login code.',
 					variant: 'danger',
 				});
 			}
 		} catch (error) {
-			console.error('Error sending reset link:', error);
+			console.error('Error sending login code:', error);
 			setAlert({
 				show: true,
 				message: 'An error occurred. Please try again later.',
@@ -61,7 +60,7 @@ export default function ForgotAdminPassword({ show, handleClose }) {
 	return (
 		<Modal show={show} onHide={handleClose}>
 			<Modal.Header closeButton>
-				<Modal.Title>Forgot Password</Modal.Title>
+				<Modal.Title>Forgot Login Code</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
 				{alert.show && (
@@ -72,7 +71,7 @@ export default function ForgotAdminPassword({ show, handleClose }) {
 						{alert.message}
 					</Alert>
 				)}
-				<Form noValidate validated={validated} onSubmit={handlePasswordReset}>
+				<Form noValidate validated={validated} onSubmit={requestLoginCode}>
 					<Form.Group controlId='formEmail'>
 						<Form.Label>Enter your registered email address</Form.Label>
 						<Form.Control
@@ -96,8 +95,8 @@ export default function ForgotAdminPassword({ show, handleClose }) {
 					variant='outline-primary'
 					type='submit'
 					disabled={loading}
-					onClick={handlePasswordReset}>
-					{loading ? 'Sending...' : 'Send Reset Link'}
+					onClick={requestLoginCode}>
+					{loading ? 'Sending...' : 'Send Login Code'}
 				</Button>
 			</Modal.Footer>
 		</Modal>

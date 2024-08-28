@@ -2,16 +2,13 @@
   "name": "ts-trainings",
   "private": true,
   "version": "0.0.0",
-  "engines": {
-    "node": "20.x"
-  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "start": "babel-node server/app.js",
-    "heroku-postbuild": "npm run build && mkdir  ./.cache && mv /app/.cache/puppeteer ./.cache",
+    "heroku-postbuild": "npm run build",
     "postinstall": "npx puppeteer install"
   },
   "dependencies": {

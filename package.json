@@ -8,8 +8,8 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "start": "babel-node server/app.js",
-    "heroku-postbuild": "npm run build",
-    "postinstall": "npx puppeteer install && npx puppeteer browsers install"
+    "heroku-postbuild": "npm run build && mkdir  ./.cache && mv /app/.cache/puppeteer ./.cache",
+    "postinstall": "npx puppeteer install && npx puppeteer browsers install chrome"
   },
   "dependencies": {
     "@babel/cli": "^7.24.7",

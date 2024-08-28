@@ -7,6 +7,7 @@ import API_URL from '../../config';
 
 import '../../assets/css/Login.css';
 
+
 export default function StudentLogin() {
     const [email, setEmail] = useState('');
     const [loginCode, setLoginCode] = useState('');
@@ -97,7 +98,7 @@ export default function StudentLogin() {
                         </InputGroup>
                         <div className='forgot-login-code-container'>
                             <Link to='#' onClick={() => setShowStudentLoginCodeModal (true)}>
-                                <em>Forgot Login Code</em>
+                                <em>Forgot Login Code?</em>
                             </Link>
                         </div>
                 </Form.Group>

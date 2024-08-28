@@ -34,3 +34,18 @@
       margin-top: 45%;
     }
   }
+
+  .forgot-login-code-container {
+    margin-top: 5px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.forgot-login-code-container a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.forgot-login-code-container a:hover {
+    text-decoration: underline;
+}

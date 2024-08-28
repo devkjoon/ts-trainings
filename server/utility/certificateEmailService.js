@@ -22,7 +22,6 @@ const generateCertificate = async (studentName, courseName, details, certificati
   const browser = await puppeteer.launch({
     executablePath: chromePath,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    headless: true,
   });
 
   const page = await browser.newPage();

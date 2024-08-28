@@ -11,7 +11,7 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "start": "babel-node server/app.js",
-    "heroku-postbuild": "npm run build && mkdir -p ./.cache && [ -d /app/.cache/puppeteer ] && mv /app/.cache/puppeteer ./.cache || echo 'No puppeteer cache found.'",
+    "heroku-postbuild": "npm run build && mkdir  ./.cache && mv /app/.cache/puppeteer ./.cache",
     "postinstall": "npx puppeteer install"
   },
   "dependencies": {

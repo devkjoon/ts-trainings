@@ -22,10 +22,11 @@ const generateCertificate = async (studentName, courseName, details, certificati
   const browser = await puppeteer.launch({
     headless: false,
     devtools: true,
+    dumpio: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
 
-  const page = await browser.newPage();
+  const page = await browser.version().then(newPage());
   
   const templatePath = path.join(__dirname, '../assets/certificate-template.html');
   let content = fs.readFileSync(templatePath, 'utf8');

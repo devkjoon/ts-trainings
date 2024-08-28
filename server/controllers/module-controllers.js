@@ -92,7 +92,7 @@ const submitQuiz = async (req, res, next) => {
         const studentName = `${student.firstname} ${student.lastname}`;
         const certificatePath = await generateCertificate(studentName, course.title, course.details, certificationNumber);
 
-        await sendCertificateEmail(student.email, certificatePath);
+        await sendCertificateEmail(student.email, certificatePath, student, course);
       }
     }
 

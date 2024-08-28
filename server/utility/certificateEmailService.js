@@ -70,7 +70,7 @@ const generateCertificate = async (studentName, courseName, details, certificati
   return filePath;
 };
 
-async function sendCertificateEmail(to, filePath) { 
+async function sendCertificateEmail(to, filePath, student, course) { 
   try {
     const [fileContent] = await storage.bucket(bucketName).file(filePath).download();
     const Base64Content = fileContent.toString('base64');
@@ -89,7 +89,30 @@ async function sendCertificateEmail(to, filePath) {
             }
           ],
           Subject: "Course Completion Certificate",
-          TextPart: `Congratulations on completing your course! Please find your certificate attached to this email.`,
+          HTMLPart: `
+        <div style="font-family: Arial, sans-serif; color: #333;">
+          <h2 style="color: #17a2b8;">Congratulations ${student.firstname}!</h2>
+          <p>You have completed the ${course.title} online training course.</p>
+          <p>Please find your certificate attached to this email.</p>
+          <br>
+          <p>Kind regards,</p>
+          <table role="presentation" style="margin: 0 auto;">
+            <tr>
+              <td style="padding-right: 8px;">
+                <img src="https://github.com/devkjoon/ts-trainings/blob/main/server/assets/think-safety-logo.png?raw=true" alt="Company Logo"
+                    width="75" height="75" style="width: 75px; height: 75px; max-width: 75px; display: block;" />
+              </td>
+              <td style="vertical-align: middle;">
+                <p style="margin: 0; font-weight: bold;">Think Safety LLCS</p>
+              </td>
+            </tr>
+          </table>
+          <hr style="border-top: 1px solid #eee;">
+          <footer style="font-size: 6px; color: #888;">
+            <p>This email was sent to you by Think Safety LLC. If you have any questions, please contact us at <a href="mailto:info@thinksafetyllcs.com" style="color: #007bff; text-underline: none;">info@thinksafetyllcs.com</a>.</p>
+          </footer>
+        </div>  
+`,
           Attachments: [
             {
               "ContentType": "application/pdf",

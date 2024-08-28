@@ -54,6 +54,7 @@ const getCourseModules = async (req, res, next) => {
     }));
 
     res.json({ modules: modulesWithIcons });
+    
   } catch (error) {
     console.error('Error fetching modules:', error);
     return next(new HttpError('Fetching modules failed, please try again later', 500));

@@ -17,7 +17,7 @@ const ModuleViewer = () => {
   const [quizResult, setQuizResult] = useState(null);
   const [showQuiz, setShowQuiz] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
-  const [showRedirectMessage, setShowRedirectMessage] = useState(false);  // New state
+  const [showRedirectMessage, setShowRedirectMessage] = useState(false);
   const navigate = useNavigate();
 
   const alertRef = useRef(null);
@@ -27,12 +27,17 @@ const ModuleViewer = () => {
   useEffect(() => {
     const fetchModuleData = async () => {
       try {
-        const moduleResponse = await fetch(`${API_URL}/module/${moduleId}`);
+        const studentId = localStorage.getItem('studentId');
+        if (!studentId) {
+          throw new Error('Student ID not found');
+        }
+  
+        const moduleResponse = await fetch(`${API_URL}/module/${moduleId}?sid=${studentId}`);
         const moduleData = await moduleResponse.json();
-
-        const allModulesResponse = await fetch(`${API_URL}/courses/${courseId}/modules`);
+  
+        const allModulesResponse = await fetch(`${API_URL}/courses/${courseId}/modules?sid=${studentId}`);
         const allModulesData = await allModulesResponse.json();
-
+  
         setModule(moduleData.module);
         setAllModules(allModulesData.modules);
       } catch (error) {
@@ -47,12 +52,10 @@ const ModuleViewer = () => {
 
   useEffect(() => {
     if (quizResult && quizResult === 'Quiz passed!') {
-      // Show the "Quiz passed!" message for 2 seconds
       setTimeout(() => {
-        setShowRedirectMessage(true);  // After 2 seconds, show redirecting message
+        setShowRedirectMessage(true); 
       }, 3000);
 
-      // Redirect after 3 more seconds (total 5 seconds from quiz passed)
       setTimeout(() => {
         setRedirecting(true);
         navigate(`/student/courses/${courseId}/modules`);

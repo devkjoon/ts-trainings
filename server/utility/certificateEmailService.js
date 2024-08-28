@@ -62,12 +62,14 @@ const generateCertificate = async (studentName, courseName, details, certificati
     },
   });
 
-  const publicUrl = `https://storage.googleapis.com/${bucketName}/${filePath}`;
-  return publicUrl;
+  return filePath;
 };
 
-async function sendCertificateEmail(to, certificateUrl) { 
+async function sendCertificateEmail(to, filePath) { 
   try {
+    const [fileContent] = await storage.bucket(bucketName).file(filePath).download();
+    const Base64Content = fileContent.toString('base64');
+
     const request = mailjetClient.post("send", { version: "v3.1" }).request({
       Messages: [
         {
@@ -82,12 +84,12 @@ async function sendCertificateEmail(to, certificateUrl) {
             }
           ],
           Subject: "Your Course Completion Certificate",
-          TextPart: `Congratulations on completing your course! You can download your certificate from the following link: ${certificateUrl}`,
+          TextPart: `Congratulations on completing your course! You can download your certificate from the following link: https://storage.googleapis.com/${bucketName}/${filePath}`,
           Attachments: [
             {
               "ContentType": "application/pdf",
-              "Filename": path.basename(certificateUrl),
-              "Base64Content": certificateUrl
+              "Filename": path.basename(filePath),
+              "Base64Content": Base64Content
             }
           ],
           ReplyTo: {
@@ -104,5 +106,6 @@ async function sendCertificateEmail(to, certificateUrl) {
     console.error('Error sending certificate email:', error);
   }
 }
+
 
 module.exports = { generateCertificate, sendCertificateEmail };

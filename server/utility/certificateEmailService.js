@@ -88,8 +88,8 @@ async function sendCertificateEmail(to, filePath) {
               Name: "Recipient"
             }
           ],
-          Subject: "Your Course Completion Certificate",
-          TextPart: `Congratulations on completing your course! You can download your certificate from the following link: https://storage.googleapis.com/${bucketName}/${filePath}`,
+          Subject: "Course Completion Certificate",
+          TextPart: `Congratulations on completing your course! Please find your certificate attached to this email.`,
           Attachments: [
             {
               "ContentType": "application/pdf",

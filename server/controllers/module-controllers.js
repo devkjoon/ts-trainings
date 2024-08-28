@@ -88,7 +88,7 @@ const submitQuiz = async (req, res, next) => {
           return next(new HttpError('Course associated with this module not found.', 404));
         }
 
-        const certificationNumber = 'Cert-' + Date.now();
+        const certificationNumber = 'TS-' + Date.now();
         const studentName = `${student.firstname} ${student.lastname}`;
         const certificatePath = await generateCertificate(studentName, course.title, course.details, certificationNumber);
 

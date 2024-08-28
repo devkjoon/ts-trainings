@@ -17,9 +17,10 @@ const mailjetClient = mailjet.apiConnect(
 
 const generateCertificate = async (studentName, courseName, details, certificationNumber) => {
   const isHeroku = process.env.NODE_ENV === 'production';
+  const chromePath = isHeroku ? (process.env.CHROME_BIN || '/app/.apt/usr/bin/google-chrome-stable') : undefined;
 
   const browser = await puppeteer.launch({
-    executablePath: isHeroku ? '/app/.apt/usr/bin/google-chrome-stable' : undefined,  // Only set executablePath in production
+    executablePath: chromePath,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
     headless: true,
   });

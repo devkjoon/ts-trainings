@@ -16,17 +16,13 @@ const mailjetClient = mailjet.apiConnect(
 );
 
 const generateCertificate = async (studentName, courseName, details, certificationNumber) => {
-  const isHeroku = process.env.NODE_ENV === 'production';
-  const chromePath = isHeroku ? (process.env.CHROME_BIN || '/app/.apt/usr/bin/google-chrome-stable') : undefined;
 
   const browser = await puppeteer.launch({
-    headless: false,
-    devtools: true,
-    dumpio: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'],
   });
 
-  const page = await browser.version().then(newPage());
+  const page = await browser.newPage();
   
   const templatePath = path.join(__dirname, '../assets/certificate-template.html');
   let content = fs.readFileSync(templatePath, 'utf8');

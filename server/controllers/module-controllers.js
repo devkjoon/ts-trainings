@@ -98,7 +98,7 @@ const submitQuiz = async (req, res, next) => {
           certificationNumber,
           studentName,
           courseName: course.title,
-          completionDate: new Date();
+          completionDate: new Date()
         });
 
         await newCertification.save();

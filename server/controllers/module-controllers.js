@@ -49,7 +49,6 @@ const createModule = async (req, res, next) => {
   try {
     await createdModule.save();
   } catch (err) {
-    console.log(err)
     const error = new HttpError('Creating module failed, please try again later. erere', 500);
     return next(error);
   }
@@ -79,7 +78,6 @@ const submitQuiz = async (req, res, next) => {
       if (!isModuleAlreadyCompleted) {
         student.completedModules.push(moduleId);
         await student.save();
-        console.log('Module added to completedModules');
       }
 
       if (module.isFinalTest && !isModuleAlreadyCompleted) {
@@ -94,11 +92,8 @@ const submitQuiz = async (req, res, next) => {
         const certificationNumber = 'TS-' + Date.now();
         const studentName = `${student.firstname} ${student.lastname}`;
         const certificatePath = await generateCertificate(studentName, course.title, course.details, certificationNumber);
-
-        console.log('Certificate generated at:', certificatePath);
-
+        
         await sendCertificateEmail(student.email, certificatePath, student, course);
-        console.log('Email sent to:', student.email);
       }
     }
 

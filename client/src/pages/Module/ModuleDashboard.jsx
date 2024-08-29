@@ -11,6 +11,7 @@ import '../../assets/css/ModuleDashboard.css';
 const ModuleDashboard = () => {
   const { courseId } = useParams();
   const [modules, setModules] = useState([]);
+  const [course, setCourse] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [flippedCards, setFlippedCards] = useState({});
@@ -19,14 +20,18 @@ const ModuleDashboard = () => {
   const studentId = localStorage.getItem('studentId');  
 
   useEffect(() => {
-    const fetchModules = async () => {
+    const fetchCourseAndModules = async () => {
       try {
-        const response = await fetch(`${API_URL}/courses/${courseId}/modules?sid=${studentId}`);
-        if (!response.ok) {
+        const courseResponse = await fetch(`${API_URL}/courses/${courseId}`);
+        const courseData = await courseResponse.json();
+        setCourse(courseData.course);
+
+        const moduleResponse = await fetch(`${API_URL}/courses/${courseId}/modules?sid=${studentId}`);
+        if (!moduleResponse.ok) {
           throw new Error('Failed to fetch modules');
         }
-        const data = await response.json();
-        setModules(data.modules);
+        const moduleData = await moduleResponse.json();
+        setModules(moduleData.modules);
       } catch (error) {
         console.error('Error:', error);
         setError(error.message);
@@ -35,13 +40,13 @@ const ModuleDashboard = () => {
       }
     };
 
-    fetchModules();
+    fetchCourseAndModules();
   }, [courseId, studentId]);
 
   const handleModuleClick = (moduleId) => {
     setFlippedCards((prevState) => ({
       ...prevState,
-      [moduleId]: !prevState[moduleId], // Toggle the flipped state
+      [moduleId]: !prevState[moduleId],
     }));
   };
 
@@ -51,7 +56,7 @@ const ModuleDashboard = () => {
 
   const incompleteModules = modules.filter(module => !module.isFinalTest && !module.completed);
   const completedModules = modules.filter(module => module.completed);
-  const finalTestModule = modules.find(module => module.isFinalTest);
+  const finalTestModule = modules.find(module => module.isFinalTest && !module.completed);
 
   const progress = modules.length > 0 ? Math.round((completedModules.length / modules.length) * 100) : 0;
 
@@ -78,23 +83,34 @@ const ModuleDashboard = () => {
   }
 
   let alertMessage = "No modules available for this course.";
-  if (incompleteModules.length === 0 && finalTestModule && !finalTestModule.completed) {
-    alertMessage = "Take the final test to complete the course.";
-  } else if (incompleteModules.length === 0 && finalTestModule && finalTestModule.completed) {
-    alertMessage = "Congratulations! You have completed this course.";
-  }
+
+if (incompleteModules.length === 0) {
+    if (finalTestModule) {
+        if (finalTestModule.completed) {
+            alertMessage = "Congratulations! You have completed this course.";
+        } else {
+            alertMessage = "Take the final test to complete the course.";
+        }
+    } else {
+        alertMessage = "Congratulations! You have completed this course.";
+    }
+}
 
   return (
     <Container>
-      <h1 className="text-center mt-4 mb-4">Course Modules</h1>
+      <h1 className="text-center mt-4 mb-4">{course.title}</h1>
       <ProgressBar progress={progress} />
+
       {incompleteModules.length > 0 ? (
-        <ModuleList
-          modules={incompleteModules}
-          flippedCards={flippedCards}
-          handleModuleClick={handleModuleClick}
-          handleButtonClick={handleButtonClick}
-        />
+        <>
+          <h2 className="text-center mt-4 mb-4">Remaining Modules</h2>
+          <ModuleList
+            modules={incompleteModules}
+            flippedCards={flippedCards}
+            handleModuleClick={handleModuleClick}
+            handleButtonClick={handleButtonClick}
+          />
+        </>
       ) : (
         <Alert variant="info" className="text-center">
           {alertMessage}

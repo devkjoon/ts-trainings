@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Module = require('../models/module');
 const Student = require('../models/student');
 const Course = require('../models/course');
+const Certification = require('../models/certification');
 
 const HttpError = require('../models/http-error');
 const { generateCertificate, sendCertificateEmail } = require('../utility/certificateEmailService');
@@ -49,7 +50,7 @@ const createModule = async (req, res, next) => {
   try {
     await createdModule.save();
   } catch (err) {
-    const error = new HttpError('Creating module failed, please try again later. erere', 500);
+    const error = new HttpError('Creating module failed, please try again later.', 500);
     return next(error);
   }
 
@@ -92,7 +93,16 @@ const submitQuiz = async (req, res, next) => {
         const certificationNumber = 'TS-' + Date.now();
         const studentName = `${student.firstname} ${student.lastname}`;
         const certificatePath = await generateCertificate(studentName, course.title, course.details, certificationNumber);
-        
+
+        const newCertification = new Certification({
+          certificationNumber,
+          studentName,
+          courseName: course.title,
+          completionDate: new Date();
+        });
+
+        await newCertification.save();
+
         await sendCertificateEmail(student.email, certificatePath, student, course);
       }
     }

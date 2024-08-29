@@ -6,7 +6,7 @@ import ModuleCard from './ModuleCard';
 //  manages the state of flipped cards and handles module selection
 
 const ModuleList = ({ modules, flippedCards, handleModuleClick, handleButtonClick }) => (
-  <Row className="justify-content-center align-items-stretch">
+  <Row className="justify-content-center align-items-stretch module-list-container">
     {modules.map((module) => {
       const isFlipped = flippedCards[module._id];
       

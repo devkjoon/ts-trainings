@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Button, Col } from 'react-bootstrap';
+
 import '../../assets/css/ModuleCard.css';
 
 //  displays individual modules as cards with the ability to flip and view the description

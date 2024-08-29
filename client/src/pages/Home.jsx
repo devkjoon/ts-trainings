@@ -19,6 +19,11 @@ export default function Home() {
               <Button className="mainButton mt-2" variant="outline-warning" size="lg">Student Login</Button>
             </Link>
           </Col>
+          <Col className='text-center'>
+            <Link to="" className='no-underline'>
+              <Button className="mainButton mt-2" variant="outline-info" size="lg">Verify Certification</Button>
+            </Link>
+          </Col>
         </Row>
       </div>
     </>

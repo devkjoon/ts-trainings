@@ -12,12 +12,9 @@ import '../../assets/css/ModuleViewer.css';
 const ModuleViewer = () => {
   const { courseId, moduleId } = useParams();
   const [module, setModule] = useState(null);
-  const [allModules, setAllModules] = useState([]);
   const [loading, setLoading] = useState(true);
   const [quizResult, setQuizResult] = useState(null);
   const [showQuiz, setShowQuiz] = useState(false);
-  const [redirecting, setRedirecting] = useState(false);
-  const [showRedirectMessage, setShowRedirectMessage] = useState(false);
   const navigate = useNavigate();
 
   const alertRef = useRef(null);
@@ -35,11 +32,7 @@ const ModuleViewer = () => {
         const moduleResponse = await fetch(`${API_URL}/module/${moduleId}?sid=${studentId}`);
         const moduleData = await moduleResponse.json();
   
-        const allModulesResponse = await fetch(`${API_URL}/courses/${courseId}/modules?sid=${studentId}`);
-        const allModulesData = await allModulesResponse.json();
-  
         setModule(moduleData.module);
-        setAllModules(allModulesData.modules);
       } catch (error) {
         console.error('Error fetching module data:', error);
       } finally {
@@ -49,17 +42,9 @@ const ModuleViewer = () => {
 
     fetchModuleData();
   }, [courseId, moduleId]);
-
   useEffect(() => {
-    if (quizResult && quizResult === 'Quiz passed!') {
-      setTimeout(() => {
-        setShowRedirectMessage(true); 
-      }, 3000);
-
-      setTimeout(() => {
-        setRedirecting(true);
-        navigate(`/student/courses/${courseId}/modules`);
-      }, 5000);
+    if (quizResult === 'Module complete! Redirecting back to dashboard...') {
+      setTimeout(() => navigate(`/student/courses/${courseId}/modules`), 3000);
     }
   }, [quizResult, courseId, navigate]);
 
@@ -73,17 +58,13 @@ const ModuleViewer = () => {
 
   const toggleQuizVisibility = () => {
     setShowQuiz((prevShowQuiz) => !prevShowQuiz);
-    setTimeout(() => {
-      if (quizRef.current && !showQuiz) {
-        quizRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, 100);
+    if (!showQuiz && quizRef.current) {
+      setTimeout(() => quizRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+    }
   };
 
   const scrollToContent = () => {
-    if (contentRef.current) {
-      contentRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    contentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
@@ -143,18 +124,14 @@ const ModuleViewer = () => {
           )}
 
           {quizResult && (
-            <Alert ref={alertRef} variant={quizResult === 'Quiz passed!' ? 'success' : 'danger'} className="mt-3">
-              {quizResult}
+            <Alert ref={alertRef} variant={quizResult === 'Module complete! Redirecting back to dashboard...' ? 'success' : 'danger'} className="mt-3">
+              {quizResult === 'Module complete! Redirecting back to dashboard...' ? (
+                <>
+                  <Spinner animation="border" size="sm" role="status" className="me-2" />
+                  {quizResult}
+                </>
+              ) : quizResult}
             </Alert>
-          )}
-
-          {showRedirectMessage && (
-            <div className="text-center mt-5">
-              <Spinner animation="border" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </Spinner>
-              <p>Redirecting to module dashboard...</p>
-            </div>
           )}
         </>
       )}

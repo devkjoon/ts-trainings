@@ -2,6 +2,8 @@ import React from 'react';
 
 import '../../assets/css/ResourceViewer.css'
 
+//  renders the resource (video/powerpoint) that is part of a module
+
 const ResourceViewer = ({ resource, title, contentRef }) => {
 
   const renderResource = () => {

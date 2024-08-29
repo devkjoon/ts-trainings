@@ -74,12 +74,15 @@ const submitQuiz = async (req, res, next) => {
       const student = await Student.findById(studentId);
       if (!student) return next(new HttpError('Student not found', 404));
 
-      if (!student.completedModules.includes(moduleId)) {
+      const isModuleAlreadyCompleted = student.completedModules.includes(moduleId);
+
+      if (!isModuleAlreadyCompleted) {
         student.completedModules.push(moduleId);
         await student.save();
+        console.log('Module added to completedModules');
       }
 
-      if (module.isFinalTest) {
+      if (module.isFinalTest && !isModuleAlreadyCompleted) {
         const allCourses = await Course.find({});
         const course = allCourses.find(c => c.modules.some(m => m.toString() === moduleId));
 
@@ -92,7 +95,10 @@ const submitQuiz = async (req, res, next) => {
         const studentName = `${student.firstname} ${student.lastname}`;
         const certificatePath = await generateCertificate(studentName, course.title, course.details, certificationNumber);
 
+        console.log('Certificate generated at:', certificatePath);
+
         await sendCertificateEmail(student.email, certificatePath, student, course);
+        console.log('Email sent to:', student.email);
       }
     }
 
@@ -102,7 +108,7 @@ const submitQuiz = async (req, res, next) => {
     });
 
   } catch (err) {
-    console.error(err);
+    console.error('Error in submitQuiz:', err);
     return next(new HttpError('An error occurred, please try again later.', 500));
   }
 };

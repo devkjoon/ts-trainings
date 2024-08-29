@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import API_URL from '../../config';
 
+//  handles the display and submission of quizzes associates with modules
+//  updates the state based on the quiz submission and shows relevant success or error messages
+
 const QuizForm = ({ quiz, moduleId, scrollToContent, quizRef, onSubmitResult }) => {
   const [answers, setAnswers] = useState(new Array(quiz.questions.length).fill(null));
   const [loading, setLoading] = useState(false);
@@ -12,23 +15,21 @@ const QuizForm = ({ quiz, moduleId, scrollToContent, quizRef, onSubmitResult }) 
     setAnswers(newAnswers);
   };
 
+  const submitQuiz = async (moduleId, answers) => {
+    const response = await fetch(`${API_URL}/module/${moduleId}/submit-quiz`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answers, studentId: localStorage.getItem('studentId') }),
+    });
+    return response.json();
+  };
+  
   const handleQuizSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     try {
-      const response = await fetch(`${API_URL}/module/${moduleId}/submit-quiz`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ answers, studentId: localStorage.getItem('studentId') }),
-      });
-
-      const result = await response.json();
-
-      onSubmitResult(result.message);
-      
+      const result = await submitQuiz(moduleId, answers);
+      onSubmitResult(result.success ? 'Module complete! Redirecting back to dashboard...' : result.message);
     } catch (error) {
       console.error('Error submitting quiz:', error);
       onSubmitResult('An error occurred while submitting the quiz. Please try again.');

@@ -6,20 +6,20 @@ const ModuleList = ({ modules, flippedCards, handleModuleClick, handleButtonClic
   <Row className="justify-content-center align-items-stretch">
     {modules.map((module) => {
       const isFlipped = flippedCards[module._id];
-      const buttonText = module.isFinalTest
-        ? module.isLocked
-          ? "Locked"
-          : "Take Test"
-        : module.completed
-          ? "Review"
+      const buttonText = module.completed
+        ? "Review"
+        : module.isFinalTest
+          ? module.isLocked
+            ? "Locked"
+            : "Take Test"
           : "Learn";
 
-      const buttonVariant = module.isFinalTest
-        ? module.isLocked
-          ? 'outline-danger'
-          : 'outline-primary'
-        : module.completed
-          ? 'outline-warning'
+      const buttonVariant = module.completed
+        ? 'outline-warning'
+        : module.isFinalTest
+          ? module.isLocked
+            ? 'outline-danger'
+            : 'outline-primary'
           : 'outline-primary';
 
       return (

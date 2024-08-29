@@ -4,6 +4,7 @@ import API_URL from '../../config';
 
 const QuizForm = ({ quiz, moduleId, scrollToContent, quizRef, onSubmitResult }) => {
   const [answers, setAnswers] = useState(new Array(quiz.questions.length).fill(null));
+  const [loading, setLoading] = useState(false);
 
   const handleAnswerChange = (idx, value) => {
     const newAnswers = [...answers];
@@ -13,6 +14,7 @@ const QuizForm = ({ quiz, moduleId, scrollToContent, quizRef, onSubmitResult }) 
 
   const handleQuizSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const response = await fetch(`${API_URL}/module/${moduleId}/submit-quiz`, {
@@ -30,6 +32,8 @@ const QuizForm = ({ quiz, moduleId, scrollToContent, quizRef, onSubmitResult }) 
     } catch (error) {
       console.error('Error submitting quiz:', error);
       onSubmitResult('An error occurred while submitting the quiz. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -65,7 +69,7 @@ const QuizForm = ({ quiz, moduleId, scrollToContent, quizRef, onSubmitResult }) 
           Review Content
         </Button>
         <Button className="mx-2 test-btn" variant="outline-info" type="submit">
-          Submit Test
+          {loading ? 'Submitting...' : 'Submit Test'}
         </Button>
       </div>
     </Form>

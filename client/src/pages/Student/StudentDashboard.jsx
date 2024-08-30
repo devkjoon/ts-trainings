@@ -69,12 +69,12 @@ export default function StudentDashboard() {
 
   return (
     <Container>
-      <h1 className="text-center mt-4 mb-4">My Courses</h1>
+      <h1 className="text-center mt-4 mb-4">Course Dashboard</h1>
       
       {enrolledCourses.length > 0 ? (
         <>
-          <h2 className="text-center">Enrolled Courses</h2>
-          <Row className="justify-content-center">
+          <h3 className="text-center">Enrolled Courses</h3>
+          <Row className="justify-content-center mt-3">
             {enrolledCourses.map((course) => (
               <Col key={course._id} lg={4} md={6} className="mb-4 d-flex justify-content-center card-container">
                 <Link to={`/student/courses/${course._id}/modules`} className='no-underline'>
@@ -101,8 +101,8 @@ export default function StudentDashboard() {
 
       {completedCourses.length > 0 && (
         <>
-          <h2 className="text-center mt-5">Completed Courses</h2>
-          <Row className="justify-content-center">
+          <h3 className="text-center mt-5">Completed Courses</h3>
+          <Row className="justify-content-center mt-3">
             {completedCourses.map((course) => (
               <Col key={course._id} lg={4} md={6} className="mb-4 d-flex justify-content-center card-container">
                 <Link to={`/student/courses/${course._id}/modules`} className='no-underline'>

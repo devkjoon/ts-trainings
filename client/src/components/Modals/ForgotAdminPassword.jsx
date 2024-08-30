@@ -34,7 +34,7 @@ export default function ForgotAdminPassword({ show, handleClose }) {
 			if (response.ok) {
 				setAlert({
 					show: true,
-					message: 'If an account is associated with the email provided, a password reset link will be sent to that email.',
+					message: 'A password reset link has been sent to your email.',
 					variant: 'success',
 				});
 				setEmail(''); // Clear the email input after success

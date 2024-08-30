@@ -5,6 +5,6 @@ const certificationController = require('../controllers/certification-controller
 
 const router = express.Router();
 
-router.get('/verify-certficiation', certificationController.verifyCertification);
+router.get('/verify', certificationController.verifyCertification);
 
 module.exports = router;

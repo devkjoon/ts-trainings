@@ -7,7 +7,13 @@ const studentSchema = new mongoose.Schema({
     company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company', required: true },
     loginCode: { type: String, required: true, unique: true, maxlength: 6, default: generateLoginCode },
     enrolledCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
-    completedModules: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Module' }]
+    completedModules: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Module' }],
+    completedCourses: [
+        {
+          courseId: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' },
+          certificateId: { type: mongoose.Schema.Types.ObjectId, ref: 'Certification' }
+        }
+      ]
 });
 
 studentSchema.pre('save', async function(next) {

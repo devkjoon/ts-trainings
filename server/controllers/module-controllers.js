@@ -108,6 +108,11 @@ const submitQuiz = async (req, res, next) => {
           certificateId: newCertification._id
         })
 
+        await Student.updateOne(
+          { _id: studentId },
+          { $pull: { enrolledCourses: course._id } }
+        );
+        
         await student.save();
 
         await sendCertificateEmail(student.email, certificatePath, student, course);

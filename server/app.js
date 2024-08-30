@@ -11,6 +11,7 @@ const studentRoutes = require('./routes/student-routes');
 const courseRoutes = require('./routes/course-routes');
 const moduleRoutes = require('./routes/module-routes');
 const companyRoutes = require('./routes/company-routes');
+const certificationRoutes = require('./routes/certification-routes');
 
 dotenv.config();
 
@@ -46,6 +47,7 @@ app.use('/student', studentRoutes);
 app.use('/courses', courseRoutes);
 app.use('/module', moduleRoutes);
 app.use('/company', companyRoutes);
+app.use('/certification', certificationRoutes);
 // app.use('/progress', progressRoutes);
 // app.use('/certificate', certificateRoutes);
 

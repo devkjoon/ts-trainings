@@ -103,6 +103,13 @@ const submitQuiz = async (req, res, next) => {
 
         await newCertification.save();
 
+        student.completedCourses.push({
+          courseId: course._id,
+          certificateId: newCertification._id
+        })
+
+        await student.save();
+
         await sendCertificateEmail(student.email, certificatePath, student, course);
       }
     }

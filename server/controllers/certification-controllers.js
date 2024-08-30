@@ -8,7 +8,6 @@ const verifyCertification = async (req, res, next) => {
 
     try {
         const certification = await Certification.findOne({ certificationNumber });
-        console.log('Certification found:', certification);
 
         if (!certification) {
             return res.status(404).json({ message: 'Certification not found or invalid.' });
@@ -20,7 +19,6 @@ const verifyCertification = async (req, res, next) => {
             completionDate: certification.completionDate,
         });
     } catch (error) {
-        console.error('Error verifying certification:', error);
         return next(new HttpError('An error occurred while verifying the certification. Please try again later.', 500));
     }
 };

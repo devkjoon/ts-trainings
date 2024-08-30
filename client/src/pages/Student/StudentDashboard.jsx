@@ -7,12 +7,12 @@ import API_URL from '../../config';
 import '../../assets/css/StudentDashboard.css'
 
 export default function StudentDashboard() {
-  const [courses, setCourses] = useState([]);
+  const [enrolledCourses, setEnrolledCourses] = useState([]); // State for enrolled courses
+  const [completedCourses, setCompletedCourses] = useState([]); // State for completed courses
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // Assuming the student ID is stored in localStorage
   const studentId = localStorage.getItem('studentId');
 
   useEffect(() => {
@@ -29,7 +29,8 @@ export default function StudentDashboard() {
           throw new Error('Failed to fetch courses');
         }
         const data = await response.json();
-        setCourses(data.courses);
+        setEnrolledCourses(data.enrolledCourses); // Set enrolled courses
+        setCompletedCourses(data.completedCourses); // Set completed courses
       } catch (error) {
         setError(error.message);
       } finally {
@@ -48,7 +49,7 @@ export default function StudentDashboard() {
     return (
       <Container className="text-center mt-5">
         <Spinner animation="border" role="status">
-          <span className="visually-hidden">Loading...</span>
+          <span className="visually-hidden">Loading your courses...</span>
         </Spinner>
         <p>Loading your courses...</p>
       </Container>
@@ -69,29 +70,57 @@ export default function StudentDashboard() {
   return (
     <Container>
       <h1 className="text-center mt-4 mb-4">My Courses</h1>
-      {courses.length > 0 ? (
-        <Row className="justify-content-center"> {/* Always centering but won't affect width */}
-          {courses.map((course) => (
-            <Col key={course._id} lg={4} md={6} className="mb-4 d-flex justify-content-center card-container">
-            <Link to={`/student/courses/${course._id}/modules`} className='no-underline'>
-              <Card className="course-card">
-                <div className="course-image-container">
-                  <Card.Img src={course.imageUrl || "path/to/default/image.jpg"} className="cardImage" />
-                </div>
-                <div className="course-content-container">
-                  <Card.Body className="course-content">
-                    <Card.Title className='course-card-title'>{course.title}</Card.Title>
-                  </Card.Body>
-                </div>
-              </Card>
-            </Link>
-          </Col>
-          ))}
-        </Row>
+      
+      {enrolledCourses.length > 0 ? (
+        <>
+          <h2 className="text-center">Enrolled Courses</h2>
+          <Row className="justify-content-center">
+            {enrolledCourses.map((course) => (
+              <Col key={course._id} lg={4} md={6} className="mb-4 d-flex justify-content-center card-container">
+                <Link to={`/student/courses/${course._id}/modules`} className='no-underline'>
+                  <Card className="course-card">
+                    <div className="course-image-container">
+                      <Card.Img src={course.imageUrl || "path/to/default/image.jpg"} className="cardImage" />
+                    </div>
+                    <div className="course-content-container">
+                      <Card.Body className="course-content">
+                        <Card.Title className='course-card-title'>{course.title}</Card.Title>
+                      </Card.Body>
+                    </div>
+                  </Card>
+                </Link>
+              </Col>
+            ))}
+          </Row>
+        </>
       ) : (
         <Alert variant="info" className="text-center">
           You are not enrolled in any courses.
         </Alert>
+      )}
+
+      {completedCourses.length > 0 && (
+        <>
+          <h2 className="text-center mt-5">Completed Courses</h2>
+          <Row className="justify-content-center">
+            {completedCourses.map((course) => (
+              <Col key={course._id} lg={4} md={6} className="mb-4 d-flex justify-content-center card-container">
+                <Link to={`/student/courses/${course._id}/modules`} className='no-underline'>
+                  <Card className="course-card">
+                    <div className="course-image-container">
+                      <Card.Img src={course.imageUrl || "path/to/default/image.jpg"} className="cardImage" />
+                    </div>
+                    <div className="course-content-container">
+                      <Card.Body className="course-content">
+                        <Card.Title className='course-card-title'>{course.title}</Card.Title>
+                      </Card.Body>
+                    </div>
+                  </Card>
+                </Link>
+              </Col>
+            ))}
+          </Row>
+        </>
       )}
     </Container>
   );

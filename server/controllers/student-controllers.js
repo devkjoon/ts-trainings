@@ -276,18 +276,33 @@ const getStudentCourses = async (req, res, next) => {
   const studentId = req.params.sid;
 
   try {
-    const student = await Student.findById(studentId).populate('enrolledCourses');
+    const student = await Student.findById(studentId)
+    .populate('enrolledCourses')
+    .populate('completedCourses.courseId');
+
     if (!student) {
       return next(new HttpError('Student not found', 404));
     }
 
+    const enrolledCourses = student.enrolledCourses.filter(course => 
+      !student.completedCourses.some(completed => 
+        completed.courseId.toString() === course._id.toString()
+      )
+    );
+
+    const completedCourses = student.completedCourses.map(completed => ({
+      ...completed.courseId.toObject({ getters: true })
+    }));
+
     res.json({
-      courses: student.enrolledCourses.map(course => course.toObject({ getters: true }))
+      enrolledCourses: enrolledCourses.map(course => course.toObject({ getters: true })),
+      completedCourses: completedCourses
     });
   } catch (error) {
     return next(new HttpError('Fetching student courses failed', 500));
   }
 }
+
 
 const getCompletedModules = async (req, res, next) => {
   const studentId = req.params.sid;

@@ -1,43 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
+import { Modal, Button, Form, Alert } from 'react-bootstrap';
 
 import API_URL from '../../config';
 
 import '../../assets/css/ForgotAdminPassword.css';
 import '../../assets/css/Modals.css';
 
-const AssignCourse = ({ show, handleClose, studentId, showAlert }) => {
-  const [courses, setCourses] = useState([]);
+const AssignCourse = ({ show, handleClose, studentId, showAlert, setStudents, courses }) => {
   const [selectedCourse, setSelectedCourse] = useState('');
   const [studentCourses, setStudentCourses] = useState([]);
+  const [modalAlert, setModalAlert] = useState({ show: false, message: '', variant: '' });
 
   useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await fetch(`${API_URL}/courses`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch courses');
-        }
-
-        const data = await response.json();
-        setCourses(data.courses);
-      } catch (error) {
-        console.error('Error fetching courses:', error);
-      }
-    };
-
     const fetchStudentCourses = async () => {
+      if (!studentId) return;
+      
       try {
         const response = await fetch(`${API_URL}/student/${studentId}/courses`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
         });
 
@@ -49,24 +32,22 @@ const AssignCourse = ({ show, handleClose, studentId, showAlert }) => {
         setStudentCourses(data.courses || []);
       } catch (error) {
         console.error('Error fetching student courses:', error);
+        showAlert('Failed to fetch student courses', 'danger');
       }
     };
 
     if (show) {
-      fetchCourses();
       fetchStudentCourses();
+      setModalAlert({ show: false, message: '', variant: '' }); // Reset modal alert when opening
     }
-  }, [show, studentId]);
+  }, [show, studentId, showAlert]);
 
   const handleAssignCourse = async () => {
-    const alreadyAssigned = studentCourses.some(course => course._id === selectedCourse);
-  
-    if (alreadyAssigned) {
-      handleClose();
-      showAlert('Student is already assigned to this course', 'warning');
+    if (!selectedCourse) {
+      setModalAlert({ show: true, message: 'Please select a course to assign', variant: 'warning' });
       return;
     }
-  
+
     try {
       const response = await fetch(`${API_URL}/student/${studentId}/assign-course`, {
         method: 'POST',
@@ -76,48 +57,57 @@ const AssignCourse = ({ show, handleClose, studentId, showAlert }) => {
         },
         body: JSON.stringify({ courseId: selectedCourse }),
       });
-  
-      if (!response.ok) {
-        throw new Error('Failed to assign course');
-      }
-  
+
       const result = await response.json();
-  
-      if (result.success) {
-        // Find the newly assigned course in the response
-        const newlyAssignedCourse = result.student.enrolledCourses.find(course => course._id === selectedCourse);
-  
-        if (newlyAssignedCourse) {
-          // Update the studentCourses state immediately
-          setStudentCourses(prevCourses => [...prevCourses, newlyAssignedCourse]);
-  
-          // Update the student object if needed to reflect the new course in the UI
+
+      if (response.ok && result.success) {
+        const assignedCourse = courses.find(course => course._id === selectedCourse);
+        if (assignedCourse) {
           setStudents(prevStudents =>
             prevStudents.map(student =>
-              student._id === studentId ? { ...student, enrolledCourses: [...student.enrolledCourses, newlyAssignedCourse] } : student
+              student._id === studentId
+                ? {
+                    ...student,
+                    courseProgress: [
+                      ...(student.courseProgress || []),
+                      { courseId: assignedCourse._id, courseName: assignedCourse.title, progress: 0 }
+                    ]
+                  }
+                : student
             )
           );
-  
-          handleClose();
+
+          handleModalClose();
           showAlert('Course assigned successfully', 'success');
         } else {
-          console.error('Newly assigned course not found in the response.');
+          console.error('Assigned course not found in the courses list.');
         }
       } else {
-        showAlert('Failed to assign course. Please try again later.', 'danger');
+        setModalAlert({ show: true, message: result.message || 'Failed to assign course. Please try again later.', variant: 'warning' });
       }
     } catch (error) {
       console.error('Error assigning course:', error);
-      showAlert('Failed to assign course. Please try again later.', 'danger');
+      setModalAlert({ show: true, message: 'Failed to assign course. Please try again later.', variant: 'danger' });
     }
   };
 
+  const handleModalClose = () => {
+    setSelectedCourse('');
+    setModalAlert({ show: false, message: '', variant: '' });
+    handleClose();
+  };
+
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleModalClose} dialogClassName="custom-modal-dialog" centered>
       <Modal.Header closeButton>
         <Modal.Title>Assign Course</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body className="custom-modal-content">
+        {modalAlert.show && (
+          <Alert variant={modalAlert.variant} onClose={() => setModalAlert({ ...modalAlert, show: false })} dismissible>
+            {modalAlert.message}
+          </Alert>
+        )}
         <Form>
           <Form.Group controlId="formCourseSelect">
             <Form.Label>Select Course</Form.Label>
@@ -137,7 +127,7 @@ const AssignCourse = ({ show, handleClose, studentId, showAlert }) => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="outline-secondary" onClick={handleClose}>
+        <Button variant="outline-secondary" onClick={handleModalClose}>
           Close
         </Button>
         <Button variant="outline-primary" onClick={handleAssignCourse}>

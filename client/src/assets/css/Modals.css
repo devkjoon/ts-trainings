@@ -8,4 +8,20 @@
     color: #000; /* Ensure options have visible text */
     background-color: #fff; /* Ensure options have visible background */
   }
+
+  .custom-modal-dialog {
+    max-width: 60% !important;
+    width: 60% !important;
+    margin: 1.75rem auto;
+  }
   
+  .custom-modal-content {
+    max-height: 90vh;
+  }
+  
+  @media (max-width: 768px) {
+    .custom-modal-dialog {
+      max-width: 95% !important;
+      width: 95% !important;
+    }
+  }

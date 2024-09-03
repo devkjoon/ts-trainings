@@ -214,11 +214,17 @@ const assignCourse = async (req, res, next) => {
       return next(new HttpError('Student not found', 404));
     }
 
-    if (!student.enrolledCourses.includes(courseId)) {
-      student.enrolledCourses.push(courseId);
-      await student.save();
-      await student.populate('enrolledCourses', 'title modules');
+    // Check if the course is already assigned
+    if (student.enrolledCourses.some(course => course._id.toString() === courseId)) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Student is already assigned to this course'
+      });
     }
+
+    student.enrolledCourses.push(courseId);
+    await student.save();
+    await student.populate('enrolledCourses', 'title modules');
 
     res.status(200).json({ success: true, student });
   } catch (err) {

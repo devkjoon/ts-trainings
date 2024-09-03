@@ -22,6 +22,9 @@ import '../../assets/css/StudentList.css';
 export default function StudentList() {
 	const [students, setStudents] = useState([]);
 	const [companies, setCompanies] = useState([]);
+	const [courses, setCourses] = useState([]);
+	const [companyFilter, setCompanyFilter] = useState('');
+	const [courseFilter, setCourseFilter] = useState('');
 	const [showAssignModal, setShowAssignModal] = useState(false);
 	const [showNewStudentModal, setShowNewStudentModal] = useState(false);
 	const [showEditModal, setShowEditModal] = useState(false);
@@ -35,6 +38,21 @@ export default function StudentList() {
 	const [lastname, setLastname] = useState('');
 	const [email, setEmail] = useState('');
 	const [company, setCompany] = useState('');
+
+	const filteredStudents = students.filter(student => {
+		let matchesCompany = true;
+		let matchesCourse = true;
+
+		if (companyFilter) {
+			matchesCompany = student.company && student.company._id === companyFilter;
+		}
+
+		if (courseFilter) {
+			matchesCourse = student.courseProgress && student.courseProgress.some(course => course.courseId === courseFilter);
+		}
+
+		return matchesCompany && matchesCourse;
+	})
 
 	AdminTokenVerification();
 
@@ -79,8 +97,30 @@ export default function StudentList() {
 			}
 		};
 
+		const fetchCourses = async () => {
+			try {
+				const response = await fetch(`${API_URL}/courses`, {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${localStorage.getItem('token')}`,
+					},
+				});
+
+				if (!response.ok) {
+					throw new Error('Failed to fetch courses');
+				}
+
+				const data = await response.json();
+				setCourses(data.courses);
+			} catch (error) {
+				console.error('Error fetching courses:', error);
+			}
+		};
+
 		fetchStudents();
 		fetchCompanies();
+		fetchCourses();
 	}, []);
 
 	const handleStudentCreation = async (event) => {
@@ -124,7 +164,6 @@ export default function StudentList() {
 	};
 
 	const handleDeleteStudent = async (id) => {
-		const token = localStorage.getItem('token');
 		if (
 			!window.confirm(
 				'Are you sure you want to delete this student? This action cannot be undone.'
@@ -169,7 +208,7 @@ export default function StudentList() {
       });
   
       const result = await response.json();
-      console.log('API Response:', result); // Debugging purpose
+    //   console.log('API Response:', result); // Debugging purpose
   
       if (result.success) {
         // Fetch the updated list of students including courses and progress
@@ -182,7 +221,7 @@ export default function StudentList() {
         });
   
         const allStudentsData = await allStudentsResponse.json();
-        console.log('All Students Data:', allStudentsData); // Debugging purpose
+        // console.log('All Students Data:', allStudentsData); // Debugging purpose
   
         // Update the state with the new list of students
         setStudents(allStudentsData.students);
@@ -196,6 +235,11 @@ export default function StudentList() {
       showAlert('Failed to update student. Please try again later.', 'danger');
     }
   };
+
+	const resetFilters = () => {
+		setCompanyFilter('');
+		setCourseFilter('');
+	};
 
 	const showAlert = (message, variant) => {
 		setAlert({ show: true, message, variant });
@@ -239,17 +283,55 @@ export default function StudentList() {
 	};
 
 	return (
-		<Container>
+		<Container className='student-list-container'>
 			<Row>
-				<Col sm={12}>
-					<h1 className='mt-4 mb-3'>Student List</h1>
+				<h1 className='mt-4 mb-3'>Student List</h1>
+			</Row>
+			<Row className="mb-1">
+				<Col sm={6} className='mt-1'>
+					<select
+						className="form-select"
+						value={companyFilter}
+						onChange={(e) => setCompanyFilter(e.target.value)}
+					>
+						<option value="">Filter by Company</option>
+						{companies.map((company) => (
+							<option key={company._id} value={company._id}>
+								{company.name}
+							</option>
+						))}
+					</select>
 				</Col>
-				<Col className='m-auto p-auto'>
+				<Col sm={6} className='mt-1'>
+					<select
+						className="form-select"
+						value={courseFilter}
+						onChange={(e) => setCourseFilter(e.target.value)}
+					>
+						<option value="">Filter by Course</option>
+						{courses.map((course) => (
+							<option key={course._id} value={course._id}>
+								{course.title}
+							</option>
+						))}
+					</select>
+				</Col>
+			</Row>
+			<Row className="m-auto">
+				<Col xs={6} className="text-center pt-1">
 					<Button
-						className='company-button mb-2'
+						className='student-list-button mb-2'
+						variant="outline-warning" 
+						onClick={resetFilters}>
+						Reset Filters
+					</Button>
+				</Col>
+				<Col xs={6} className='pt-1'>
+					<Button
+						className='student-list-button mb-2'
 						variant='outline-info'
 						onClick={handleShowNewStudentModal}>
-						Add New Student
+						Add Student
 					</Button>
 				</Col>
 			</Row>
@@ -270,9 +352,9 @@ export default function StudentList() {
 						</tr>
 					</thead>
 					<tbody>
-						{students.map((student) => (
+						{filteredStudents.map((student) => (
 							<React.Fragment key={student._id}>
-								{console.log(student)}
+								{/* {console.log(student)} */}
 								<tr onClick={() => toggleCollapse(student._id)}>
 									<td>
 										<span className='label-prefix'>Student: </span>

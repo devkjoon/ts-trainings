@@ -1,16 +1,19 @@
 /* General table styles */
 .custom-table {
-    width: 600px;
     border-collapse: collapse;
     table-layout: auto;
     margin: 0 auto;
-    max-width: 100%;
+    max-width: 95%;
 }
 
 /* Center the back button */
 .button-25-container {
     text-align: center;
     margin: 20px 0;
+}
+
+.student-list-button {
+    width: 90%;
 }
 
 /* Actions cell styles */

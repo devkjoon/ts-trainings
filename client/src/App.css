@@ -1,13 +1,7 @@
-body, html, #root, .App {
+body, html, #root {
   height: 100%;
-  overflow: hidden;
-}
-
-#root {
-  max-width: 98%;
-  margin: 0 auto;
-  padding: 1rem;
-  text-align: center;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -15,18 +9,32 @@ body {
   background-color: #f0f4f8;
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
 .no-underline {
   text-decoration: none;
 }
 
-.a.no-underline {
-  text-decoration: none;
-}
-
-input::placeholder {
-  font-style: italic;
-}
-
+input::placeholder,
 .form-control::placeholder {
   font-style: italic;
 }
+
+/* Add any other global styles you need */

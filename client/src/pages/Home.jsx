@@ -15,22 +15,22 @@ export default function Home() {
     <>
       <div className='buttonContainer'>
         <Row>
-          <Col className='text-center'>
+          <Col sm={12} lg={4} className='text-center mb-3'>
             <Link to="/admin" className='no-underline'>
-              <Button className="mainButton mt-2" variant="outline-info" size="lg">
+              <Button className="mainButton" variant="outline-info" size="lg">
                 Administrator Portal
               </Button>
             </Link>
           </Col>
-          <Col className='text-center'>
+          <Col sm={12} lg={4} className='text-center mb-3'>
             <Link to="/student/login" className='no-underline'>
-              <Button className="mainButton mt-2" variant="outline-warning" size="lg">
+              <Button className="mainButton" variant="outline-warning" size="lg">
                 Student Login
               </Button>
             </Link>
           </Col>
-          <Col className='text-center'>
-              <Button className="mainButton mt-2" variant="outline-info" size="lg" onClick={handleShowModal}>
+          <Col sm={12} lg={4} className='text-center mb-3'>
+              <Button className="mainButton" variant="outline-info" size="lg" onClick={handleShowModal}>
                 Verify Certification
               </Button>
           </Col>

@@ -193,7 +193,7 @@ return (
         {companies.map((company) => (
           <React.Fragment key={company._id}>
             <tr onClick={() => toggleCollapse(company._id)}>
-              <td classname='company-name-display'>{company.name}</td>
+              <td className='company-name-display'>{company.name}</td>
               <td>
                 <span className="label-prefix">Representative: </span>
                 <span className="data-text">{company.contact.name}</span>

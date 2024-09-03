@@ -7,7 +7,7 @@ import API_URL from '../../config';
 import AdminTokenVerification from '../../hooks/AdminTokenVerification';
 import useStudentData from '../../hooks/StudentList/useStudentData';
 import FilterComponent from '../../components/StudentList/FilterComponent';
-import AssignCourseModal from '../../components/Modals/AssignCourse';
+import AssignCourseModal from '../../components/Modals/StudentList/AssignCourse';
 import NewStudentModal from '../../components/Modals/StudentList/NewStudent';
 import EditStudentModal from '../../components/Modals/StudentList/EditStudent';
 import StudentTable from '../../components/StudentList/StudentTable';

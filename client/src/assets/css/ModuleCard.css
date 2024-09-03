@@ -91,7 +91,7 @@
     .img-title-container {
         display: flex;
         height: 65%;
-        justify-content: center;
+        justify-content: space-between; /* Changed to space-between */
         align-items: center;
     }
 
@@ -107,6 +107,8 @@
 
     .card-body-flex {
         padding: 10px;
+        justify-content: flex-end; /* Align content to the right */
+        text-align: right; /* Align text to the right */
     }
 
     .card-footer {

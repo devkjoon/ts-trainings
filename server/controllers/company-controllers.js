@@ -78,9 +78,41 @@ const deleteCompany = async (req, res, next) => {
     }
 };
 
+const updateCompany = async (req, res, next) => {
+    const companyId = req.params.cid;
+    const { name, phoneNumber, address, contact } = req.body;
+
+    let company;
+    try {
+        company = await Company.findById(companyId);
+    } catch (err) {
+        const error = new HttpError('Something went wrong, could not update company.', 500);
+        return next(error);
+    }
+
+    if (!company) {
+        const error = new HttpError('Could not find company for provided id.', 404);
+        return next(error);
+    }
+
+    company.name = name;
+    company.phoneNumber = phoneNumber;
+    company.address = address;
+    company.contact = contact;
+
+    try {
+        await company.save();
+    } catch (err) {
+        const error = new HttpError('Something went wrong, could not update company.', 500);
+        return next(error);
+    }
+
+    res.status(200).json({ success: true, company: company.toObject({ getters: true }) });
+};
 
 module.exports = {
     getAllCompanies,
     newCompany,
-    deleteCompany
+    deleteCompany,
+    updateCompany
 }

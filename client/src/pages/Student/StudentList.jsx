@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Button, Row, Alert } from 'react-bootstrap';
+import { Container, Button, Row, Col, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import API_URL from '../../config';
@@ -195,10 +195,12 @@ export default function StudentList() {
     };
 
     return (
-        <Container className='student-list-container'>
-            <Row>
-                <h1 className='mt-4 mb-3'>Student List</h1>
-            </Row>
+        <Container fluid className='student-list-container'>
+            <Row className="mb-3 mt-3">
+							<Col>
+								<h1 className="text-center">Student List</h1>
+							</Col>
+						</Row>
             <FilterComponent
                 companies={companies}
                 courses={courses}
@@ -224,11 +226,6 @@ export default function StudentList() {
                     handleShowEditModal={handleShowEditModal}
                     handleDeleteStudent={handleDeleteStudent}
                 />
-                <Link to='/admin/dashboard' className='no-underline'>
-                    <Button className='button-25 mt-3' variant='outline-info' size='lg'>
-                        Back
-                    </Button>
-                </Link>
             </div>
             {selectedStudent && (
                 <AssignCourseModal

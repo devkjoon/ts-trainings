@@ -1,14 +1,19 @@
 const express = require('express');
-const adminAuth = require('../middleware/adminAuth');
+const { check } = require('express-validator');
 
 const companyController = require('../controllers/company-controllers');
+const adminAuth = require('../middleware/adminAuth');
 
 const router = express.Router();
 
-router.get('/', adminAuth, companyController.getAllCompanies);
+router.use(adminAuth);
 
-router.post('/new-company', adminAuth, companyController.newCompany);
+router.get('/', companyController.getAllCompanies);
 
-router.delete('/:cid', adminAuth, companyController.deleteCompany);
+router.post('/new-company', companyController.newCompany);
+
+router.delete('/:cid', companyController.deleteCompany);
+
+router.put('/:cid', companyController.updateCompany);
 
 module.exports = router;

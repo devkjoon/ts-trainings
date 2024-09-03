@@ -1,3 +1,37 @@
 .heading-div {
     display: inline-block;
 }
+
+.company-list-button {
+    width: 90%;
+}
+
+.custom-table .main-column {
+    width: 50%;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.custom-table {
+    min-width: 100%;
+}
+
+@media (max-width: 768px) {
+    .custom-table .main-column {
+        width: auto;
+    }
+}
+
+.actions-cell {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+}
+
+.actions-cell button {
+    flex: 0 0 auto;
+}
+
+

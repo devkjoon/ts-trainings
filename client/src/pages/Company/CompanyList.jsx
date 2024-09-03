@@ -1,30 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Button, Row, Col, Table, Alert, Collapse } from 'react-bootstrap';
+import { Container, Button, Row, Col, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import API_URL from '../../config';
 import AdminTokenVerification from '../../hooks/AdminTokenVerification';
-import NewCompanyModal from '../../components/Modals/AddNewCompany';
+import CompanyTable from '../../components/CompanyList/CompanyTable';
+import FilterComponent from '../../components/CompanyList/FilterComponent';
+import NewCompanyModal from '../../components/Modals/CompanyList/NewCompany';
+import EditCompanyModal from '../../components/Modals/CompanyList/EditCompany';
 
 import '../../assets/css/CompanyList.css';
 
 export default function CompanyList() {
   const [companies, setCompanies] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+  const [nameFilter, setNameFilter] = useState('');
+  const [showNewModal, setShowNewModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [companyToEdit, setCompanyToEdit] = useState(null);
   const [alert, setAlert] = useState({ show: false, message: '', variant: '' });
-  const [open, setOpen] = useState({});
-
-  const [companyDetails, setCompanyDetails] = useState({
-    name: '',
-    phone: '',
-    address: '',
-    city: '',
-    state: '',
-    zip: '',
-    contactName: '',
-    contactEmail: '',
-    contactPhone: ''
-  });
 
   AdminTokenVerification();
 
@@ -33,61 +26,45 @@ export default function CompanyList() {
     setTimeout(() => setAlert({ show: false, message: '', variant: '' }), 3000);
   };
 
-  const formatPhoneNumber = (phoneNumber) => {
-    if (!phoneNumber || phoneNumber.length !== 10) {
-      return phoneNumber;
-    }
-    return `(${phoneNumber.substring(0, 3)}) ${phoneNumber.substring(3, 6)}-${phoneNumber.substring(6)}`;
-  };
-
   useEffect(() => {
-    const fetchCompanies = async () => {
-      try {
-        const response = await fetch(`${API_URL}/company`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch companies');
-        }
-
-        const data = await response.json();
-        setCompanies(data.companies);
-      } catch (error) {
-        console.error('Error fetching companies:', error);
-      }
-    };
-
     fetchCompanies();
   }, []);
 
-  const handleShowModal = () => setShowModal(true);
-  const handleCloseModal = () => {
-    setShowModal(false);
-    resetForm();
+  const fetchCompanies = async () => {
+    try {
+      const response = await fetch(`${API_URL}/company`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch companies');
+      }
+
+      const data = await response.json();
+      setCompanies(data.companies);
+    } catch (error) {
+      console.error('Error fetching companies:', error);
+      showAlert('Failed to fetch companies', 'danger');
+    }
   };
 
-  const resetForm = () => {
-    setCompanyDetails({
-      name: '',
-      phone: '',
-      address: '',
-      city: '',
-      state: '',
-      zip: '',
-      contactName: '',
-      contactEmail: '',
-      contactPhone: ''
-    });
+  const handleShowNewModal = () => setShowNewModal(true);
+  const handleCloseNewModal = () => setShowNewModal(false);
+
+  const handleShowEditModal = (company) => {
+    setCompanyToEdit(company);
+    setShowEditModal(true);
+  };
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+    setCompanyToEdit(null);
   };
 
-  const handleNewCompany = async (event) => {
-    event.preventDefault();
-
+  const handleNewCompany = async (newCompany) => {
     try {
       const response = await fetch(`${API_URL}/company/new-company`, {
         method: 'POST',
@@ -95,28 +72,14 @@ export default function CompanyList() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
-        body: JSON.stringify({
-          name: companyDetails.name,
-          phoneNumber: companyDetails.phone,
-          address: {
-            streetAddress: companyDetails.address,
-            city: companyDetails.city,
-            state: companyDetails.state,
-            zipcode: companyDetails.zip,
-          },
-          contact: {
-            name: companyDetails.contactName,
-            email: companyDetails.contactEmail,
-            phoneNumber: companyDetails.contactPhone
-          }
-        })
+        body: JSON.stringify(newCompany)
       });
 
       const result = await response.json();
 
       if (result.success) {
-        setCompanies((prevCompanies) => [...prevCompanies, result.company]);
-        handleCloseModal();
+        await fetchCompanies();
+        handleCloseNewModal();
         showAlert('New company added successfully', 'success', true);
       } else {
         showAlert(result.message || 'Unsuccessful, please try again later', 'danger');
@@ -127,9 +90,33 @@ export default function CompanyList() {
     }
   };
 
+  const handleUpdateCompany = async (updatedCompany) => {
+    try {
+      const response = await fetch(`${API_URL}/company/${updatedCompany._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(updatedCompany)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        await fetchCompanies();
+        handleCloseEditModal();
+        showAlert('Company updated successfully', 'success');
+      } else {
+        showAlert(result.message || 'Failed to update company. Please try again later.', 'danger');
+      }
+    } catch (error) {
+      console.error('Error updating company:', error);
+      showAlert('Failed to update company. Please try again later.', 'danger');
+    }
+  };
 
   const handleDeleteCompany = async (companyId) => {
-    const token = localStorage.getItem('token');
     const isConfirmed = window.confirm('Are you sure you want to delete this company? This action cannot be undone.');
 
     if (!isConfirmed) return;
@@ -139,7 +126,7 @@ export default function CompanyList() {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
       });
 
@@ -148,7 +135,7 @@ export default function CompanyList() {
         throw new Error(result.message || 'Failed to delete company');
       }
 
-      setCompanies((prevCompanies) => prevCompanies.filter((company) => company._id !== companyId));
+      await fetchCompanies();
       showAlert('Company deleted successfully', 'success');
     } catch (error) {
       console.error('Error deleting company:', error.message);
@@ -156,130 +143,54 @@ export default function CompanyList() {
     }
   };
 
-const toggleCollapse = (id) => {
-  setOpen((prevOpen) => ({
-    ...prevOpen,
-    [id]: !prevOpen[id],
-  }));
-};
+  const resetFilters = () => {
+    setNameFilter('');
+  };
 
+  const filteredCompanies = companies.filter(company => 
+    company.name.toLowerCase().includes(nameFilter.toLowerCase())
+  );
 
-return (
-  <Container>
-    <Row>
-      <Col sm={12}>
-         <h1 className="mt-4 mb-3">Company List</h1>
-      </Col>
-
-      <Col className='m-auto p-auto'>
-        <Button className='company-button mb-2' variant="outline-info" onClick={handleShowModal}>
-          Add New Company
-        </Button>
-      </Col>
-    </Row>
-    {alert.show && (
-      <Alert variant={alert.variant} onClose={() => setAlert({ show: false })} dismissible>
-        {alert.message}
-      </Alert>
-    )}
-    <Table striped bordered hover className="custom-table">
-      <thead>
-        <tr>
-          <th>Company</th>
-          <th>Representative</th>
-        </tr>
-      </thead>
-      <tbody>
-        {companies.map((company) => (
-          <React.Fragment key={company._id}>
-            <tr onClick={() => toggleCollapse(company._id)}>
-              <td className='company-name-display'>{company.name}</td>
-              <td>
-                <span className="label-prefix">Representative: </span>
-                <span className="data-text">{company.contact.name}</span>
-              </td>
-            </tr>
-            <tr>
-              <td colSpan="2" style={{ padding: 0 }}>
-                <Collapse in={open[company._id]}>
-                  <div className="p-2">
-                    <Table bordered>
-                      <tbody>
-                        <tr>
-                          <td><strong>Company Name:</strong></td>
-                          <td>{company.name}</td>
-                        </tr>
-                        <tr>
-                          <td><strong>Phone Number:</strong></td>
-                          <td>{formatPhoneNumber(company.phoneNumber)}</td>
-                        </tr>
-                        <tr>
-                          <td><strong>Street Address:</strong></td>
-                          <td>{`${company.address.streetAddress}`}</td>
-                        </tr>
-                        <tr>
-                          <td><strong>City, State, Zip:</strong></td>
-                          <td>{`${company.address.city}, ${company.address.state} ${company.address.zipcode}`}</td>
-                        </tr>
-                        <tr>
-                          <td><strong>Contact Name:</strong></td>
-                          <td>{company.contact.name}</td>
-                        </tr>
-                        <tr>
-                          <td><strong>Contact Email:</strong></td>
-                          <td>{company.contact.email}</td>
-                        </tr>
-                        <tr>
-                          <td><strong>Contact Phone:</strong></td>
-                          <td>{formatPhoneNumber(company.contact.phoneNumber)}</td>
-                        </tr>
-                        <tr>
-                          <td><strong>Actions:</strong></td>
-                          <td>
-                            <Button 
-                              variant="outline-danger" 
-                              onClick={() => handleDeleteCompany(company._id)}
-                            >
-                              Delete
-                            </Button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </div>
-                </Collapse>
-              </td>
-            </tr>
-          </React.Fragment>
-        ))}
-      </tbody>
-    </Table>
-    <Link to='/admin/dashboard' className='no-underline'>
-      <Button className="button-25 mt-3" variant="outline-info" size="lg">Back</Button>
-    </Link>
-    <NewCompanyModal
-      show={showModal}
-      handleClose={handleCloseModal}
-      handleSubmit={handleNewCompany}
-      companyName={companyDetails.name}
-      setCompanyName={(name) => setCompanyDetails((prev) => ({ ...prev, name }))}
-      companyPhone={companyDetails.phone}
-      setCompanyPhone={(phone) => setCompanyDetails((prev) => ({ ...prev, phone }))}
-      companyAddress={companyDetails.address}
-      setCompanyAddress={(address) => setCompanyDetails((prev) => ({ ...prev, address }))}
-      companyCity={companyDetails.city}
-      setCompanyCity={(city) => setCompanyDetails((prev) => ({ ...prev, city }))}
-      companyState={companyDetails.state}
-      setCompanyState={(state) => setCompanyDetails((prev) => ({ ...prev, state }))}
-      companyZip={companyDetails.zip}
-      setCompanyZip={(zip) => setCompanyDetails((prev) => ({ ...prev, zip }))}
-      companyContactName={companyDetails.contactName}
-      setCompanyContactName={(contactName) => setCompanyDetails((prev) => ({ ...prev, contactName }))}
-      companyContactEmail={companyDetails.contactEmail}
-      setCompanyContactEmail={(contactEmail) => setCompanyDetails((prev) => ({ ...prev, contactEmail }))}
-      companyContactPhone={companyDetails.contactPhone}
-      setCompanyContactPhone={(contactPhone) => setCompanyDetails((prev) => ({ ...prev, contactPhone }))}
-    />
-  </Container>
-);
+  return (
+    <Container fluid className="company-list-container">
+      <Row className="mb-3 mt-3">
+        <Col>
+          <h1 className="text-center">Company List</h1>
+        </Col>
+      </Row>
+      <FilterComponent
+        companies={companies}
+        nameFilter={nameFilter}
+        setNameFilter={setNameFilter}
+        resetFilters={resetFilters}
+        handleShowNewModal={handleShowNewModal}
+      />
+      {alert.show && (
+        <Alert variant={alert.variant} onClose={() => setAlert({ show: false })} dismissible>
+          {alert.message}
+        </Alert>
+      )}
+      <div className="table-responsive company-table-container">
+        <CompanyTable
+          companies={filteredCompanies}
+          handleShowEditModal={handleShowEditModal}
+          handleDeleteCompany={handleDeleteCompany}
+        />
+      </div>
+      {/* Modals */}
+      <NewCompanyModal
+        show={showNewModal}
+        handleClose={handleCloseNewModal}
+        handleSubmit={handleNewCompany}
+      />
+      {companyToEdit && (
+        <EditCompanyModal
+          show={showEditModal}
+          handleClose={handleCloseEditModal}
+          company={companyToEdit}
+          handleUpdateCompany={handleUpdateCompany}
+        />
+      )}
+    </Container>
+  );
 }

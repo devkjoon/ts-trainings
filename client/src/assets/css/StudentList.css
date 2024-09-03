@@ -3,7 +3,7 @@
     border-collapse: collapse;
     table-layout: auto;
     margin: 0 auto;
-    max-width: 95%;
+    min-width: 100%;
 }
 
 /* Center the back button */
@@ -16,11 +16,19 @@
     width: 90%;
 }
 
+.custom-table .main-column {
+    width: 50%;
+}
+
 /* Actions cell styles */
 .actions-cell {
     text-align: left;
     padding: 10px 0;
     white-space: nowrap;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    flex-wrap: wrap;
 }
 
 .actions-cell .btn {
@@ -29,6 +37,8 @@
     display: inline-block;
     vertical-align: middle;
     border: none;
+    flex: 0 0 auto;
+    margin-bottom: 5px;
 }
 
 /* Table cell and header styles */
@@ -141,4 +151,8 @@
         display: inline;
         margin: 5px 0;
     }
+}
+
+.table-responsive {
+    overflow-x: auto;
 }

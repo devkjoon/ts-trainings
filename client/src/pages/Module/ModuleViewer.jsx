@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Button, Spinner, Alert } from 'react-bootstrap';
 
-import ResourceViewer from '../../components/Course/ResourceViewer';
-import QuizForm from '../../components/Course/QuizForm';
-import ModalViewer from '../../components/Course/ModalViewer';
+import ResourceViewer from '../../components/ModuleViewer/ResourceViewer';
+import QuizForm from '../../components/ModuleViewer/QuizForm';
+import ModalViewer from '../../components/ModuleViewer/ModalViewer';
 import API_URL from '../../config';
 
 import '../../assets/css/ModuleViewer.css';

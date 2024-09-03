@@ -1,5 +1,6 @@
 import React from 'react';
 import { Row, Col, Button, Form } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const FilterComponent = ({
     companies,
@@ -42,13 +43,20 @@ const FilterComponent = ({
                 </Col>
             </Row>
             <Row className="mb-3">
-                <Col xs={6}>
-                    <Button variant="outline-warning student-list-button" onClick={resetFilters}>
+                <Col xs={12} sm={3} className="mb-2 mb-sm-0">
+                    <Link to='/admin/dashboard' className='no-underline'>
+                        <Button variant="outline-warning" className="w-100">
+                            <i className="fas fa-arrow-left"></i> Back to Dashboard
+                        </Button>
+                    </Link>
+                </Col>
+                <Col xs={12} sm={3} className="mb-2 mb-sm-0">
+                    <Button variant="outline-secondary" className="w-100" onClick={resetFilters}>
                         Reset Filters
                     </Button>
                 </Col>
-                <Col xs={6}>
-                    <Button variant="outline-info student-list-button" onClick={handleShowNewStudentModal}>
+                <Col xs={12} sm={6}>
+                    <Button variant="outline-info" className="w-100" onClick={handleShowNewStudentModal}>
                         Add New Student
                     </Button>
                 </Col>

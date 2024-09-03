@@ -3,8 +3,8 @@ import { Container, Alert, Spinner } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import API_URL from '../../config';
-import ProgressBar from '../../components/Course/ProgressBar';
-import ModuleList from '../../components/Course/ModuleList';
+import ProgressBar from '../../components/ModuleDashboard/ProgressBar';
+import ModuleList from '../../components/ModuleDashboard/ModuleList';
 
 import '../../assets/css/ModuleDashboard.css';
 

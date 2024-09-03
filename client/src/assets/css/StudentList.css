@@ -156,3 +156,22 @@
 .table-responsive {
     overflow-x: auto;
 }
+
+.custom-table ul {
+    margin-bottom: 0;
+}
+
+.custom-table li {
+    padding: 5px 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.custom-table li:last-child {
+    border-bottom: none;
+}
+
+@media (max-width: 768px) {
+    .custom-table .main-column {
+        width: auto;
+    }
+}

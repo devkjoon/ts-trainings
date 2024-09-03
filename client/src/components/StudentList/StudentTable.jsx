@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Table, Button, Collapse } from 'react-bootstrap';
 
-const StudentTable = ({ students, handleShowAssignModal, handleShowEditModal, handleDeleteStudent }) => {
+const StudentTable = ({ students, courses, handleShowAssignModal, handleShowEditModal, handleDeleteStudent }) => {
   const [open, setOpen] = useState({});
 
   const toggleCollapse = (id) => {
@@ -9,6 +9,11 @@ const StudentTable = ({ students, handleShowAssignModal, handleShowEditModal, ha
       ...prevOpen,
       [id]: !prevOpen[id],
     }));
+  };
+
+  const getCourseTitle = (courseId) => {
+    const course = courses.find(c => c._id === courseId);
+    return course ? course.title : 'Unknown Course';
   };
 
   return (
@@ -46,6 +51,23 @@ const StudentTable = ({ students, handleShowAssignModal, handleShowEditModal, ha
                               <tr>
                                 <td><strong>Company:</strong></td>
                                 <td>{student.company ? student.company.name : 'N/A'}</td>
+                              </tr>
+                              <tr>
+                                <td><strong>Assigned Courses:</strong></td>
+                                <td>
+                                  {student.courseProgress && student.courseProgress.length > 0 ? (
+                                    <ul className="list-unstyled mb-0">
+                                      {student.courseProgress.map((course, index) => (
+                                        <li key={index} className="d-flex justify-content-between align-items-center">
+                                          <span>{getCourseTitle(course.courseId)}</span>
+                                          <span>Progress: {course.progress}%</span>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  ) : (
+                                    'No courses assigned'
+                                  )}
+                                </td>
                               </tr>
                               <tr>
                                 <td><strong>Actions:</strong></td>

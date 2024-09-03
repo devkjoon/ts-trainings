@@ -212,20 +212,21 @@ export default function StudentList() {
                 handleShowNewStudentModal={handleShowNewStudentModal}
             />
             <div className='table-container'>
-                {alert.show && (
-                    <Alert
-                        variant={alert.variant}
-                        onClose={() => setAlert({ show: false })}
-                        dismissible>
-                        {alert.message}
-                    </Alert>
-                )}
-                <StudentTable 
-                    students={filteredStudents}
-                    handleShowAssignModal={handleShowAssignModal}
-                    handleShowEditModal={handleShowEditModal}
-                    handleDeleteStudent={handleDeleteStudent}
-                />
+							{alert.show && (
+								<Alert
+									variant={alert.variant}
+									onClose={() => setAlert({ show: false })}
+									dismissible>
+									{alert.message}
+								</Alert>
+							)}
+							<StudentTable 
+								students={filteredStudents}
+								courses={courses}
+								handleShowAssignModal={handleShowAssignModal}
+								handleShowEditModal={handleShowEditModal}
+								handleDeleteStudent={handleDeleteStudent}
+							/>
             </div>
             {selectedStudent && (
                 <AssignCourseModal

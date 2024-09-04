@@ -204,7 +204,8 @@ const updateStudent = async (req, res, next) => {
 };
 
 const assignCourse = async (req, res, next) => {
-  const { studentId, courseId } = req.body;
+  const studentId = req.params.sid; 
+  const { courseId } = req.body;
 
   try {
     const student = await Student.findById(studentId);

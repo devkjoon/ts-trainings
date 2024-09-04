@@ -3,7 +3,7 @@ const Module = require('../models/module');
 const Student = require('../models/student');
 const Course = require('../models/course');
 const Certification = require('../models/certification');
-
+const CourseAssignment = require('../models/courseAssignment');
 const HttpError = require('../models/http-error');
 const { generateCertificate, sendCertificateEmail } = require('../utility/certificateEmailService');
 
@@ -106,7 +106,7 @@ const submitQuiz = async (req, res, next) => {
         student.completedCourses.push({
           courseId: course._id,
           certificateId: newCertification._id
-        })
+        });
 
         await Student.updateOne(
           { _id: studentId },
@@ -114,6 +114,15 @@ const submitQuiz = async (req, res, next) => {
         );
         
         await student.save();
+
+        // Update CourseAssignment
+        await CourseAssignment.findOneAndUpdate(
+          { student: studentId, course: course._id },
+          { 
+            status: 'completed',
+            completedAt: new Date()
+          }
+        );
 
         await sendCertificateEmail(student.email, certificatePath, student, course);
       }

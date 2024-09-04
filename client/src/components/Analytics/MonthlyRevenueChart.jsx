@@ -36,14 +36,12 @@ const MonthlyRevenueChart = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      console.log('Raw data from API:', data);
 
       if (data && data.data && Array.isArray(data.data)) {
         const years = [...new Set(data.data.map(item => new Date(item.date).getFullYear()))];
         setAvailableYears(years);
 
         const processedData = processDataForChart(data.data);
-        console.log('Processed chart data:', processedData);
         setChartData(processedData);
       } else {
         console.error('Invalid data format received from API');
@@ -54,7 +52,6 @@ const MonthlyRevenueChart = () => {
   };
 
   const processDataForChart = (data) => {
-    console.log('Data received in processDataForChart:', data);
 
     const filteredData = data.filter(item => {
       const itemDate = new Date(item.date);
@@ -65,18 +62,12 @@ const MonthlyRevenueChart = () => {
              (selectedMonth === 'all' || itemMonth === selectedMonth);
     });
 
-    console.log('Filtered data:', filteredData);
-
     const courseNames = [...new Set(filteredData.map(item => item.courseName || 'Unknown Course'))];
     const dates = [...new Set(filteredData.map(item => item.date))].sort();
-
-    console.log('Course names:', courseNames);
-    console.log('Dates:', dates);
 
     const datasets = courseNames.map(courseName => {
       const courseData = dates.map(date => {
         const item = filteredData.find(d => d.date === date && (d.courseName || 'Unknown Course') === courseName);
-        console.log(`Data for ${courseName} on ${date}:`, item);
         return item ? item.revenue : 0;
       });
 
@@ -85,6 +76,22 @@ const MonthlyRevenueChart = () => {
         data: courseData,
         backgroundColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.6)`,
       };
+    });
+
+    // Add a dataset for the total
+    const totalData = dates.map(date => {
+      return filteredData
+        .filter(item => item.date === date)
+        .reduce((sum, item) => sum + item.revenue, 0);
+    });
+
+    datasets.push({
+      label: 'Total',
+      data: totalData,
+      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+      // This will make the total bar wider
+      barPercentage: 0.8,
+      categoryPercentage: 0.8
     });
 
     return {
@@ -110,10 +117,10 @@ const MonthlyRevenueChart = () => {
     },
     scales: {
       x: {
-        stacked: true,
+        stacked: false,
       },
       y: {
-        stacked: true,
+        stacked: false,
         beginAtZero: true,
         title: {
           display: true,

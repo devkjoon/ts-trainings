@@ -21,7 +21,7 @@ const AnalyticsDashboard = () => {
       </div>
 
       <div className="dashboard-section">
-        <h2>Monthly Enrollment and Revenue</h2>
+        <h2>Monthly Revenue</h2>
         <MonthlyRevenueChart />
       </div>
       

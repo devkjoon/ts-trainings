@@ -46,7 +46,7 @@ const FilterComponent = ({
                 <Col xs={12} sm={3} className="mb-2 mb-sm-0">
                     <Link to='/admin/dashboard' className='no-underline'>
                         <Button variant="outline-warning" className="w-100">
-                            <i className="fas fa-arrow-left"></i> Back to Dashboard
+                            Back to Dashboard
                         </Button>
                     </Link>
                 </Col>

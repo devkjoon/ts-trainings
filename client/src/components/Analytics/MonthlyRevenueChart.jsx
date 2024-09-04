@@ -6,6 +6,10 @@ import API_URL from '../../config';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const MonthlyRevenueChart = () => {
+  const currentDate = new Date();
+  const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+  const currentYear = currentDate.getFullYear().toString();
+
   const [chartData, setChartData] = useState(null);
   const [selectedMonth, setSelectedMonth] = useState('all');
   const [selectedYear, setSelectedYear] = useState('all');
@@ -130,11 +134,18 @@ const MonthlyRevenueChart = () => {
     }
   };
 
+  const getMonthName = (monthNumber) => {
+    const date = new Date();
+    date.setMonth(monthNumber - 1);
+    return date.toLocaleString('default', { month: 'long' });
+  };
+
   return (
     <div className="monthly-revenue-chart">
       <div className="filter-controls">
         <select value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)}>
           <option value="all">All Months</option>
+          <option value={currentMonth}>{getMonthName(parseInt(currentMonth))} (Current)</option>
           <option value="01">January</option>
           <option value="02">February</option>
           <option value="03">March</option>
@@ -150,9 +161,12 @@ const MonthlyRevenueChart = () => {
         </select>
         <select value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)}>
           <option value="all">All Years</option>
-          {availableYears.map(year => (
-            <option key={year} value={year.toString()}>{year}</option>
-          ))}
+          <option value={currentYear}>{currentYear} (Current)</option>
+          {availableYears
+            .filter(year => year.toString() !== currentYear)
+            .map(year => (
+              <option key={year} value={year.toString()}>{year}</option>
+            ))}
         </select>
       </div>
       <div style={{ height: '400px' }}>

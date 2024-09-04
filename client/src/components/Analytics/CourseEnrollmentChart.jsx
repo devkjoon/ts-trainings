@@ -8,8 +8,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 const CourseEnrollmentChart = () => {
   const [chartData, setChartData] = useState(null);
-  const [timeRange, setTimeRange] = useState('1m'); // 1m, 3m, 6m, 1y
-
+  const [timeRange, setTimeRange] = useState('1m');
   useEffect(() => {
     fetchData();
   }, [timeRange]);
@@ -87,6 +86,12 @@ const CourseEnrollmentChart = () => {
     };
   };
 
+  const getMaxYValue = () => {
+    if (!chartData || !chartData.datasets) return 100;
+    const maxValue = Math.max(...chartData.datasets.flatMap(dataset => dataset.data));
+    return Math.ceil(maxValue * 1.1); 
+  };
+
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -102,9 +107,14 @@ const CourseEnrollmentChart = () => {
     scales: {
       y: {
         beginAtZero: true,
+        max: getMaxYValue(),
         title: {
           display: true,
           text: 'Total Enrollments'
+        },
+        ticks: {
+          stepSize: 1, 
+          precision: 0 
         }
       },
       x: {

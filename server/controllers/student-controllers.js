@@ -209,10 +209,13 @@ const assignCourse = async (req, res, next) => {
 
   try {
     const student = await Student.findById(studentId);
-    const course = await Course.findById(courseId);
+    if (!student) {
+      return next(new HttpError('Student not found', 404));
+    }
 
-    if (!student || !course) {
-      return next(new HttpError('Student or course not found', 404));
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return next(new HttpError('Course not found', 404));
     }
 
     // Check if the student is already enrolled in the course
@@ -220,16 +223,13 @@ const assignCourse = async (req, res, next) => {
       return next(new HttpError('Student is already enrolled in this course', 400));
     }
 
-    // Calculate revenue (apply discounts if any)
-    const revenue = calculateRevenue(course.price, student);
-
     // Create a new CourseAssignment
     const newAssignment = new CourseAssignment({
       student: studentId,
       course: courseId,
+      company: student.company,
       assignedAt: new Date(),
-      status: 'in_progress',
-      revenue: revenue,
+      revenue: course.price,
     });
 
     await newAssignment.save();
@@ -238,9 +238,10 @@ const assignCourse = async (req, res, next) => {
     student.enrolledCourses.push(courseId);
     await student.save();
 
-    res.status(201).json({ message: 'Course assigned successfully', assignment: newAssignment });
+    res.status(201).json({ message: 'Course assigned successfully', assignment: newAssignment, success: true });
   } catch (err) {
-    return next(new HttpError('Assigning course failed, please try again', 500));
+    console.error('Error in assignCourse:', err);
+    return next(new HttpError(`Assigning course failed: ${err.message}`, 500));
   }
 };
 

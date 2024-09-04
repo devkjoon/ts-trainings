@@ -3,6 +3,7 @@ const Module = require('../models/module');
 const Student = require('../models/student');
 const Course = require('../models/course');
 const Certification = require('../models/certification');
+const CourseAssignment = require('../models/courseAssignment');
 
 const HttpError = require('../models/http-error');
 const { generateCertificate, sendCertificateEmail } = require('../utility/certificateEmailService');
@@ -90,6 +91,18 @@ const submitQuiz = async (req, res, next) => {
           return next(new HttpError('Course associated with this module not found.', 404));
         }
 
+        // Update CourseAssignment status to 'completed'
+        const courseAssignment = await CourseAssignment.findOne({ 
+          student: studentId, 
+          course: course._id 
+        });
+
+        if (courseAssignment) {
+          courseAssignment.status = 'completed';
+          courseAssignment.completedAt = new Date();
+          await courseAssignment.save();
+        }
+
         const certificationNumber = 'TS-' + Date.now();
         const studentName = `${student.firstname} ${student.lastname}`;
         const certificatePath = await generateCertificate(studentName, course.title, course.details, certificationNumber);
@@ -106,7 +119,7 @@ const submitQuiz = async (req, res, next) => {
         student.completedCourses.push({
           courseId: course._id,
           certificateId: newCertification._id
-        })
+        });
 
         await Student.updateOne(
           { _id: studentId },

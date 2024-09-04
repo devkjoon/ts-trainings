@@ -35,8 +35,6 @@ const CourseEnrollmentChart = () => {
       }
       const data = await response.json();
 
-      console.log('API Response:', data);
-
       if (data && data.data && Array.isArray(data.data)) {
         const processedData = processDataForChart(data.data);
         setChartData(processedData);

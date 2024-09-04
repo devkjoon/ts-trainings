@@ -101,10 +101,53 @@ const deleteCourse = async (req, res, next) => {
   }
 };
 
+const updateCourse = async (req, res, next) => {
+  const courseId = req.params.cid;
+  const { title, description, imageUrl, moduleIconUrl, price, details } = req.body;
+
+  let course;
+  try {
+    course = await Course.findById(courseId);
+  } catch (err) {
+    const error = new HttpError('Something went wrong, could not update course.', 500);
+    return next(error);
+  }
+
+  if (!course) {
+    const error = new HttpError('Could not find course for provided id.', 404);
+    return next(error);
+  }
+
+  course.title = title || course.title;
+  course.description = description || course.description;
+  course.imageUrl = imageUrl || course.imageUrl;
+  course.moduleIconUrl = moduleIconUrl || course.moduleIconUrl;
+  course.price = price || course.price;
+  
+  if (details) {
+    course.details = {
+      ...course.details,
+      ...details
+    };
+  }
+
+  course.updatedAt = Date.now();
+
+  try {
+    await course.save();
+  } catch (err) {
+    const error = new HttpError('Something went wrong, could not update course.', 500);
+    return next(error);
+  }
+
+  res.status(200).json({ course: course.toObject({ getters: true }) });
+};
+
 module.exports = {
   getCourses,
   getCourseById,
   getCourseModules,
   createCourse,
-  deleteCourse
+  deleteCourse,
+  updateCourse
 }

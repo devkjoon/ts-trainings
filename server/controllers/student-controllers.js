@@ -1,6 +1,7 @@
 const Student = require("../models/student");
 const Course = require("../models/course");
 const Module = require('../models/module');
+const CourseAssignment = require("../models/courseAssignment");
 const Company = require('../models/company');
 
 const { validationResult } = require("express-validator");
@@ -202,36 +203,45 @@ const updateStudent = async (req, res, next) => {
   }
 };
 
-
 const assignCourse = async (req, res, next) => {
-  const { sid } = req.params;
-  const { courseId } = req.body;
+  const { studentId, courseId } = req.body;
 
-  let student;
   try {
-    student = await Student.findById(sid).populate('enrolledCourses', 'title modules');
-    if (!student) {
-      return next(new HttpError('Student not found', 404));
+    const student = await Student.findById(studentId);
+    const course = await Course.findById(courseId);
+
+    if (!student || !course) {
+      return next(new HttpError('Student or course not found', 404));
     }
 
-    // Check if the course is already assigned
-    if (student.enrolledCourses.some(course => course._id.toString() === courseId)) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Student is already assigned to this course'
-      });
+    // Check if the student is already enrolled in the course
+    if (student.enrolledCourses.includes(courseId)) {
+      return next(new HttpError('Student is already enrolled in this course', 400));
     }
 
+    // Calculate revenue (apply discounts if any)
+    const revenue = calculateRevenue(course.price, student);
+
+    // Create a new CourseAssignment
+    const newAssignment = new CourseAssignment({
+      student: studentId,
+      course: courseId,
+      assignedAt: new Date(),
+      status: 'in_progress',
+      revenue: revenue,
+    });
+
+    await newAssignment.save();
+
+    // Add the course to the student's enrolledCourses
     student.enrolledCourses.push(courseId);
     await student.save();
-    await student.populate('enrolledCourses', 'title modules');
 
-    res.status(200).json({ success: true, student });
+    res.status(201).json({ message: 'Course assigned successfully', assignment: newAssignment });
   } catch (err) {
-    const error = new HttpError('Failed to assign course', 500);
-    return next(error);
+    return next(new HttpError('Assigning course failed, please try again', 500));
   }
-}; 
+};
 
 const getAllStudents = async (req, res, next) => {
   try {

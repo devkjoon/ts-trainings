@@ -1,0 +1,199 @@
+.analytics-dashboard {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+.analytics-dashboard h1 {
+  color: #2c3e50;
+  font-size: 2em;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.dashboard-section {
+  margin-bottom: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  overflow-x: auto; /* Allow horizontal scrolling for tables on small screens */
+}
+
+.dashboard-section:hover {
+  box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+}
+
+.dashboard-section h2 {
+  margin-bottom: 15px;
+  color: #34495e;
+  font-size: 1.5em;
+  border-bottom: 2px solid #ecf0f1;
+  padding-bottom: 10px;
+}
+
+/* Styling for CourseAnalytics component */
+.course-analytics table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.course-analytics th, .course-analytics td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.course-analytics th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.course-analytics tr:hover {
+  background-color: #f5f6fa;
+}
+
+.course-analytics .total-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.course-analytics .stat-item {
+  background-color: #ecf0f1;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  flex: 1 1 calc(33.333% - 20px);
+  margin: 10px;
+  min-width: 120px;
+}
+
+.course-analytics .stat-item h3 {
+  margin: 0;
+  color: #34495e;
+  font-size: 1em;
+}
+
+.course-analytics .stat-item p {
+  margin: 5px 0 0;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #2980b9;
+}
+
+/* Styling for CourseEnrollmentChart component */
+.enrollment-chart {
+  margin-top: 20px;
+}
+
+.enrollment-chart .time-range-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.enrollment-chart button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 0.9em;
+}
+
+.enrollment-chart button:hover {
+  background-color: #2980b9;
+}
+
+.enrollment-chart button.active {
+  background-color: #2c3e50;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .analytics-dashboard {
+    padding: 10px;
+  }
+
+  .analytics-dashboard h1 {
+    font-size: 1.8em;
+  }
+
+  .dashboard-section {
+    padding: 15px;
+  }
+
+  .dashboard-section h2 {
+    font-size: 1.3em;
+  }
+
+  .course-analytics .stat-item {
+    flex: 1 1 calc(50% - 20px);
+  }
+
+  .course-analytics th, .course-analytics td {
+    padding: 8px;
+    font-size: 0.9em;
+  }
+
+  .enrollment-chart button {
+    padding: 6px 10px;
+    font-size: 0.8em;
+  }
+}
+
+@media (max-width: 480px) {
+  .course-analytics .stat-item {
+    flex: 1 1 100%;
+  }
+
+  .course-analytics th, .course-analytics td {
+    padding: 6px;
+    font-size: 0.8em;
+  }
+
+  .enrollment-chart .time-range-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .enrollment-chart button {
+    width: 80%;
+    margin: 5px 0;
+  }
+}
+
+.filter-controls {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.filter-controls select {
+  margin: 0 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+@media (max-width: 480px) {
+  .filter-controls {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .filter-controls select {
+    margin: 5px 0;
+    width: 80%;
+  }
+}

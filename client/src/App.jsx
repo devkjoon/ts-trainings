@@ -18,7 +18,7 @@ import CourseList from './pages/Course/CourseList'
 import CourseDetail from './pages/Course/CourseDetail'
 import ModuleDashboard from './pages/Module/ModuleDashboard';
 import ModuleViewer from './pages/Module/ModuleViewer';
-
+import AnalyticsDashboard from './pages/Analytics/AnalyticsDashboard';
 import './App.css'
 
 function App() {
@@ -42,6 +42,7 @@ function App() {
             <Route path='/student/courses/:courseId/modules' element={<ModuleDashboard />} />
             <Route path='/student/courses/:courseId/modules/:moduleId' element={<ModuleViewer />} />
             <Route path='/admin/reset-password/:token' element={<AdminPasswordReset />} />
+            <Route path='/admin/analytics' element={<AnalyticsDashboard />} />
           </Routes>
         </main>
       </div>

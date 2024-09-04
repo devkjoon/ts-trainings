@@ -21,4 +21,6 @@ router.post(
 );
 router.delete('/:cid', courseController.deleteCourse);
 
+router.put('/:cid', courseController.updateCourse);
+
 module.exports = router;

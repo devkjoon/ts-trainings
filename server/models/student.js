@@ -13,7 +13,9 @@ const studentSchema = new mongoose.Schema({
           courseId: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' },
           certificateId: { type: mongoose.Schema.Types.ObjectId, ref: 'Certification' }
         }
-      ]
+    ],
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now }
 });
 
 studentSchema.pre('save', async function(next) {

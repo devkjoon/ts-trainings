@@ -1,11 +1,14 @@
 .module-card {
-    background-color: #e6edf1;
     perspective: 1000px;
     cursor: pointer;
     width: 100%;
     margin-bottom: 20px;
-    min-height: 315px;
+    height: 275px;
     box-sizing: border-box;
+    background-color: #d1dbe8;
+    border-radius: 15px;
+    overflow: hidden;
+    padding: 0 !important; /* Override any padding set by parent */
 }
 
 .card-inner {
@@ -26,107 +29,141 @@
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    border-radius: 15px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 }
 
 .card-back {
     transform: rotateY(180deg);
 }
 
-.card-back-body {
+.img-title-container {
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: hidden;
 }
 
-.img-title-container {
+.img-container {
     width: 100%;
+    display: flex;
+    margin: 10px;
+    justify-content: center;
 }
 
 .module-card-img {
-    width: 150px;
-    height: 150px;
-    margin: 10px auto;
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
 }
 
 .card-body-flex {
     flex-grow: 1;
+    padding: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 20px;
+}
+
+.module-title {
+    text-align: center;
+    font-size: 1.2em;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.2em;
 }
 
 .card-footer {
     display: flex;
     justify-content: center;
-    width: 100%;
+    width: calc(100% + 2rem); /* Extend beyond padding */
+    margin-left: -1rem; /* Compensate for parent padding */
+    margin-right: -1rem; /* Compensate for parent padding */
+    padding: 10px;
+    background-color: #e6edf3;
+    margin-top: auto;
 }
 
 .module-dashboard-btn {
     width: 75%;
-    border-radius: 5px;
+}
+
+.card-back-body {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.description-header {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    color: #333;
 }
 
 .scrollable-description {
-    overflow-y: auto;
     height: 100%;
-    margin: 5px;
+    overflow-y: auto;
+    padding-left: 20px;
+    margin: 0;
+    background-color: #e6edf3;
+    list-style-position: outside; 
+    padding-right: 10px; 
 }
 
-/* Responsive styling when viewport width is 640px or less */
 @media (max-width: 640px) {
     .module-card {
-        min-height: 175px;
-    }
-
-    .card-front {
-        display: flex;
+        height: 175px;
     }
 
     .img-title-container {
-        display: flex;
-        height: 65%;
-        justify-content: space-between; /* Changed to space-between */
+        flex-direction: row;
+        justify-content: space-between;
         align-items: center;
+        padding: 10px;
     }
 
     .img-container {
         width: 30%;
-        margin: 5px auto;
+        padding: 10px;
     }
 
     .module-card-img {
-        width: 80%; 
+        width: 80%;
         height: auto;
     }
 
     .card-body-flex {
-        padding: 10px;
-        justify-content: flex-end; /* Align content to the right */
-        text-align: right; /* Align text to the right */
-    }
-
-    .card-footer {
-        display: flex;
-        justify-content: center;
-        align-items: flex-end;
-        width: 100%;
-        padding-bottom: 10px;
-        margin-top: auto; /* Pushes the footer to the bottom */
+        width: 70%;
+        padding: 0 10px;
     }
 
     .scrollable-description {
-        height: 50%;
+        padding-left: 25px;
+        padding-right: 15px;
+    }
+
+    .card-back-body {
+        padding: 15px; 
     }
 }
 
-@media (max-width: 535px){
-    .scrollable-description {
-        height: 40%;
+@media (max-width: 535px) {
+    .module-title {
+        font-size: 1em;
+    }
+
+    .img-container {
+        padding: 0;
+        margin: 0;
     }
 }

@@ -21,50 +21,48 @@ const ModuleCard = ({ module, flipped, onFlip, onButtonClick }) => {
   };
 
   return (
-    <Col xs={12} md={6} lg={4} className="mb-4 d-flex">
-      <Card className={`module-card ${flipped ? 'flipped' : ''}`}>
+    <Col lg={4} md={6} sm={12} className="mb-4">
+      <div className={`module-card ${flipped ? 'flipped' : ''}`} onClick={onFlip}>
         <div className="card-inner">
-          <div className="card-front" onClick={onFlip}>
+          <div className="card-front">
             <div className="img-title-container">
               <div className="img-container">
-                <Card.Img
+                <img
                   className="module-card-img"
                   src={module.moduleIconUrl || 'default-image-url.jpg'}
-                  alt="Module Image"
+                  alt="Module Icon"
                 />
               </div>
-              <Card.Body className="card-body-flex">
-                <Card.Title className="module-content">{module.title}</Card.Title>
-              </Card.Body>
+              <div className="card-body-flex">
+                <h3 className="module-title">{module.title}</h3>
+              </div>
             </div>
-            <Card.Footer className="card-footer">
+            <div className="card-footer">
               <Button
                 className="module-dashboard-btn"
                 variant={getButtonVariant()}
                 onClick={(e) => {
-                  e.stopPropagation(); // Prevent card flip when clicking the button
+                  e.stopPropagation();
                   onButtonClick();
                 }}
                 disabled={module.isLocked}
               >
                 {getButtonText()}
               </Button>
-            </Card.Footer>
+            </div>
           </div>
-          <div className="card-back" onClick={onFlip}>
-            <Card.Body className="card-back-body">
-              <div className="description-header">
-                <strong>About this Module:</strong>
-              </div>
+          <div className="card-back">
+            <div className="card-back-body">
+              <h4 className="description-header">About this Module:</h4>
               <ul className="scrollable-description">
                 {module.description.map((desc, index) => (
                   <li key={index}>{desc}</li>
                 ))}
               </ul>
-            </Card.Body>
+            </div>
           </div>
         </div>
-      </Card>
+      </div>
     </Col>
   );
 };

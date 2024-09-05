@@ -8,4 +8,6 @@ router.use(adminAuth);
 
 router.post('/send-student-login-code', emailController.sendStudentLoginCode);
 
+router.post('/resend-certificate', emailController.resendCertificate);
+
 module.exports = router;

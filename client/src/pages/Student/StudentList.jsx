@@ -176,6 +176,29 @@ export default function StudentList() {
     }
   };
 
+  const handleSendCertificate = async (studentId, courseId) => {
+    try {
+      const response = await fetch(`${API_URL}/email/resend-certificate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({ studentId, courseId }),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        showAlert('Certificate sent successfully', 'success');
+      } else {
+        showAlert(result.message || 'Failed to send certificate', 'danger');
+      }
+    } catch (error) {
+      console.error('Error sending certificate:', error);
+      showAlert('Failed to send certificate. Please try again later.', 'danger');
+    }
+  };
+
   const resetFilters = () => {
     setCompanyFilter('');
     setCourseFilter('');
@@ -252,6 +275,7 @@ export default function StudentList() {
           handleShowEditModal={handleShowEditModal}
           handleDeleteStudent={handleDeleteStudent}
           handleSendLoginCode={handleSendLoginCode}
+          handleSendCertificate={handleSendCertificate}
         />
       </div>
       {selectedStudent && (

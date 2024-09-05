@@ -159,4 +159,89 @@ async function sendCertificateEmail(to, filePath, student, course) {
   }
 }
 
-module.exports = { generateCertificate, sendCertificateEmail };
+async function resendCertificateEmail(to, filePath, student, course) {
+  try {
+    // Retrieve the file from Google Cloud Storage
+    const [fileContent] = await storage.bucket(bucketName).file(filePath).download();
+    const Base64Content = fileContent.toString('base64');
+
+    const request = mailjetClient.post('send', { version: 'v3.1' }).request({
+      Messages: [
+        {
+          From: {
+            Email: 'info@thinksafetyllcs.com',
+            Name: 'Think Safety',
+          },
+          To: [
+            {
+              Email: to,
+              Name: `${student.firstname} ${student.lastname}`,
+            },
+          ],
+          Subject: `Your Certificate for ${course.title}`,
+          HTMLPart: `
+            <div style="font-family: Arial, sans-serif; color: #333;">
+              <h2 style="color: #17a2b8;">
+                Hello <span style="color: #ffc107;">${student.firstname}!</span>
+              </h2>
+              <p style="font-size: 16px;">
+                As requested, we are resending you your certificate for completing the ${course.title} online training course.
+                <br><br>
+                Your certificate is attached to this email.
+                <br><br>
+                Regards,
+                <br><br>
+                <table role="presentation" style="width: 100%; border-spacing: 0;">
+                  <tr>
+                    <td style="width: 75px;">
+                      <img src="https://github.com/devkjoon/ts-trainings/blob/main/server/assets/think-safety-logo.png?raw=true" 
+                          alt="Company Logo"
+                          width="75" 
+                          height="75" 
+                          style="width: 75px; height: 75px; max-width: 75px; display: block;" />
+                    </td>
+                    <td style="vertical-align: bottom; padding: 0 0 15px 10px;">
+                      <strong style="font-size: 13px;">Think Safety LLCS<br>
+                          +1 (571) 351-9191
+                      </strong>
+                    </td>
+                  </tr>
+                </table>
+              </p>
+              <hr style="border-top: 1px solid #eee;">
+              <footer>
+                <p style="font-size: 11px; color: #888;">
+                  This email was sent to you by Think Safety LLC. If you have any questions or need further assistance, please don't hesitate to contact us at 
+                  <a href="mailto:info@thinksafetyllcs.com" 
+                    style="color: #17a2b8; text-decoration: none; font-style: italic;">
+                    info@thinksafetyllcs.com
+                  </a>.
+                </p>
+              </footer>
+            </div>
+          `,
+          Attachments: [
+            {
+              ContentType: 'application/pdf',
+              Filename: path.basename(filePath),
+              Base64Content: Base64Content,
+            },
+          ],
+          ReplyTo: {
+            Email: 'info@thinksafetyllcs.com',
+            Name: 'Think Safety',
+          },
+        },
+      ],
+    });
+
+    const response = await request;
+    console.log('Certificate email resent');
+    return true;
+  } catch (error) {
+    console.error('Error resending certificate email:', error);
+    throw error;
+  }
+}
+
+module.exports = { generateCertificate, sendCertificateEmail, resendCertificateEmail };

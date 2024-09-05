@@ -8,6 +8,7 @@ const StudentTable = ({
   handleShowEditModal,
   handleDeleteStudent,
   handleSendLoginCode,
+  handleSendCertificate // Add this new prop
 }) => {
   const [open, setOpen] = useState({});
 
@@ -94,7 +95,16 @@ const StudentTable = ({
                                 {student.completedCourses && student.completedCourses.length > 0 ? (
                                   <ul className="list-unstyled mb-0">
                                     {student.completedCourses.map((course, index) => (
-                                      <li key={index}>{getCourseTitle(course.courseId)}</li>
+                                      <li key={index} className="d-flex justify-content-between align-items-center">
+                                        <span>{getCourseTitle(course.courseId)}</span>
+                                        <Button
+                                          variant="outline-success"
+                                          size="sm"
+                                          onClick={() => handleSendCertificate(student._id, course.courseId)}
+                                        >
+                                          Send Certificate
+                                        </Button>
+                                      </li>
                                     ))}
                                   </ul>
                                 ) : (

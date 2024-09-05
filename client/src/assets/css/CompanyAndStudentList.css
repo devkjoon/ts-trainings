@@ -1,0 +1,108 @@
+/* General table styles */
+.custom-table {
+    border-collapse: collapse;
+    table-layout: auto;
+    margin: 0 auto;
+    min-width: 100%;
+}
+
+.custom-table .main-column {
+    width: 50%;
+}
+
+/* Actions cell styles */
+.actions-cell {
+    padding: 10px 0;
+    text-align: center !important; /* Override inherited alignment */
+}
+
+.actions-cell .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: -5px;
+}
+
+.actions-cell .col {
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+.actions-cell .btn {
+    width: 175px;
+    margin: 0 auto;
+}
+
+/* Table cell and header styles */
+.custom-table tbody td,
+.custom-table thead th {
+    border-color: #17a2b8;
+    padding: 8px 15px;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.label-prefix {
+    display: none;
+}
+
+/* Smaller screens (600px and below) - Responsive table */
+@media (max-width: 600px) {
+    .custom-table .main-column {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 15px;
+    }
+
+    .label-prefix {
+        display: inline;
+        font-weight: bold;
+    }
+
+    .data-text {
+        text-align: right;
+    }
+
+    .custom-table,
+    .custom-table thead,
+    .custom-table tbody,
+    .custom-table th,
+    .custom-table td,
+    .custom-table tr {
+        display: block;
+        width: 100%;
+    }
+
+    .custom-table thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .custom-table tr {
+        margin: 0 0 1rem 0;
+        border: 1px solid #17a2b8;
+    }
+
+    .custom-table td {
+        border: none;
+        border-bottom: 1px solid #17a2b8;
+        position: relative;
+    }
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+@media (max-width: 576px) {
+
+    .actions-cell .btn {
+        font-size: 0.9rem;
+        padding: 0.375rem 0.75rem;
+    }
+}
+

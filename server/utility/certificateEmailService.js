@@ -105,7 +105,7 @@ async function sendCertificateEmail(to, filePath, student, course) {
                 <br>
                 Check out our other courses on our platform to further enhance your expertise.
                 <br><br>
-                Kind Regards,
+                Regards,
                 <br><br>
                 <table role="presentation" style="width: 100%; border-spacing: 0;">
                   <tr>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, Button, Collapse } from 'react-bootstrap';
+import { Table, Button, Row, Col, Collapse } from 'react-bootstrap';
 
 const CompanyTable = ({ companies, handleShowEditModal, handleDeleteCompany }) => {
     const [open, setOpen] = useState({});
@@ -36,7 +36,8 @@ const CompanyTable = ({ companies, handleShowEditModal, handleDeleteCompany }) =
                             <tr>
                                 <td colSpan='2' className="p-0">
                                     <Collapse in={open[company._id]}>
-                                        <div className='p-2'>
+                                    <div className="p-2">
+                                        <div className='table-responsive'>
                                             <Table bordered>
                                                 <tbody>
                                                     <tr>
@@ -58,21 +59,28 @@ const CompanyTable = ({ companies, handleShowEditModal, handleDeleteCompany }) =
                                                     <tr>
                                                         <td><strong>Actions:</strong></td>
                                                         <td className='actions-cell'>
-                                                            <Button
-                                                                variant='outline-warning'
-                                                                onClick={() => handleShowEditModal(company)}>
-                                                                Edit
-                                                            </Button>
-                                                            <Button
-                                                                variant='outline-danger'
-                                                                onClick={() => handleDeleteCompany(company._id)}>
-                                                                Delete
-                                                            </Button>
+                                                            <Row>
+                                                                <Col>
+                                                                    <Button
+                                                                        variant='outline-warning'
+                                                                        onClick={() => handleShowEditModal(company)}>
+                                                                        Edit Company
+                                                                    </Button>
+                                                                </Col>
+                                                                <Col>
+                                                                    <Button
+                                                                        variant='outline-danger'
+                                                                        onClick={() => handleDeleteCompany(company._id)}>
+                                                                        Delete Company
+                                                                    </Button>
+                                                                </Col>
+                                                            </Row>
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             </Table>
                                         </div>
+                                    </div>
                                     </Collapse>
                                 </td>
                             </tr>

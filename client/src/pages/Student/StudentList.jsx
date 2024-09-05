@@ -12,7 +12,7 @@ import NewStudentModal from '../../components/Modals/StudentList/NewStudent';
 import EditStudentModal from '../../components/Modals/StudentList/EditStudent';
 import StudentTable from '../../components/StudentList/StudentTable';
 
-import '../../assets/css/StudentList.css';
+import '../../assets/css/CompanyAndStudentList.css';
 import '../../assets/css/Modals.css';
 
 export default function StudentList() {
@@ -148,6 +148,29 @@ export default function StudentList() {
         }
     };
 
+    const handleSendLoginCode = async (studentId, email) => {
+        try {
+            const response = await fetch(`${API_URL}/email/send-student-login-code`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                },
+                body: JSON.stringify({ studentId, email }),
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                showAlert('Login code sent successfully', 'success');
+            } else {
+                showAlert(result.message || 'Failed to send login code', 'danger');
+            }
+        } catch (error) {
+            console.error('Error sending login code:', error);
+            showAlert('Failed to send login code. Please try again later.', 'danger');
+        }
+    };
+
     const resetFilters = () => {
         setCompanyFilter('');
         setCourseFilter('');
@@ -194,6 +217,8 @@ export default function StudentList() {
         setCompany('');
     };
 
+    
+
     return (
         <Container fluid className='student-list-container'>
             <Row className="mb-3 mt-3">
@@ -226,6 +251,7 @@ export default function StudentList() {
 								handleShowAssignModal={handleShowAssignModal}
 								handleShowEditModal={handleShowEditModal}
 								handleDeleteStudent={handleDeleteStudent}
+								handleSendLoginCode={handleSendLoginCode}
 							/>
             </div>
             {selectedStudent && (

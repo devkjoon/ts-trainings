@@ -72,7 +72,7 @@ const requestLoginCode = async (req, res, next) => {
     const subject = 'Your Login Code';
     const message = `Dear ${student.firstname}, \n\n` +
     `Your login code is: ${loginCode}\n\n` +
-    `Please use this code to log in to your account. \n\n` +
+    `Please use this code to access your training portal. \n\n` +
     `If you did not request this, please ignore this email.\n`;
 
     await sendEmail(student.email, subject, message);

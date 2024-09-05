@@ -25,7 +25,9 @@ router.post('/forgot-password', adminController.forgotPassword);
 router.post('/reset-password/:token', adminController.resetPassword);
 
 // Protected routes
-router.get('/get-admins', adminAuth, adminController.getAdmins);
-router.get('/protected-resource', adminAuth, adminController.getProtectedResource);
+router.use(adminAuth);
+
+router.get('/get-admins', adminController.getAdmins);
+router.get('/protected-resource', adminController.getProtectedResource);
 
 module.exports = router;

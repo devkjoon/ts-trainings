@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
 
-import StudentLoginCode from '../../components/Modals/StudentLoginCode';
+import StudentLoginCode from '../../components/Modals/StudentLogin/StudentLoginCode';
 import API_URL from '../../config';
 
 import '../../assets/css/Login.css';

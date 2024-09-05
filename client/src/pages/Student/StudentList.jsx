@@ -155,7 +155,7 @@ export default function StudentList() {
 
   const handleSendLoginCode = async (studentId, email) => {
     try {
-      const response = await fetch(`${API_URL}/email/send-student-login-code`, {
+      const response = await fetch(`${API_URL}/email/send-login-code`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

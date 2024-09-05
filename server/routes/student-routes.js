@@ -6,13 +6,12 @@ const studentController = require('../controllers/student-controllers');
 
 const router = express.Router();
 
+// Public routes
 router.post(
   '/login',
   [check('email').normalizeEmail().isEmail(), check('loginCode').not().isEmpty()],
   studentController.login
 );
-
-router.post('/request-login-code', studentController.requestLoginCode);
 
 router.post(
   '/newStudent',
@@ -25,11 +24,17 @@ router.post(
   studentController.newStudent
 );
 
+router.get('/', studentController.getAllStudents);
+router.get('/:sid/courses', studentController.getStudentCourses);
+router.get('/:sid/completed-modules', studentController.getCompletedModules);
+router.post('/:sid/assign-course', studentController.assignCourse);
 router.delete('/:sid', adminAuth, studentController.deleteStudent);
+
+// Protected routes
+router.use(adminAuth);
 
 router.put(
   '/:sid',
-  adminAuth,
   [
     check('firstname').not().isEmpty(),
     check('lastname').not().isEmpty(),
@@ -38,13 +43,5 @@ router.put(
   ],
   studentController.updateStudent
 );
-
-router.get('/', studentController.getAllStudents);
-
-router.get('/:sid/courses', studentController.getStudentCourses);
-
-router.get('/:sid/completed-modules', studentController.getCompletedModules);
-
-router.post('/:sid/assign-course', studentController.assignCourse);
 
 module.exports = router;

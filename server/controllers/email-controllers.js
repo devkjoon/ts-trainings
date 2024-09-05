@@ -1,12 +1,10 @@
-const Admin = require('../models/admin');
 const Student = require('../models/student');
 const Course = require('../models/course');
 const HttpError = require('../models/http-error');
-const jwt = require('jsonwebtoken');
 const { sendEmail } = require('../utility/emailService');
 const { resendCertificateEmail } = require('../utility/certificateEmailService');
 
-const sendStudentLoginCode = async (req, res, next) => {
+const sendLoginCode = async (req, res, next) => {
   const { studentId, email } = req.body;
 
   try {
@@ -20,17 +18,43 @@ const sendStudentLoginCode = async (req, res, next) => {
     }
 
     const subject = 'Your Login Code';
-    const text =
-      `Your login code is: ${student.loginCode}. \n\n` +
-      `Please use this code to access your training portal.\n\n` +
-      `If you did not request this, please ignore this email.\n`;
+    const content = `
+      <p>Your login code is: ${student.loginCode}.</p>
+      <p>Please use this code to access your training portal.</p>
+      <p>If you did not request this, please ignore this email.</p>
+    `;
 
-    await sendEmail(email, subject, text);
+    await sendEmail(email, subject, content);
 
     res.json({ success: true, message: 'Login code sent successfully' });
   } catch (error) {
     console.error('Error sending login code:', error);
     return next(new HttpError('Failed to send login code', 500));
+  }
+};
+
+const forgotLoginCode = async (req, res, next) => {
+  const { email } = req.body;
+
+  try {
+    const student = await Student.findOne({ email });
+
+    if (!student) {
+      return next(new HttpError('No student with that email address exists', 404));
+    }
+
+    const subject = 'Your Login Code';
+    const content = `
+    <p>Dear ${student.firstname},</p>
+    <p>Your login code is: ${student.loginCode}.</p>
+    <p>Please use this code to access your training portal.</p>
+    <p>If you did not request this, please ignore this email.</p>
+    `;
+    await sendEmail(student.email, subject, content);
+
+    res.status(200).json({ message: `A login code has been sent to the provided email address.` });
+  } catch (err) {
+    return next(new HttpError('Error sending login code, please try again later.', 500));
   }
 };
 
@@ -72,6 +96,7 @@ const resendCertificate = async (req, res, next) => {
 };
 
 module.exports = {
-  sendStudentLoginCode,
+  sendLoginCode,
+  forgotLoginCode,
   resendCertificate,
 };

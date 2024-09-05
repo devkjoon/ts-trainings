@@ -59,33 +59,6 @@ const login = async (req, res, next) => {
   });
 };
 
-const requestLoginCode = async (req, res, next) => {
-  const { email } = req.body;
-
-  try {
-    const student = await Student.findOne({ email });
-
-    if (!student) {
-      return next(new HttpError('No student with that email address exists', 404));
-    }
-
-    const loginCode = student.loginCode;
-
-    const subject = 'Your Login Code';
-    const message =
-      `Dear ${student.firstname}, \n\n` +
-      `Your login code is: ${loginCode}\n\n` +
-      `Please use this code to access your training portal. \n\n` +
-      `If you did not request this, please ignore this email.\n`;
-
-    await sendEmail(student.email, subject, message);
-
-    res.status(200).json({ message: `A login code has been sent to the provided email address.` });
-  } catch (err) {
-    return next(new HttpError('Error sending login code, please try again later.', 500));
-  }
-};
-
 const newStudent = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -357,7 +330,6 @@ const getCompletedModules = async (req, res, next) => {
 
 module.exports = {
   login,
-  requestLoginCode,
   newStudent,
   deleteStudent,
   updateStudent,

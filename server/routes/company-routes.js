@@ -9,11 +9,8 @@ const router = express.Router();
 router.use(adminAuth);
 
 router.get('/', companyController.getAllCompanies);
-
 router.post('/new-company', companyController.newCompany);
-
 router.delete('/:cid', companyController.deleteCompany);
-
 router.put('/:cid', companyController.updateCompany);
 
 module.exports = router;

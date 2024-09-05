@@ -29,7 +29,8 @@
 }
 
 .actions-cell .btn {
-    width: 175px;
+    min-width: 150px;
+    max-width: 200px;
     margin: 0 auto;
 }
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Table, Button, Row, Col, Collapse } from 'react-bootstrap';
+import { formatPhoneNumber } from '../../utils/formatPhoneNumber';
 
 const CompanyTable = ({ companies, handleShowEditModal, handleDeleteCompany }) => {
     const [open, setOpen] = useState({});
@@ -42,7 +43,7 @@ const CompanyTable = ({ companies, handleShowEditModal, handleDeleteCompany }) =
                                                 <tbody>
                                                     <tr>
                                                         <td><strong>Phone Number:</strong></td>
-                                                        <td>{company.phoneNumber}</td>
+                                                        <td>{formatPhoneNumber(company.phoneNumber)}</td>
                                                     </tr>
                                                     <tr>
                                                         <td><strong>Address:</strong></td>
@@ -54,7 +55,7 @@ const CompanyTable = ({ companies, handleShowEditModal, handleDeleteCompany }) =
                                                     </tr>
                                                     <tr>
                                                         <td><strong>Contact Phone:</strong></td>
-                                                        <td>{company.contact.phoneNumber}</td>
+                                                        <td>{formatPhoneNumber(company.contact.phoneNumber)}</td>
                                                     </tr>
                                                     <tr>
                                                         <td><strong>Actions:</strong></td>

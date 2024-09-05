@@ -7,7 +7,7 @@ const mailjetClient = mailjet.apiConnect(
   process.env.MAILJET_API_KEY,
   process.env.MAILJET_SECRET_KEY
 );
-async function sendEmail(to, subject, text) {
+async function sendEmail(to, subject, content) {
   try {
     const request = mailjetClient.post('send', { version: 'v3.1' }).request({
       Messages: [
@@ -26,7 +26,7 @@ async function sendEmail(to, subject, text) {
           HTMLPart: `
             <div style="font-family: Arial, sans-serif; color: #333;">
               <p style="font-size: 16px;">
-                ${text}
+                ${content}
                 <br><br>
                 Regards,
                 <br><br>

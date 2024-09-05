@@ -6,7 +6,6 @@ const moduleController = require('../controllers/module-controllers');
 const router = express.Router();
 
 router.get('/', moduleController.getModules);
-
 router.get('/:mid', moduleController.getModuleById);
 
 router.post(

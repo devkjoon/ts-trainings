@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form, Alert } from 'react-bootstrap';
-import API_URL from '../../config';
+import API_URL from '../../../config';
 
 export default function StudentLoginCode({ show, handleClose }) {
   const [email, setEmail] = useState('');
@@ -21,7 +21,7 @@ export default function StudentLoginCode({ show, handleClose }) {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/student/request-login-code`, {
+      const response = await fetch(`${API_URL}/email/forgot-login-code`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

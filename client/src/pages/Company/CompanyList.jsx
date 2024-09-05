@@ -9,7 +9,7 @@ import FilterComponent from '../../components/CompanyList/FilterComponent';
 import NewCompanyModal from '../../components/Modals/CompanyList/NewCompany';
 import EditCompanyModal from '../../components/Modals/CompanyList/EditCompany';
 
-import '../../assets/css/CompanyList.css';
+import '../../assets/css/CompanyAndStudentList.css';
 
 export default function CompanyList() {
   const [companies, setCompanies] = useState([]);

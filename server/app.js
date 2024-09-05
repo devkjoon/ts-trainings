@@ -13,6 +13,7 @@ const moduleRoutes = require('./routes/module-routes');
 const companyRoutes = require('./routes/company-routes');
 const certificationRoutes = require('./routes/certification-routes');
 const analyticsRoutes = require('./routes/analytics-routes');
+const emailRoutes = require('./routes/email-routes');
 
 dotenv.config();
 
@@ -50,6 +51,7 @@ app.use('/module', moduleRoutes);
 app.use('/company', companyRoutes);
 app.use('/certification', certificationRoutes);
 app.use('/analytics', analyticsRoutes);
+app.use('/email', emailRoutes);
 // app.use('/progress', progressRoutes);
 // app.use('/certificate', certificateRoutes);
 

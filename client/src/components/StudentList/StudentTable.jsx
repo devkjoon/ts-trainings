@@ -16,6 +16,11 @@ const StudentTable = ({ students, courses, handleShowAssignModal, handleShowEdit
     return course ? course.title : 'Unknown Course';
   };
 
+  const getCompletedCourseTitle = (courseId) => {
+    const course = courses.find(c => c._id === courseId);
+    return course ? course.title : 'Unknown Course';
+  };
+
   return (
       <div className="table-responsive">
         <Table striped bordered hover className='custom-table'>
@@ -53,7 +58,7 @@ const StudentTable = ({ students, courses, handleShowAssignModal, handleShowEdit
                                 <td>{student.company ? student.company.name : 'N/A'}</td>
                               </tr>
                               <tr>
-                                <td><strong>Assigned Courses:</strong></td>
+                                <td><strong>Enrolled Courses:</strong></td>
                                 <td>
                                   {student.courseProgress && student.courseProgress.length > 0 ? (
                                     <ul className="list-unstyled mb-0">
@@ -65,7 +70,23 @@ const StudentTable = ({ students, courses, handleShowAssignModal, handleShowEdit
                                       ))}
                                     </ul>
                                   ) : (
-                                    'No courses assigned'
+                                    'No enrolled courses'
+                                  )}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td><strong>Completed Courses:</strong></td>
+                                <td>
+                                  {student.completedCourses && student.completedCourses.length > 0 ? (
+                                    <ul className="list-unstyled mb-0">
+                                      {student.completedCourses.map((course, index) => (
+                                        <li key={index}>
+                                          {getCompletedCourseTitle(course.courseId)}
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  ) : (
+                                    'No completed courses'
                                   )}
                                 </td>
                               </tr>

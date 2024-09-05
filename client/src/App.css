@@ -15,8 +15,6 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 1rem;
-  box-sizing: border-box;
 }
 
 .app-container {
@@ -27,6 +25,8 @@ body {
 
 .main-content {
   flex: 1;
+  display: flex;
+  flex-direction: column;
   overflow-y: auto;
 }
 
@@ -37,6 +37,17 @@ body {
 input::placeholder,
 .form-control::placeholder {
   font-style: italic;
+}
+
+/* Remove the padding from #root */
+#root {
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Add padding to the navbar if needed */
+.navbar {
+  padding: 0 1rem;
 }
 
 /* Add any other global styles you need */

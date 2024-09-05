@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Container, Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
-
+import { Button, Form, InputGroup, Alert } from 'react-bootstrap';
 import API_URL from '../../config';
-
-import '../../assets/css/AdminRegistration.css';
+import '../../assets/css/AdminPreLogin.css';
 
 export default function AdminRegistration() {
   const [firstname, setFirstname] = useState('');
@@ -15,6 +13,7 @@ export default function AdminRegistration() {
   const [adminCode, setAdminCode] = useState('');
   const [validated, setValidated] = useState(false);
   const [alert, setAlert] = useState({ show: false, message: '', variant: '' });
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -29,6 +28,7 @@ export default function AdminRegistration() {
     }
 
     try {
+      setLoading(true);
       const response = await fetch(`${API_URL}/admin/signup`, {
         method: 'POST',
         headers: {
@@ -57,134 +57,105 @@ export default function AdminRegistration() {
         message: 'Failed to register user. Please try again later.',
         variant: 'danger',
       });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <Container>
-      <h3 className="admin-registration-text">Administrator Registration</h3>
-      <Form
-        noValidate
-        validated={validated}
-        onSubmit={handleRegistration}
-        className="registrationContainer"
-      >
-        <Row>
-          <Form.Group as={Col} md="6" className="mb-2 mt-2">
-            <Form.Label>First Name</Form.Label>
-            <InputGroup className="registrationInput">
-              <Form.Control
-                type="text"
-                placeholder="First Name"
-                value={firstname}
-                onChange={(e) => setFirstname(e.target.value)}
-                required
-              />
-              <Form.Control.Feedback type="invalid">Enter a First Name</Form.Control.Feedback>
-            </InputGroup>
-          </Form.Group>
-          <Form.Group as={Col} md="6" className="mb-2 mt-2">
-            <Form.Label>Last Name</Form.Label>
-            <InputGroup className="registrationInput">
-              <Form.Control
-                type="text"
-                placeholder="Last Name"
-                value={lastname}
-                onChange={(e) => setLastname(e.target.value)}
-                required
-              />
-              <Form.Control.Feedback type="invalid">Enter a Last Name</Form.Control.Feedback>
-            </InputGroup>
-          </Form.Group>
-        </Row>
-        <Row>
-          <Form.Group as={Col} md="6" className="mb-2 mt-2">
-            <Form.Label>Email</Form.Label>
-            <InputGroup className="registrationInput">
-              <Form.Control
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <Form.Control.Feedback type="invalid">Enter an Email</Form.Control.Feedback>
-            </InputGroup>
-          </Form.Group>
-          <Form.Group as={Col} md="6" className="mb-2 mt-2">
-            <Form.Label>Username</Form.Label>
-            <InputGroup className="registrationInput">
-              <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
-              <Form.Control
-                type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-              <Form.Control.Feedback type="invalid">Enter a Username</Form.Control.Feedback>
-            </InputGroup>
-          </Form.Group>
-        </Row>
-        <Row>
-          <Form.Group as={Col} md="6" className="mb-2 mt-2">
-            <Form.Label>Set Password</Form.Label>
-            <InputGroup className="registrationInput">
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <Form.Control.Feedback type="invalid">Enter a Password</Form.Control.Feedback>
-            </InputGroup>
-          </Form.Group>
-          <Form.Group as={Col} md="6" className="mb-2 mt-2">
-            <Form.Label>Admin Code</Form.Label>
-            <InputGroup className="registrationInput">
-              <Form.Control
-                type="text"
-                placeholder="Admin Code"
-                value={adminCode}
-                onChange={(e) => setAdminCode(e.target.value)}
-                required
-              />
-              <Form.Control.Feedback type="invalid">Enter an Admin Code</Form.Control.Feedback>
-            </InputGroup>
-          </Form.Group>
-        </Row>
+    <div className="admin-container">
+      <Form noValidate validated={validated} onSubmit={handleRegistration} className="admin-form">
+        <h2 className="admin-title">Administrator Registration</h2>
+        <Form.Group className="admin-input-group">
+          <Form.Label>First Name</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="First Name"
+            value={firstname}
+            onChange={(e) => setFirstname(e.target.value)}
+            required
+          />
+        </Form.Group>
+        <Form.Group className="admin-input-group">
+          <Form.Label>Last Name</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Last Name"
+            value={lastname}
+            onChange={(e) => setLastname(e.target.value)}
+            required
+          />
+        </Form.Group>
+        <Form.Group className="admin-input-group">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </Form.Group>
+        <Form.Group className="admin-input-group">
+          <Form.Label>Username</Form.Label>
+          <InputGroup>
+            <InputGroup.Text>@</InputGroup.Text>
+            <Form.Control
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </InputGroup>
+        </Form.Group>
+        <Form.Group className="admin-input-group">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </Form.Group>
+        <Form.Group className="admin-input-group">
+          <Form.Label>Admin Code</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Admin Code"
+            value={adminCode}
+            onChange={(e) => setAdminCode(e.target.value)}
+            required
+          />
+        </Form.Group>
         {alert.show && (
           <Alert variant={alert.variant} onClose={() => setAlert({ show: false })} dismissible>
             {alert.message}
           </Alert>
         )}
-        <div className="loginButtonContainer">
-          <Row>
-            <Col className="text-center">
-              <Link to="/" className="no-underline">
-                <Button
-                  className="mainButton registrationBottomBtn"
-                  variant="outline-info"
-                  size="lg"
-                >
-                  Return Home
-                </Button>
-              </Link>
-            </Col>
-            <Col className="text-center">
-              <Button
-                className="mainButton registrationBottomBtn"
-                type="submit"
-                variant="outline-warning"
-                size="lg"
-              >
-                Complete Registration
-              </Button>
-            </Col>
-          </Row>
+        <div className="admin-button-container">
+          <Button
+            type="submit"
+            variant="outline-primary"
+            size="lg"
+            className="admin-button"
+            disabled={loading}
+          >
+            {loading ? 'Registering...' : 'Register'}
+          </Button>
+          <Link to="/" className="admin-button" style={{ textDecoration: 'none' }}>
+            <Button variant="outline-secondary" size="lg" className="w-100">
+              Return Home
+            </Button>
+          </Link>
+          <Link to="/admin/login" className="admin-link-button">
+            <Button variant="link" className="w-100">
+              Already have an account? Login here
+            </Button>
+          </Link>
         </div>
       </Form>
-    </Container>
+    </div>
   );
 }

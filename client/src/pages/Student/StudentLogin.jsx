@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
-
+import { Button, Form, InputGroup, Alert } from 'react-bootstrap';
 import StudentLoginCode from '../../components/Modals/StudentLogin/StudentLoginCode';
 import API_URL from '../../config';
-
-import '../../assets/css/Login.css';
+import '../../assets/css/StudentPreLogin.css';
 
 export default function StudentLogin() {
   const [email, setEmail] = useState('');
@@ -67,74 +65,61 @@ export default function StudentLogin() {
   };
 
   return (
-    <Form noValidate validated={validated} onSubmit={handleLogin} className="formContainer">
-      <Row className="mb-2">
-        <Form.Group as={Col} md="6" sm="8" className="mt-3">
+    <div className="student-container">
+      <Form noValidate validated={validated} onSubmit={handleLogin} className="student-form">
+        <h2 className="student-title">Student Login</h2>
+        <Form.Group className="student-input-group">
           <Form.Label>Email</Form.Label>
-          <InputGroup hasValidation className="loginInput">
-            <Form.Control
-              type="text"
-              placeholder="Email"
-              aria-describedby="inputGroupPrepend"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <Form.Control.Feedback type="invalid">Enter an email</Form.Control.Feedback>
-          </InputGroup>
+          <Form.Control
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
         </Form.Group>
-        <Form.Group as={Col} md="6" sm="4" controlId="validationCustom01" className="mt-3">
+        <Form.Group className="student-input-group">
           <Form.Label>Login Code</Form.Label>
-          <InputGroup className="loginInput">
-            <Form.Control
-              type="tel"
-              pattern="\d{6}"
-              placeholder="Login Code"
-              value={loginCode}
-              onChange={(e) => setLoginCode(e.target.value)}
-              required
-            />
-            <Form.Control.Feedback type="invalid">Enter a login code</Form.Control.Feedback>
-          </InputGroup>
-          <div className="forgot-login-code-container">
-            <Link to="#" onClick={() => setShowStudentLoginCodeModal(true)}>
-              <em>Forgot Login Code?</em>
-            </Link>
-          </div>
+          <Form.Control
+            type="tel"
+            pattern="\d{6}"
+            placeholder="Login Code"
+            value={loginCode}
+            onChange={(e) => setLoginCode(e.target.value)}
+            required
+          />
         </Form.Group>
-      </Row>
-      {alert.show && (
-        <Alert variant={alert.variant} onClose={() => setAlert({ show: false })} dismissible>
-          {alert.message}
-        </Alert>
-      )}
-      <div className="login-btn-container">
-        <Row>
-          <Col className="text-center">
-            <Link to="/" className="no-underline">
-              <Button className="login-btn mt-3" variant="outline-info" size="lg">
-                Return Home
-              </Button>
-            </Link>
-          </Col>
-          <Col className="text-center">
-            <Button
-              className="login-btn mt-3"
-              type="submit"
-              variant="outline-warning"
-              size="lg"
-              disabled={loading}
-            >
-              {loading ? 'Logging in...' : 'Login'}
+        <div className="text-end mb-3">
+          <Link to="#" onClick={() => setShowStudentLoginCodeModal(true)}>
+            Forgot Login Code?
+          </Link>
+        </div>
+        {alert.show && (
+          <Alert variant={alert.variant} onClose={() => setAlert({ show: false })} dismissible>
+            {alert.message}
+          </Alert>
+        )}
+        <div className="student-button-container">
+          <Link to="/" className="student-button" style={{ textDecoration: 'none' }}>
+            <Button variant="outline-secondary" size="lg" className="w-100">
+              Return Home
             </Button>
-          </Col>
-        </Row>
-      </div>
-
+          </Link>
+          <Button
+            type="submit"
+            variant="outline-primary"
+            size="lg"
+            className="student-button"
+            disabled={loading}
+          >
+            {loading ? 'Logging in...' : 'Login'}
+          </Button>
+        </div>
+      </Form>
       <StudentLoginCode
         show={showStudentLoginCodeModal}
         handleClose={() => setShowStudentLoginCodeModal(false)}
       />
-    </Form>
+    </div>
   );
 }

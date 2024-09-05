@@ -1,0 +1,62 @@
+.admin-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  padding: 20px;
+}
+
+.admin-form {
+  width: 100%;
+  max-width: 500px;
+  background-color: #f8f9fa;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #343a40;
+}
+
+.admin-input-group {
+  margin-bottom: 15px;
+}
+
+.admin-button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.admin-button {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-link-button {
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+}
+
+@media (max-height: 600px) {
+  .admin-form {
+    padding: 20px;
+  }
+
+  .admin-input-group {
+    margin-bottom: 10px;
+  }
+
+  .admin-button-container {
+    margin-top: 15px;
+  }
+}

@@ -5,10 +5,8 @@
   display: flex;
   align-items: center; /* Vertically align content */
   justify-content: space-between; /* Ensure space between title and buttons */
-}
-
-.navbarMain {
-  border-radius: 25px;
+  border: 3px solid #17a2b8 !important;
+  border-radius: 10px;
 }
 
 .navbar-title {

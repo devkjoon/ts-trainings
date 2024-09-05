@@ -16,9 +16,9 @@ export default function Home() {
       <div className="buttonContainer">
         <Row>
           <Col sm={12} lg={4} className="text-center mb-3">
-            <Link to="/admin" className="no-underline">
+            <Link to="/admin/login" className="no-underline">
               <Button className="mainButton" variant="outline-info" size="lg">
-                Administrator Portal
+                Administrator Login
               </Button>
             </Link>
           </Col>

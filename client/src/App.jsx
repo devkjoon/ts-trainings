@@ -6,7 +6,6 @@ import ProtectedRoute from './components/Tools/ProtectedRoute';
 import AdminPasswordReset from './components/Tools/AdminPasswordReset';
 
 import Home from './pages/Home';
-import Admin from './pages/Admin/Admin';
 import AdminLogin from './pages/Admin/AdminLogin';
 import AdminRegistration from './pages/Admin/AdminRegistration';
 import StudentLogin from './pages/Student/StudentLogin';
@@ -29,7 +28,6 @@ function App() {
         <main className="main-content">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/admin" element={<Admin />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/registration" element={<AdminRegistration />} />
             <Route

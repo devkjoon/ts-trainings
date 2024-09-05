@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Button, Col, Form, InputGroup, Row, Alert } from 'react-bootstrap';
-
+import { Button, Form, InputGroup, Alert } from 'react-bootstrap';
 import ForgotAdminPassword from '../../components/Modals/ForgotAdminPassword';
 import API_URL from '../../config';
-
-import '../../assets/css/Login.css';
+import '../../assets/css/AdminPreLogin.css';
 
 export default function AdminLogin() {
   const [username, setUsername] = useState('');
@@ -64,76 +62,69 @@ export default function AdminLogin() {
   };
 
   return (
-    <Form noValidate validated={validated} onSubmit={handleLogin} className="formContainer">
-      <Row className="mb-2">
-        <Form.Group as={Col} md="6" className="mt-3">
+    <div className="admin-container">
+      <Form noValidate validated={validated} onSubmit={handleLogin} className="admin-form">
+        <h2 className="admin-title">Administrator Login</h2>
+        <Form.Group className="admin-input-group">
           <Form.Label>Username</Form.Label>
-          <InputGroup hasValidation className="loginInput">
-            <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
+          <InputGroup>
+            <InputGroup.Text>@</InputGroup.Text>
             <Form.Control
               type="text"
               placeholder="Username"
-              aria-describedby="inputGroupPrepend"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
             />
-            <Form.Control.Feedback type="invalid">Enter a username</Form.Control.Feedback>
           </InputGroup>
         </Form.Group>
-        <Form.Group as={Col} md="6" controlId="validationCustom01" className="mt-3">
+        <Form.Group className="admin-input-group">
           <Form.Label>Password</Form.Label>
-          <InputGroup className="loginInput">
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <Form.Control.Feedback type="invalid">Enter a password</Form.Control.Feedback>
-          </InputGroup>
-          <div className="forgot-password-container">
-            <Link to="#" onClick={() => setShowForgotPasswordModal(true)}>
-              <em>Forgot Password?</em>
-            </Link>
-          </div>
+          <Form.Control
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
         </Form.Group>
-      </Row>
-      {alert.show && (
-        <Alert variant={alert.variant} onClose={() => setAlert({ show: false })} dismissible>
-          {alert.message}
-        </Alert>
-      )}
-      <div className="login-btn-container">
-        <Row>
-          <Col className="text-center">
-            <Link to="/Admin/Registration" className="no-underline">
-              <Button className="login-btn mt-3" variant="outline-info" size="lg">
-                Register Instead
-              </Button>
-            </Link>
-          </Col>
-          <Col className="text-center">
-            <Button
-              className="login-btn mt-3"
-              type="submit"
-              variant="outline-warning"
-              size="lg"
-              disabled={loading}
-            >
-              {loading ? 'Logging in...' : 'Login'}
+        <div className="text-end mb-3">
+          <Link to="#" onClick={() => setShowForgotPasswordModal(true)}>
+            Forgot Password?
+          </Link>
+        </div>
+        {alert.show && (
+          <Alert variant={alert.variant} onClose={() => setAlert({ show: false })} dismissible>
+            {alert.message}
+          </Alert>
+        )}
+        <div className="admin-button-container">
+          <Link to="/" className="admin-button" style={{ textDecoration: 'none' }}>
+            <Button variant="outline-secondary" size="lg" className="w-100">
+              Return Home
             </Button>
-          </Col>
-        </Row>
-      </div>
-
-      {/* Forgot Password Modal */}
+          </Link>
+          <Button
+            type="submit"
+            variant="outline-primary"
+            size="lg"
+            className="admin-button"
+            disabled={loading}
+          >
+            {loading ? 'Logging in...' : 'Login'}
+          </Button>
+          <Link to="/admin/registration" className="admin-link-button">
+            <Button variant="link" className="w-100 no-underline">
+              Don't have an account? Register here
+            </Button>
+          </Link>
+        </div>
+      </Form>
       <ForgotAdminPassword
         show={showForgotPasswordModal}
         handleClose={() => setShowForgotPasswordModal(false)}
         showAlert={setAlert}
       />
-    </Form>
+    </div>
   );
 }

@@ -8,7 +8,7 @@ const courseAssignmentSchema = new mongoose.Schema({
   completedAt: Date,
   progress: { type: Number, default: 0 },
   revenue: { type: Number, required: true },
-  status: { type: String, enum: ['in_progress', 'completed'], default: 'in_progress' }
+  status: { type: String, enum: ['in_progress', 'completed'], default: 'in_progress' },
 });
 
 module.exports = mongoose.model('CourseAssignment', courseAssignmentSchema);

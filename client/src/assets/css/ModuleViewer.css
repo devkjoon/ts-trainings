@@ -1,40 +1,40 @@
 .module-content {
-    height: 50%;
+  height: 50%;
 }
 
 .secondary-content-container {
-    padding-bottom: 10px;
+  padding-bottom: 10px;
 }
 
 .module-btn {
-    min-width: 170px;
-    min-height: 35px;
+  min-width: 170px;
+  min-height: 35px;
 }
 
 .test-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    max-width: 85%; /* Set a max width for the form */
-    margin: 0 auto; /* Center the form horizontally */
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 85%; /* Set a max width for the form */
+  margin: 0 auto; /* Center the form horizontally */
+}
 
 .module-btn-container {
-    display: flex;
-    max-width: 85%;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    min-height: 150px;
+  display: flex;
+  max-width: 85%;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  min-height: 150px;
 }
 
 .test-btn {
-    min-width: 170px;
+  min-width: 170px;
 }
 
 .objectives-list {
-    font-style: italic;
-    padding-left: 20px;
-    text-align: left;
+  font-style: italic;
+  padding-left: 20px;
+  text-align: left;
 }

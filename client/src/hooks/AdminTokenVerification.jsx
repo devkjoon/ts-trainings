@@ -8,32 +8,32 @@ export default function AdminTokenVerification() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem('token');
 
       if (!token) {
-        alert("You are not authenticated. Redirecting to homepage");
-        navigate("/");
+        alert('You are not authenticated. Redirecting to homepage');
+        navigate('/');
         return;
       }
 
       try {
         const response = await fetch(`${API_URL}/admin/protected-resource`, {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
 
         if (!response.ok) {
-          throw new Error("Failed to fetch protected resource");
+          throw new Error('Failed to fetch protected resource');
         }
 
         const responseData = await response.json();
         setData(responseData);
       } catch (error) {
-        console.error("Error fetching data:", error);
-        localStorage.removeItem("token");
-        alert("Authentication failed. Redirecting to homepage");
-        navigate("/");
+        console.error('Error fetching data:', error);
+        localStorage.removeItem('token');
+        alert('Authentication failed. Redirecting to homepage');
+        navigate('/');
       }
     };
 

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Card, Row, Col,  Alert, Spinner } from 'react-bootstrap';
+import { Container, Card, Row, Col, Alert, Spinner } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
 
 import API_URL from '../../config';
 
-import '../../assets/css/StudentDashboard.css'
+import '../../assets/css/StudentDashboard.css';
 
 export default function StudentDashboard() {
   const [enrolledCourses, setEnrolledCourses] = useState([]); // State for enrolled courses
@@ -70,21 +70,29 @@ export default function StudentDashboard() {
   return (
     <Container>
       <h1 className="text-center mt-4 mb-4">Course Dashboard</h1>
-      
+
       {enrolledCourses.length > 0 ? (
         <>
           <h3 className="text-center">Enrolled Courses</h3>
           <Row className="justify-content-center mt-3">
             {enrolledCourses.map((course) => (
-              <Col key={course._id} lg={4} md={6} className="mb-4 d-flex justify-content-center card-container">
-                <Link to={`/student/courses/${course._id}/modules`} className='no-underline'>
+              <Col
+                key={course._id}
+                lg={4}
+                md={6}
+                className="mb-4 d-flex justify-content-center card-container"
+              >
+                <Link to={`/student/courses/${course._id}/modules`} className="no-underline">
                   <Card className="course-card">
                     <div className="course-image-container">
-                      <Card.Img src={course.imageUrl || "path/to/default/image.jpg"} className="cardImage" />
+                      <Card.Img
+                        src={course.imageUrl || 'path/to/default/image.jpg'}
+                        className="cardImage"
+                      />
                     </div>
                     <div className="course-content-container">
                       <Card.Body className="course-content">
-                        <Card.Title className='course-card-title'>{course.title}</Card.Title>
+                        <Card.Title className="course-card-title">{course.title}</Card.Title>
                       </Card.Body>
                     </div>
                   </Card>
@@ -104,15 +112,23 @@ export default function StudentDashboard() {
           <h3 className="text-center mt-5">Completed Courses</h3>
           <Row className="justify-content-center mt-3">
             {completedCourses.map((course) => (
-              <Col key={course._id} lg={4} md={6} className="mb-4 d-flex justify-content-center card-container">
-                <Link to={`/student/courses/${course._id}/modules`} className='no-underline'>
+              <Col
+                key={course._id}
+                lg={4}
+                md={6}
+                className="mb-4 d-flex justify-content-center card-container"
+              >
+                <Link to={`/student/courses/${course._id}/modules`} className="no-underline">
                   <Card className="course-card">
                     <div className="course-image-container">
-                      <Card.Img src={course.imageUrl || "path/to/default/image.jpg"} className="cardImage" />
+                      <Card.Img
+                        src={course.imageUrl || 'path/to/default/image.jpg'}
+                        className="cardImage"
+                      />
                     </div>
                     <div className="course-content-container">
                       <Card.Body className="course-content">
-                        <Card.Title className='course-card-title'>{course.title}</Card.Title>
+                        <Card.Title className="course-card-title">{course.title}</Card.Title>
                       </Card.Body>
                     </div>
                   </Card>
@@ -124,4 +140,4 @@ export default function StudentDashboard() {
       )}
     </Container>
   );
-};
+}

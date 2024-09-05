@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Container, Card, Button, Row, Col } from "react-bootstrap";
+import React, { useEffect, useState } from 'react';
+import { Container, Card, Button, Row, Col } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
 
 import API_URL from '../../config';
@@ -14,19 +14,19 @@ export default function CourseList() {
     const fetchCourses = async () => {
       try {
         const response = await fetch(`${API_URL}/courses`, {
-          method: "GET",
+          method: 'GET',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
         });
 
         if (!response.ok) {
-          throw new Error("Failed to fetch courses");
+          throw new Error('Failed to fetch courses');
         }
         const data = await response.json();
         setCourses(data.courses);
       } catch (error) {
-        console.error("Error fetching courses:", error);
+        console.error('Error fetching courses:', error);
       }
     };
 
@@ -36,22 +36,20 @@ export default function CourseList() {
   const handleDeleteCourse = async (id) => {
     try {
       const response = await fetch(`${API_URL}/courses/${id}`, {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       });
 
       if (!response.ok) {
         console.log(response.message);
-        throw new Error("Failed to delete course");
+        throw new Error('Failed to delete course');
       }
 
-      setCourses((prevCourses) =>
-        prevCourses.filter((course) => course._id !== id)
-      );
+      setCourses((prevCourses) => prevCourses.filter((course) => course._id !== id));
     } catch (error) {
-      console.error("Error deleting course:", error);
+      console.error('Error deleting course:', error);
     }
   };
 
@@ -65,29 +63,25 @@ export default function CourseList() {
       <Row>
         {courses.map((course) => (
           <Col key={course._id} md={4} className="mb-4">
-            <Link to={`/admin/courses/${course._id}`} className='no-underline'>
-            <Card className="course-card">
-              
+            <Link to={`/admin/courses/${course._id}`} className="no-underline">
+              <Card className="course-card">
                 <Card.Img variant="top" src={course.imageUrl} className="cardImage" />
-              
-              <Card.Body className="course-content">
-                <Card.Title>{course.title}</Card.Title>
-              </Card.Body>
-            </Card>
+
+                <Card.Body className="course-content">
+                  <Card.Title>{course.title}</Card.Title>
+                </Card.Body>
+              </Card>
             </Link>
           </Col>
         ))}
       </Row>
       <div className="text-center">
-        <Link to='/admin/dashboard' className='no-underline'>
-          <Button className="mainButton mt-3" variant="outline-info" size="lg">Back</Button>
+        <Link to="/admin/dashboard" className="no-underline">
+          <Button className="mainButton mt-3" variant="outline-info" size="lg">
+            Back
+          </Button>
         </Link>
       </div>
-    </Container>    
+    </Container>
   );
 }
-
- 
-
-
-    

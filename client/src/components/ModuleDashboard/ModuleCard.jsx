@@ -7,11 +7,10 @@ import '../../assets/css/ModuleCard.css';
 //  card also includes a button for the student to start or review the module
 
 const ModuleCard = ({ module, flipped, onFlip, onButtonClick }) => {
-
   const getButtonText = () => {
-    if (module.completed) return "Review";
-    if (module.isFinalTest) return module.isLocked ? "Locked" : "Take Test";
-    return "Learn";
+    if (module.completed) return 'Review';
+    if (module.isFinalTest) return module.isLocked ? 'Locked' : 'Take Test';
+    return 'Learn';
   };
 
   const getButtonVariant = () => {

@@ -10,7 +10,8 @@
     "start": "babel-node server/app.js",
     "heroku-postbuild": "npm run build && mkdir  ./.cache && mv /app/.cache/puppeteer ./.cache",
     "postinstall": "npx puppeteer install && npx puppeteer browsers install chrome",
-    "populate-historical-data": "node server/scripts/populateHistoricalEnrollmentData.js"
+    "populate-historical-data": "node server/scripts/populateHistoricalEnrollmentData.js",
+    "format": "prettier --write \"./**/*.{js,jsx,ts,tsx,json,css,scss,md}\""
   },
   "dependencies": {
     "@babel/cli": "^7.24.7",
@@ -52,6 +53,7 @@
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "prettier": "^3.3.3",
     "react-router-dom": "^6.23.1"
   }
 }

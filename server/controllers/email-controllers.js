@@ -18,9 +18,10 @@ const sendStudentLoginCode = async (req, res, next) => {
     }
 
     const subject = 'Your Login Code';
-    const text = `Your login code is: ${student.loginCode}. \n\n` +
-    `Please use this code to access your training portal.\n\n` +
-    `If you did not request this, please ignore this email.\n`;
+    const text =
+      `Your login code is: ${student.loginCode}. \n\n` +
+      `Please use this code to access your training portal.\n\n` +
+      `If you did not request this, please ignore this email.\n`;
 
     await sendEmail(email, subject, text);
 
@@ -32,5 +33,5 @@ const sendStudentLoginCode = async (req, res, next) => {
 };
 
 module.exports = {
-  sendStudentLoginCode
-}
+  sendStudentLoginCode,
+};

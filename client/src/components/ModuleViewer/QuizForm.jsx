@@ -23,13 +23,15 @@ const QuizForm = ({ quiz, moduleId, scrollToContent, quizRef, onSubmitResult }) 
     });
     return response.json();
   };
-  
+
   const handleQuizSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const result = await submitQuiz(moduleId, answers);
-      onSubmitResult(result.success ? 'Module complete! Redirecting back to dashboard...' : result.message);
+      onSubmitResult(
+        result.success ? 'Module complete! Redirecting back to dashboard...' : result.message
+      );
     } catch (error) {
       console.error('Error submitting quiz:', error);
       onSubmitResult('An error occurred while submitting the quiz. Please try again.');
@@ -65,8 +67,8 @@ const QuizForm = ({ quiz, moduleId, scrollToContent, quizRef, onSubmitResult }) 
           ))}
         </Col>
       </Row>
-      <div className='mt-3 text-center module-btn-container'>
-        <Button className="mx-2 test-btn" variant="outline-warning" onClick={scrollToContent} >
+      <div className="mt-3 text-center module-btn-container">
+        <Button className="mx-2 test-btn" variant="outline-warning" onClick={scrollToContent}>
           Review Content
         </Button>
         <Button className="mx-2 test-btn" variant="outline-info" type="submit">

@@ -17,12 +17,12 @@
   background-color: #ffffff;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow-x: auto; /* Allow horizontal scrolling for tables on small screens */
 }
 
 .dashboard-section:hover {
-  box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
 .dashboard-section h2 {
@@ -40,7 +40,8 @@
   margin-top: 20px;
 }
 
-.course-analytics th, .course-analytics td {
+.course-analytics th,
+.course-analytics td {
   padding: 10px;
   text-align: left;
   border-bottom: 1px solid #ecf0f1;
@@ -140,7 +141,8 @@
     flex: 1 1 calc(50% - 20px);
   }
 
-  .course-analytics th, .course-analytics td {
+  .course-analytics th,
+  .course-analytics td {
     padding: 8px;
     font-size: 0.9em;
   }
@@ -156,7 +158,8 @@
     flex: 1 1 100%;
   }
 
-  .course-analytics th, .course-analytics td {
+  .course-analytics th,
+  .course-analytics td {
     padding: 6px;
     font-size: 0.8em;
   }

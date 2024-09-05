@@ -14,7 +14,7 @@ router.post(
   [
     check('title').not().isEmpty(),
     check('resource.type').isIn(['video', 'powerpoint']),
-    check('resource.url').not().isEmpty()
+    check('resource.url').not().isEmpty(),
   ],
   moduleController.createModule
 );

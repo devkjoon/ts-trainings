@@ -13,10 +13,7 @@ router.get('/:cid/modules', courseController.getCourseModules);
 
 router.post(
   '/',
-  [
-    check('title').not().isEmpty(),
-    check('description').not().isEmpty()
-  ],
+  [check('title').not().isEmpty(), check('description').not().isEmpty()],
   courseController.createCourse
 );
 router.delete('/:cid', courseController.deleteCourse);

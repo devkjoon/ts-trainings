@@ -13,13 +13,13 @@ const AssignCourse = ({ show, handleClose, studentId, showAlert, setStudents, co
   useEffect(() => {
     const fetchStudentCourses = async () => {
       if (!studentId) return;
-      
+
       try {
         const response = await fetch(`${API_URL}/student/${studentId}/courses`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         });
 
@@ -43,7 +43,11 @@ const AssignCourse = ({ show, handleClose, studentId, showAlert, setStudents, co
 
   const handleAssignCourse = async () => {
     if (!selectedCourse) {
-      setModalAlert({ show: true, message: 'Please select a course to assign', variant: 'warning' });
+      setModalAlert({
+        show: true,
+        message: 'Please select a course to assign',
+        variant: 'warning',
+      });
       return;
     }
 
@@ -52,7 +56,7 @@ const AssignCourse = ({ show, handleClose, studentId, showAlert, setStudents, co
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({ courseId: selectedCourse }),
       });
@@ -60,17 +64,21 @@ const AssignCourse = ({ show, handleClose, studentId, showAlert, setStudents, co
       const result = await response.json();
 
       if (response.ok && result.success) {
-        const assignedCourse = courses.find(course => course._id === selectedCourse);
+        const assignedCourse = courses.find((course) => course._id === selectedCourse);
         if (assignedCourse) {
-          setStudents(prevStudents =>
-            prevStudents.map(student =>
+          setStudents((prevStudents) =>
+            prevStudents.map((student) =>
               student._id === studentId
                 ? {
                     ...student,
                     courseProgress: [
                       ...(student.courseProgress || []),
-                      { courseId: assignedCourse._id, courseName: assignedCourse.title, progress: 0 }
-                    ]
+                      {
+                        courseId: assignedCourse._id,
+                        courseName: assignedCourse.title,
+                        progress: 0,
+                      },
+                    ],
                   }
                 : student
             )
@@ -82,11 +90,19 @@ const AssignCourse = ({ show, handleClose, studentId, showAlert, setStudents, co
           console.error('Assigned course not found in the courses list.');
         }
       } else {
-        setModalAlert({ show: true, message: result.message || 'Failed to assign course. Please try again later.', variant: 'warning' });
+        setModalAlert({
+          show: true,
+          message: result.message || 'Failed to assign course. Please try again later.',
+          variant: 'warning',
+        });
       }
     } catch (error) {
       console.error('Error assigning course:', error);
-      setModalAlert({ show: true, message: 'Failed to assign course. Please try again later.', variant: 'danger' });
+      setModalAlert({
+        show: true,
+        message: 'Failed to assign course. Please try again later.',
+        variant: 'danger',
+      });
     }
   };
 
@@ -103,7 +119,11 @@ const AssignCourse = ({ show, handleClose, studentId, showAlert, setStudents, co
       </Modal.Header>
       <Modal.Body className="custom-modal-content">
         {modalAlert.show && (
-          <Alert variant={modalAlert.variant} onClose={() => setModalAlert({ ...modalAlert, show: false })} dismissible>
+          <Alert
+            variant={modalAlert.variant}
+            onClose={() => setModalAlert({ ...modalAlert, show: false })}
+            dismissible
+          >
             {modalAlert.message}
           </Alert>
         )}

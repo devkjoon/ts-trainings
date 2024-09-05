@@ -14,8 +14,8 @@ const CourseAnalytics = () => {
       const response = await fetch(`${API_URL}/analytics/course-analytics`, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
       });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -55,7 +55,7 @@ const CourseAnalytics = () => {
           </tr>
         </thead>
         <tbody>
-          {analyticsData.courses.map(course => (
+          {analyticsData.courses.map((course) => (
             <tr key={course.courseId}>
               <td>{course.title}</td>
               <td>{course.enrolledCount}</td>

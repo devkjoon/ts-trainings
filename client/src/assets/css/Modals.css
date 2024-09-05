@@ -1,27 +1,27 @@
 /* AssignCourseModal.css */
 .modal-body .form-control {
-    color: #000; /* Set text color */
-    background-color: #fff; /* Set background color */
-  }
-  
-  .modal-body .form-control option {
-    color: #000; /* Ensure options have visible text */
-    background-color: #fff; /* Ensure options have visible background */
-  }
+  color: #000; /* Set text color */
+  background-color: #fff; /* Set background color */
+}
 
+.modal-body .form-control option {
+  color: #000; /* Ensure options have visible text */
+  background-color: #fff; /* Ensure options have visible background */
+}
+
+.custom-modal-dialog {
+  max-width: 60% !important;
+  width: 60% !important;
+  margin: 1.75rem auto;
+}
+
+.custom-modal-content {
+  max-height: 90vh;
+}
+
+@media (max-width: 768px) {
   .custom-modal-dialog {
-    max-width: 60% !important;
-    width: 60% !important;
-    margin: 1.75rem auto;
+    max-width: 95% !important;
+    width: 95% !important;
   }
-  
-  .custom-modal-content {
-    max-height: 90vh;
-  }
-  
-  @media (max-width: 768px) {
-    .custom-modal-dialog {
-      max-width: 95% !important;
-      width: 95% !important;
-    }
-  }
+}

@@ -20,7 +20,7 @@ const adminAuth = (req, res, next) => {
       userId: decodedToken.userId,
       email: decodedToken.email,
       isAdmin: decodedToken.isAdmin,
-    };/* 
+    }; /* 
     console.log('Middleware userData:', req.userData); // Verify userData */
     next(); // Proceed to the next middleware or route handler
   } catch (err) {

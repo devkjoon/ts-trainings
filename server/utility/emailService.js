@@ -4,23 +4,23 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const mailjetClient = mailjet.apiConnect(
-  process.env.MAILJET_API_KEY, 
+  process.env.MAILJET_API_KEY,
   process.env.MAILJET_SECRET_KEY
 );
 async function sendEmail(to, subject, text) {
   try {
-    const request = mailjetClient.post("send", { version: "v3.1" }).request({
+    const request = mailjetClient.post('send', { version: 'v3.1' }).request({
       Messages: [
         {
           From: {
-            Email: "info@thinksafetyllcs.com",
-            Name: "Think Safety"
+            Email: 'info@thinksafetyllcs.com',
+            Name: 'Think Safety',
           },
           To: [
             {
               Email: to,
-              Name: "Recipient"
-            }
+              Name: 'Recipient',
+            },
           ],
           Subject: subject,
           HTMLPart: `
@@ -58,12 +58,13 @@ async function sendEmail(to, subject, text) {
                 </p>
               </footer>
             </div>
-          `,ReplyTo: {
-            Email: "info@thinksafetyllcs.com",
-            Name: "Think Safety"
-          }
-        }
-      ]
+          `,
+          ReplyTo: {
+            Email: 'info@thinksafetyllcs.com',
+            Name: 'Think Safety',
+          },
+        },
+      ],
     });
 
     const response = await request;

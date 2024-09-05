@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const puppeteer = require('puppeteer');
 const mailjet = require('node-mailjet');
-const { Storage } = require('@google-cloud/storage'); 
+const { Storage } = require('@google-cloud/storage');
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -17,7 +17,7 @@ const storage = new Storage({
 const bucketName = 'ts-trainings-certifications';
 
 const mailjetClient = mailjet.apiConnect(
-  process.env.MAILJET_API_KEY, 
+  process.env.MAILJET_API_KEY,
   process.env.MAILJET_SECRET_KEY
 );
 
@@ -28,23 +28,24 @@ const generateCertificate = async (studentName, courseName, details, certificati
   });
 
   const page = await browser.newPage();
-  
+
   const templatePath = path.join(__dirname, '../assets/certificate-template.html');
   let content = fs.readFileSync(templatePath, 'utf8');
 
   const options = {
     year: 'numeric',
     month: 'long',
-    day: 'numeric'
+    day: 'numeric',
   };
 
-  content = content.replace('{{studentName}}', studentName)
-                   .replace('{{courseName}}', courseName)
-                   .replace('{{certificationNumber}}', certificationNumber)
-                   .replace('{{completionDate}}', new Date().toLocaleDateString('en-US', options))
-                   .replace('{{primaryDetail}}', details.primary)
-                   .replace('{{secondaryDetail}}', details.secondary);
-                   
+  content = content
+    .replace('{{studentName}}', studentName)
+    .replace('{{courseName}}', courseName)
+    .replace('{{certificationNumber}}', certificationNumber)
+    .replace('{{completionDate}}', new Date().toLocaleDateString('en-US', options))
+    .replace('{{primaryDetail}}', details.primary)
+    .replace('{{secondaryDetail}}', details.secondary);
+
   await page.setContent(content);
 
   const pdfBuffer = await page.pdf({
@@ -52,14 +53,14 @@ const generateCertificate = async (studentName, courseName, details, certificati
     landscape: true,
     printBackground: true,
   });
-  
+
   await browser.close();
 
   const sanitizedStudentName = studentName.replace(/[^a-zA-Z0-9-_ ]/g, '').replace(/ /g, '-');
   const sanitizedCourseName = courseName.replace(/[^a-zA-Z0-9-_ ]/g, '').replace(/ /g, '-');
 
   const filePath = `${sanitizedCourseName}/${sanitizedStudentName}.pdf`;
-  
+
   const file = storage.bucket(bucketName).file(filePath);
   await file.save(pdfBuffer, {
     metadata: {
@@ -70,25 +71,25 @@ const generateCertificate = async (studentName, courseName, details, certificati
   return filePath;
 };
 
-async function sendCertificateEmail(to, filePath, student, course) { 
+async function sendCertificateEmail(to, filePath, student, course) {
   try {
     const [fileContent] = await storage.bucket(bucketName).file(filePath).download();
     const Base64Content = fileContent.toString('base64');
 
-    const request = mailjetClient.post("send", { version: "v3.1" }).request({
+    const request = mailjetClient.post('send', { version: 'v3.1' }).request({
       Messages: [
         {
           From: {
-            Email: "info@thinksafetyllcs.com",
-            Name: "Think Safety"
+            Email: 'info@thinksafetyllcs.com',
+            Name: 'Think Safety',
           },
           To: [
             {
               Email: to,
-              Name: "Recipient"
-            }
+              Name: 'Recipient',
+            },
           ],
-          Subject: "Course Certificate",
+          Subject: 'Course Certificate',
           HTMLPart: `
             <div style="font-family: Arial, sans-serif; color: #333;">
               <h2 style="color: #17a2b8;">
@@ -135,20 +136,20 @@ async function sendCertificateEmail(to, filePath, student, course) {
                 </p>
               </footer>
             </div>
-          `,        
+          `,
           Attachments: [
             {
-              "ContentType": "application/pdf",
-              "Filename": path.basename(filePath),
-              "Base64Content": Base64Content
-            }
+              ContentType: 'application/pdf',
+              Filename: path.basename(filePath),
+              Base64Content: Base64Content,
+            },
           ],
           ReplyTo: {
-            Email: "info@thinksafetyllcs.com",
-            Name: "Think Safety"
-          }
-        }
-      ]
+            Email: 'info@thinksafetyllcs.com',
+            Name: 'Think Safety',
+          },
+        },
+      ],
     });
 
     const response = await request;
@@ -157,6 +158,5 @@ async function sendCertificateEmail(to, filePath, student, course) {
     console.error('Error sending certificate email:', error);
   }
 }
-
 
 module.exports = { generateCertificate, sendCertificateEmail };

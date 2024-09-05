@@ -9,7 +9,7 @@ const ModuleList = ({ modules, flippedCards, handleModuleClick, handleButtonClic
   <Row className="justify-content-center align-items-stretch module-list-container">
     {modules.map((module) => {
       const isFlipped = flippedCards[module._id];
-      
+
       return (
         <ModuleCard
           key={module._id}

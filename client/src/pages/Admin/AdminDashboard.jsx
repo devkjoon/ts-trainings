@@ -17,11 +17,11 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <Container fluid className='dashboardContainer'>
+    <Container fluid className="dashboardContainer">
       <Row className="g-3 dashboard-row justify-content-center">
         {dashboardItems.map((item, index) => (
           <Col key={index} xs={12} sm={6} lg={3} className="d-flex justify-content-center">
-            <Link to={item.link} className='text-decoration-none w-100'>
+            <Link to={item.link} className="text-decoration-none w-100">
               <Card className="dashboard-card shadow-sm hover-effect">
                 <Card.Body className="d-flex flex-column align-items-center justify-content-center">
                   <div className="icon-container mb-2" style={{ color: item.color }}>

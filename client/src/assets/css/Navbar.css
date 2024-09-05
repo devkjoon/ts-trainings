@@ -1,80 +1,80 @@
 .navbar {
-    flex: 0 0 auto;
-    height: 60px; /* Set a fixed height for the navbar */
-    padding: 0 1rem; /* Control padding to maintain consistent height */
-    display: flex;
-    align-items: center; /* Vertically align content */
-    justify-content: space-between; /* Ensure space between title and buttons */
+  flex: 0 0 auto;
+  height: 60px; /* Set a fixed height for the navbar */
+  padding: 0 1rem; /* Control padding to maintain consistent height */
+  display: flex;
+  align-items: center; /* Vertically align content */
+  justify-content: space-between; /* Ensure space between title and buttons */
 }
 
 .navbarMain {
-    border-radius: 25px;
+  border-radius: 25px;
 }
 
 .navbar-title {
-    margin-left: 3%;
-    line-height: 60px; /* Vertically align the title within the navbar */
-    margin-bottom: 0; /* Remove any bottom margin */
-    align-self: center; /* Ensure vertical alignment */
+  margin-left: 3%;
+  line-height: 60px; /* Vertically align the title within the navbar */
+  margin-bottom: 0; /* Remove any bottom margin */
+  align-self: center; /* Ensure vertical alignment */
 }
 
 .burger-menu {
-    margin-right: 3%;
-    align-self: center; /* Ensure the burger menu stays vertically centered */
+  margin-right: 3%;
+  align-self: center; /* Ensure the burger menu stays vertically centered */
 }
 
 /* Ensure buttons are aligned and maintain consistent height */
 .navbar-anchor {
-    padding: 0;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+  padding: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .navbar-anchor .btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 40px; /* Adjust button height to fit the navbar */
-    max-height: 40px;
-    min-width: 100px;
-    max-width: 150px;
-    line-height: 40px; /* Ensure the text is centered vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 40px; /* Adjust button height to fit the navbar */
+  max-height: 40px;
+  min-width: 100px;
+  max-width: 150px;
+  line-height: 40px; /* Ensure the text is centered vertically */
 }
 
 /* Further adjustments for smaller screens */
 @media (max-width: 768px) {
-    .navbar-title {
-        line-height: normal;
-        margin-left: 3%;
-        text-align: left;
-        align-self: center;
-    }
-    
-    .burger-menu {
-        margin-right: 0;
-        align-self: center;
-    }
+  .navbar-title {
+    line-height: normal;
+    margin-left: 3%;
+    text-align: left;
+    align-self: center;
+  }
 
-    .navbar-anchor {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .navbar-anchor .btn {
-        width: 100%;
-        min-width: 0;
-        margin-left: 0;
-        margin-bottom: 10px;
-    }
-    
-    .navbar .nav {
-        flex-direction: column;
-    }
+  .burger-menu {
+    margin-right: 0;
+    align-self: center;
+  }
+
+  .navbar-anchor {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .navbar-anchor .btn {
+    width: 100%;
+    min-width: 0;
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
+
+  .navbar .nav {
+    flex-direction: column;
+  }
 }
 
 .offcanvas-customization {
-    max-width: 300px; /* Ensure it doesn't exceed screen width */
-    height: 220px; /* Ensure it doesn't exceed viewport height */
-    border-radius: 25px;
+  max-width: 300px; /* Ensure it doesn't exceed screen width */
+  height: 220px; /* Ensure it doesn't exceed viewport height */
+  border-radius: 25px;
 }

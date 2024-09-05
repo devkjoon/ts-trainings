@@ -28,10 +28,10 @@ const ModuleViewer = () => {
         if (!studentId) {
           throw new Error('Student ID not found');
         }
-  
+
         const moduleResponse = await fetch(`${API_URL}/module/${moduleId}?sid=${studentId}`);
         const moduleData = await moduleResponse.json();
-  
+
         setModule(moduleData.module);
       } catch (error) {
         console.error('Error fetching module data:', error);
@@ -81,8 +81,8 @@ const ModuleViewer = () => {
 
           <div className="module-content">
             <Row>
-              <Col lg={module?.resource?.type ? 5 : 12} className='secondary-content-container'>
-                <h4 className='objectives-text'>Objectives</h4>
+              <Col lg={module?.resource?.type ? 5 : 12} className="secondary-content-container">
+                <h4 className="objectives-text">Objectives</h4>
                 {module?.description && (
                   <ul className="objectives-list">
                     {module.description.map((item, index) => (
@@ -96,7 +96,11 @@ const ModuleViewer = () => {
               </Col>
               {module?.resource?.type && (
                 <Col lg={7} className="d-flex justify-content-center mx-auto">
-                  <ResourceViewer resource={module.resource} title={module.title} contentRef={contentRef} />
+                  <ResourceViewer
+                    resource={module.resource}
+                    title={module.title}
+                    contentRef={contentRef}
+                  />
                 </Col>
               )}
             </Row>
@@ -104,10 +108,18 @@ const ModuleViewer = () => {
 
           {module?.quiz && (
             <div className="mt-3 text-center module-btn-container">
-              <Button className="mx-2 module-btn" variant="outline-warning" onClick={handleReturnToDashboard}>
+              <Button
+                className="mx-2 module-btn"
+                variant="outline-warning"
+                onClick={handleReturnToDashboard}
+              >
                 Module Dashboard
               </Button>
-              <Button className="mx-2 module-btn" variant="outline-info" onClick={toggleQuizVisibility}>
+              <Button
+                className="mx-2 module-btn"
+                variant="outline-info"
+                onClick={toggleQuizVisibility}
+              >
                 {showQuiz ? 'Hide Test' : 'Take Test'}
               </Button>
             </div>
@@ -124,13 +136,23 @@ const ModuleViewer = () => {
           )}
 
           {quizResult && (
-            <Alert ref={alertRef} variant={quizResult === 'Module complete! Redirecting back to dashboard...' ? 'success' : 'danger'} className="mt-3">
+            <Alert
+              ref={alertRef}
+              variant={
+                quizResult === 'Module complete! Redirecting back to dashboard...'
+                  ? 'success'
+                  : 'danger'
+              }
+              className="mt-3"
+            >
               {quizResult === 'Module complete! Redirecting back to dashboard...' ? (
                 <>
                   <Spinner animation="border" size="sm" role="status" className="me-2" />
                   {quizResult}
                 </>
-              ) : quizResult}
+              ) : (
+                quizResult
+              )}
             </Alert>
           )}
         </>

@@ -24,7 +24,7 @@ const allowedOrigins = [
   'http://ts-trainings.com',
   'http://www.ts-trainings.com',
   'https://ts-trainings.com',
-  'https://www.ts-trainings.com'
+  'https://www.ts-trainings.com',
 ];
 
 const corsOptions = {
@@ -38,7 +38,7 @@ const corsOptions = {
     return callback(null, true);
   },
   methods: 'GET, POST, PUT, DELETE',
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
 app.use(cors(corsOptions));
@@ -60,42 +60,42 @@ app.use(express.static(path.join(__dirname, '../dist')));
 
 // Handle requests to any route and send the React app's index.html
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../dist', 'index.html'), (err) => {
-      if (err) {
-        res.status(500).send('Server Error');
-      }
-    });
+  res.sendFile(path.join(__dirname, '../dist', 'index.html'), (err) => {
+    if (err) {
+      res.status(500).send('Server Error');
+    }
   });
+});
 
 app.use((req, res, next) => {
-    const error = new HttpError('Could not find this route', 404);
-    next(error);
+  const error = new HttpError('Could not find this route', 404);
+  next(error);
 });
 
 app.use((error, req, res, next) => {
-    if (res.headersSent) {
-      return next(error);
-    }
-    res.status(error.code || 500);
-    res.json({ message: error.message || 'An unknown error occurred' });
-  });  
+  if (res.headersSent) {
+    return next(error);
+  }
+  res.status(error.code || 500);
+  res.json({ message: error.message || 'An unknown error occurred' });
+});
 
 const mongooseOptions = {
-    tls: true,
-    tlsAllowInvalidCertificates: false
+  tls: true,
+  tlsAllowInvalidCertificates: false,
 };
 
 const PORT = process.env.PORT || 5000;
 
 mongoose
-    .connect(process.env.MONGODB_URI, mongooseOptions)
-    .then(() => {
-        app.listen(PORT, () => {
-            console.log(`Server is running on port ${PORT}`);
-            console.log('Connection Success');
-        });
-    })
-    .catch(err => {
-        console.log('Connection Failed');
-        console.log(err);
+  .connect(process.env.MONGODB_URI, mongooseOptions)
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+      console.log('Connection Success');
     });
+  })
+  .catch((err) => {
+    console.log('Connection Failed');
+    console.log(err);
+  });

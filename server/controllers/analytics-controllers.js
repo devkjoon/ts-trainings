@@ -10,46 +10,46 @@ const getCourseEnrollmentAndRevenueData = async (req, res, next) => {
     const result = await CourseAssignment.aggregate([
       {
         $match: {
-          assignedAt: { 
-            $gte: new Date(startDate), 
-            $lte: new Date(endDate) 
-          }
-        }
+          assignedAt: {
+            $gte: new Date(startDate),
+            $lte: new Date(endDate),
+          },
+        },
       },
       {
         $group: {
           _id: {
-            date: { $dateToString: { format: "%Y-%m-%d", date: "$assignedAt" } },
-            course: "$course",
-            status: "$status"
+            date: { $dateToString: { format: '%Y-%m-%d', date: '$assignedAt' } },
+            course: '$course',
+            status: '$status',
           },
           enrollments: { $sum: 1 },
-          revenue: { $sum: "$revenue" }
-        }
+          revenue: { $sum: '$revenue' },
+        },
       },
       {
         $lookup: {
           from: 'courses',
           localField: '_id.course',
           foreignField: '_id',
-          as: 'courseInfo'
-        }
+          as: 'courseInfo',
+        },
       },
       {
-        $unwind: '$courseInfo'
+        $unwind: '$courseInfo',
       },
       {
         $project: {
-          date: "$_id.date",
-          courseName: "$courseInfo.title",
-          status: "$_id.status",
+          date: '$_id.date',
+          courseName: '$courseInfo.title',
+          status: '$_id.status',
           enrollments: 1,
-          revenue: 1
-        }
+          revenue: 1,
+        },
       },
       {
-        $sort: { date: 1, courseName: 1 }
-      }
+        $sort: { date: 1, courseName: 1 },
+      },
     ]);
 
     res.json({ success: true, data: result });
@@ -67,24 +67,24 @@ const getCourseAnalytics = async (req, res, next) => {
         $group: {
           _id: '$course',
           enrolledCount: { $sum: 1 },
-          completedCount: { 
-            $sum: { 
-              $cond: [{ $eq: ['$status', 'completed'] }, 1, 0] 
-            } 
+          completedCount: {
+            $sum: {
+              $cond: [{ $eq: ['$status', 'completed'] }, 1, 0],
+            },
           },
-          revenue: { $sum: '$revenue' }
-        }
+          revenue: { $sum: '$revenue' },
+        },
       },
       {
         $lookup: {
           from: 'courses',
           localField: '_id',
           foreignField: '_id',
-          as: 'courseInfo'
-        }
+          as: 'courseInfo',
+        },
       },
       {
-        $unwind: '$courseInfo'
+        $unwind: '$courseInfo',
       },
       {
         $project: {
@@ -93,9 +93,9 @@ const getCourseAnalytics = async (req, res, next) => {
           title: '$courseInfo.title',
           enrolledCount: 1,
           completedCount: 1,
-          revenue: 1
-        }
-      }
+          revenue: 1,
+        },
+      },
     ]);
 
     const totalRevenue = courseAnalytics.reduce((sum, course) => sum + course.revenue, 0);
@@ -108,10 +108,9 @@ const getCourseAnalytics = async (req, res, next) => {
         courses: courseAnalytics,
         totalRevenue,
         totalEnrolled,
-        totalCompleted
-      }
+        totalCompleted,
+      },
     });
-
   } catch (err) {
     console.error('Error fetching course analytics:', err);
     const error = new HttpError('Failed to fetch course analytics', 500);
@@ -126,56 +125,56 @@ const getMonthlyRevenueData = async (req, res, next) => {
     const result = await CourseAssignment.aggregate([
       {
         $match: {
-          assignedAt: { 
-            $gte: new Date(startDate), 
-            $lte: new Date(endDate) 
-          }
-        }
+          assignedAt: {
+            $gte: new Date(startDate),
+            $lte: new Date(endDate),
+          },
+        },
       },
       {
         $lookup: {
           from: 'courses',
           localField: 'course',
           foreignField: '_id',
-          as: 'courseInfo'
-        }
+          as: 'courseInfo',
+        },
       },
       {
-        $unwind: '$courseInfo'
+        $unwind: '$courseInfo',
       },
       {
         $group: {
           _id: {
-            year: { $year: "$assignedAt" },
-            month: { $month: "$assignedAt" },
-            courseName: '$courseInfo.title'  // Changed from 'name' to 'title'
+            year: { $year: '$assignedAt' },
+            month: { $month: '$assignedAt' },
+            courseName: '$courseInfo.title', // Changed from 'name' to 'title'
           },
           enrollments: { $sum: 1 },
-          revenue: { $sum: "$revenue" }
-        }
+          revenue: { $sum: '$revenue' },
+        },
       },
       {
-        $sort: { "_id.year": 1, "_id.month": 1 }
+        $sort: { '_id.year': 1, '_id.month': 1 },
       },
       {
         $project: {
           _id: 0,
           date: {
             $dateToString: {
-              format: "%Y-%m",
+              format: '%Y-%m',
               date: {
                 $dateFromParts: {
-                  year: "$_id.year",
-                  month: "$_id.month"
-                }
-              }
-            }
+                  year: '$_id.year',
+                  month: '$_id.month',
+                },
+              },
+            },
           },
           courseName: '$_id.courseName',
           enrollments: 1,
-          revenue: 1
-        }
-      }
+          revenue: 1,
+        },
+      },
     ]);
 
     res.json({ success: true, data: result });
@@ -189,5 +188,5 @@ const getMonthlyRevenueData = async (req, res, next) => {
 module.exports = {
   getCourseEnrollmentAndRevenueData,
   getCourseAnalytics,
-  getMonthlyRevenueData
+  getMonthlyRevenueData,
 };

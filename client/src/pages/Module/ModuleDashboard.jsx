@@ -17,7 +17,7 @@ const ModuleDashboard = () => {
   const [flippedCards, setFlippedCards] = useState({});
   const navigate = useNavigate();
 
-  const studentId = localStorage.getItem('studentId');  
+  const studentId = localStorage.getItem('studentId');
 
   useEffect(() => {
     const fetchCourseAndModules = async () => {
@@ -26,7 +26,9 @@ const ModuleDashboard = () => {
         const courseData = await courseResponse.json();
         setCourse(courseData.course);
 
-        const moduleResponse = await fetch(`${API_URL}/courses/${courseId}/modules?sid=${studentId}`);
+        const moduleResponse = await fetch(
+          `${API_URL}/courses/${courseId}/modules?sid=${studentId}`
+        );
         if (!moduleResponse.ok) {
           throw new Error('Failed to fetch modules');
         }
@@ -54,11 +56,12 @@ const ModuleDashboard = () => {
     navigate(`/student/courses/${courseId}/modules/${moduleId}`);
   };
 
-  const incompleteModules = modules.filter(module => !module.isFinalTest && !module.completed);
-  const completedModules = modules.filter(module => module.completed);
-  const finalTestModule = modules.find(module => module.isFinalTest && !module.completed);
+  const incompleteModules = modules.filter((module) => !module.isFinalTest && !module.completed);
+  const completedModules = modules.filter((module) => module.completed);
+  const finalTestModule = modules.find((module) => module.isFinalTest && !module.completed);
 
-  const progress = modules.length > 0 ? Math.round((completedModules.length / modules.length) * 100) : 0;
+  const progress =
+    modules.length > 0 ? Math.round((completedModules.length / modules.length) * 100) : 0;
 
   if (loading) {
     return (
@@ -82,19 +85,19 @@ const ModuleDashboard = () => {
     );
   }
 
-  let alertMessage = "No modules available for this course.";
+  let alertMessage = 'No modules available for this course.';
 
-if (incompleteModules.length === 0) {
+  if (incompleteModules.length === 0) {
     if (finalTestModule) {
-        if (finalTestModule.completed) {
-            alertMessage = "Congratulations! You have completed this course.";
-        } else {
-            alertMessage = "Take the final test to complete the course.";
-        }
+      if (finalTestModule.completed) {
+        alertMessage = 'Congratulations! You have completed this course.';
+      } else {
+        alertMessage = 'Take the final test to complete the course.';
+      }
     } else {
-        alertMessage = "Congratulations! You have completed this course.";
+      alertMessage = 'Congratulations! You have completed this course.';
     }
-}
+  }
 
   return (
     <Container>

@@ -12,7 +12,7 @@ const VerifyCertification = ({ show, handleClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setValidated(true);
-  
+
     if (!certificationNumber) {
       setAlert({
         show: true,
@@ -28,7 +28,9 @@ const VerifyCertification = ({ show, handleClose }) => {
     setAlert({ show: false, message: '', variant: '' }); // Clear any existing alert before making the request
 
     try {
-      const response = await fetch(`${API_URL}/certification/verify?certificationNumber=TS-${certificationNumber}`);
+      const response = await fetch(
+        `${API_URL}/certification/verify?certificationNumber=TS-${certificationNumber}`
+      );
       const data = await response.json();
 
       if (response.ok) {
@@ -52,17 +54,17 @@ const VerifyCertification = ({ show, handleClose }) => {
   };
 
   const handleModalClose = () => {
-    setCertificationNumber('');   
-    setValidated(false);      
+    setCertificationNumber('');
+    setValidated(false);
     setAlert({ show: false, message: '', variant: '' });
-    setResult(null);              
-    handleClose();                
+    setResult(null);
+    handleClose();
   };
 
   const options = {
     year: 'numeric',
     month: 'long',
-    day: 'numeric'
+    day: 'numeric',
   };
 
   return (
@@ -93,14 +95,26 @@ const VerifyCertification = ({ show, handleClose }) => {
             <Alert variant="success" className="mt-4">
               <h4>Certification Verified</h4>
               <br></br>
-              <p><strong>Student Name:</strong> {result.studentName}</p>
-              <p><strong>Course Name:</strong> {result.courseName}</p>
-              <p><strong>Completion Date:</strong> {new Date(result.completionDate).toLocaleDateString('en-US', options)}</p>
+              <p>
+                <strong>Student Name:</strong> {result.studentName}
+              </p>
+              <p>
+                <strong>Course Name:</strong> {result.courseName}
+              </p>
+              <p>
+                <strong>Completion Date:</strong>{' '}
+                {new Date(result.completionDate).toLocaleDateString('en-US', options)}
+              </p>
             </Alert>
           )}
 
           {alert.show && (
-            <Alert variant={alert.variant} onClose={() => setAlert({ show: false})} dismissible className='mt-3'>
+            <Alert
+              variant={alert.variant}
+              onClose={() => setAlert({ show: false })}
+              dismissible
+              className="mt-3"
+            >
               {alert.message}
             </Alert>
           )}
@@ -112,11 +126,11 @@ const VerifyCertification = ({ show, handleClose }) => {
         </Button>
         <Button
           variant="outline-info"
-          id='certificationNumber'
+          id="certificationNumber"
           onClick={handleSubmit}
           disabled={loading}
         >
-          {loading ? <Spinner as="span" animation="border"/> : 'Verify'}
+          {loading ? <Spinner as="span" animation="border" /> : 'Verify'}
         </Button>
       </Modal.Footer>
     </Modal>

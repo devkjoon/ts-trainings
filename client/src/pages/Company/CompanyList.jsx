@@ -36,7 +36,7 @@ export default function CompanyList() {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
 
@@ -70,9 +70,9 @@ export default function CompanyList() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
-        body: JSON.stringify(newCompany)
+        body: JSON.stringify(newCompany),
       });
 
       const result = await response.json();
@@ -96,9 +96,9 @@ export default function CompanyList() {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
-        body: JSON.stringify(updatedCompany)
+        body: JSON.stringify(updatedCompany),
       });
 
       const result = await response.json();
@@ -117,7 +117,9 @@ export default function CompanyList() {
   };
 
   const handleDeleteCompany = async (companyId) => {
-    const isConfirmed = window.confirm('Are you sure you want to delete this company? This action cannot be undone.');
+    const isConfirmed = window.confirm(
+      'Are you sure you want to delete this company? This action cannot be undone.'
+    );
 
     if (!isConfirmed) return;
 
@@ -126,7 +128,7 @@ export default function CompanyList() {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
 
@@ -147,7 +149,7 @@ export default function CompanyList() {
     setNameFilter('');
   };
 
-  const filteredCompanies = companies.filter(company => 
+  const filteredCompanies = companies.filter((company) =>
     company.name.toLowerCase().includes(nameFilter.toLowerCase())
   );
 

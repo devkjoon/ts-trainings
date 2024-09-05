@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 import API_URL from '../../config';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -22,18 +30,18 @@ const MonthlyRevenueChart = () => {
   const fetchData = async () => {
     try {
       const url = new URL(`${API_URL}/analytics/monthly-revenue`, window.location.origin);
-      
+
       const endDate = new Date();
       const startDate = new Date(endDate.getFullYear() - 2, endDate.getMonth(), 1);
-      
+
       url.searchParams.append('startDate', startDate.toISOString());
       url.searchParams.append('endDate', endDate.toISOString());
 
       const response = await fetch(url, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
       });
 
       if (!response.ok) {
@@ -42,7 +50,7 @@ const MonthlyRevenueChart = () => {
       const data = await response.json();
 
       if (data && data.data && Array.isArray(data.data)) {
-        const years = [...new Set(data.data.map(item => new Date(item.date).getFullYear()))];
+        const years = [...new Set(data.data.map((item) => new Date(item.date).getFullYear()))];
         setAvailableYears(years);
 
         const processedData = processDataForChart(data.data);
@@ -56,22 +64,27 @@ const MonthlyRevenueChart = () => {
   };
 
   const processDataForChart = (data) => {
-
-    const filteredData = data.filter(item => {
+    const filteredData = data.filter((item) => {
       const itemDate = new Date(item.date);
       const itemYear = itemDate.getFullYear().toString();
       const itemMonth = (itemDate.getMonth() + 1).toString().padStart(2, '0');
 
-      return (selectedYear === 'all' || itemYear === selectedYear) &&
-             (selectedMonth === 'all' || itemMonth === selectedMonth);
+      return (
+        (selectedYear === 'all' || itemYear === selectedYear) &&
+        (selectedMonth === 'all' || itemMonth === selectedMonth)
+      );
     });
 
-    const courseNames = [...new Set(filteredData.map(item => item.courseName || 'Unknown Course'))];
-    const dates = [...new Set(filteredData.map(item => item.date))].sort();
+    const courseNames = [
+      ...new Set(filteredData.map((item) => item.courseName || 'Unknown Course')),
+    ];
+    const dates = [...new Set(filteredData.map((item) => item.date))].sort();
 
-    const datasets = courseNames.map(courseName => {
-      const courseData = dates.map(date => {
-        const item = filteredData.find(d => d.date === date && (d.courseName || 'Unknown Course') === courseName);
+    const datasets = courseNames.map((courseName) => {
+      const courseData = dates.map((date) => {
+        const item = filteredData.find(
+          (d) => d.date === date && (d.courseName || 'Unknown Course') === courseName
+        );
         return item ? item.revenue : 0;
       });
 
@@ -83,9 +96,9 @@ const MonthlyRevenueChart = () => {
     });
 
     // Add a dataset for the total
-    const totalData = dates.map(date => {
+    const totalData = dates.map((date) => {
       return filteredData
-        .filter(item => item.date === date)
+        .filter((item) => item.date === date)
         .reduce((sum, item) => sum + item.revenue, 0);
     });
 
@@ -95,15 +108,15 @@ const MonthlyRevenueChart = () => {
       backgroundColor: 'rgba(0, 0, 0, 0.6)',
       // This will make the total bar wider
       barPercentage: 0.8,
-      categoryPercentage: 0.8
+      categoryPercentage: 0.8,
     });
 
     return {
-      labels: dates.map(date => {
+      labels: dates.map((date) => {
         const d = new Date(date);
         return `${d.toLocaleString('default', { month: 'short' })} ${d.getFullYear()}`;
       }),
-      datasets
+      datasets,
     };
   };
 
@@ -128,10 +141,10 @@ const MonthlyRevenueChart = () => {
         beginAtZero: true,
         title: {
           display: true,
-          text: 'Revenue'
-        }
-      }
-    }
+          text: 'Revenue',
+        },
+      },
+    },
   };
 
   const getMonthName = (monthNumber) => {
@@ -163,9 +176,11 @@ const MonthlyRevenueChart = () => {
           <option value="all">All Years</option>
           <option value={currentYear}>{currentYear} (Current)</option>
           {availableYears
-            .filter(year => year.toString() !== currentYear)
-            .map(year => (
-              <option key={year} value={year.toString()}>{year}</option>
+            .filter((year) => year.toString() !== currentYear)
+            .map((year) => (
+              <option key={year} value={year.toString()}>
+                {year}
+              </option>
             ))}
         </select>
       </div>

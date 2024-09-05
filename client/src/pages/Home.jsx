@@ -13,26 +13,31 @@ export default function Home() {
 
   return (
     <>
-      <div className='buttonContainer'>
+      <div className="buttonContainer">
         <Row>
-          <Col sm={12} lg={4} className='text-center mb-3'>
-            <Link to="/admin" className='no-underline'>
+          <Col sm={12} lg={4} className="text-center mb-3">
+            <Link to="/admin" className="no-underline">
               <Button className="mainButton" variant="outline-info" size="lg">
                 Administrator Portal
               </Button>
             </Link>
           </Col>
-          <Col sm={12} lg={4} className='text-center mb-3'>
-            <Link to="/student/login" className='no-underline'>
+          <Col sm={12} lg={4} className="text-center mb-3">
+            <Link to="/student/login" className="no-underline">
               <Button className="mainButton" variant="outline-warning" size="lg">
                 Student Login
               </Button>
             </Link>
           </Col>
-          <Col sm={12} lg={4} className='text-center mb-3'>
-              <Button className="mainButton" variant="outline-info" size="lg" onClick={handleShowModal}>
-                Verify Certification
-              </Button>
+          <Col sm={12} lg={4} className="text-center mb-3">
+            <Button
+              className="mainButton"
+              variant="outline-info"
+              size="lg"
+              onClick={handleShowModal}
+            >
+              Verify Certification
+            </Button>
           </Col>
         </Row>
       </div>

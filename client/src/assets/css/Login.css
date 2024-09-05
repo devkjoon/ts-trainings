@@ -1,5 +1,5 @@
 .formContainer {
-    margin-top: 25%;
+  margin-top: 25%;
 }
 
 .loginInput {
@@ -18,34 +18,34 @@
 }
 
 @media screen and (max-width: 992px) {
-    .formContainer {
-      margin-top: 30%;
-    }
+  .formContainer {
+    margin-top: 30%;
   }
-  
-  @media screen and (max-width: 768px) {
-    .formContainer {
-      margin-top: 35%;
-    }
-  }
-  
-  @media screen and (max-width: 600px) {
-    .formContainer {
-      margin-top: 45%;
-    }
-  }
+}
 
-  .forgot-login-code-container {
-    margin-top: 5px;
-    text-align: center;
-    font-size: 0.9rem;
+@media screen and (max-width: 768px) {
+  .formContainer {
+    margin-top: 35%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .formContainer {
+    margin-top: 45%;
+  }
+}
+
+.forgot-login-code-container {
+  margin-top: 5px;
+  text-align: center;
+  font-size: 0.9rem;
 }
 
 .forgot-login-code-container a {
-    color: #007bff;
-    text-decoration: none;
+  color: #007bff;
+  text-decoration: none;
 }
 
 .forgot-login-code-container a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }

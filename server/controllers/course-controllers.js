@@ -10,7 +10,7 @@ const getCourses = async (req, res, next) => {
     const error = new HttpError('Fetching courses failed, please try again later', 500);
     return next(error);
   }
-  res.json({ courses: courses.map(course => course.toObject({ getters: true })) });
+  res.json({ courses: courses.map((course) => course.toObject({ getters: true })) });
 };
 
 const getCourseById = async (req, res, next) => {
@@ -44,17 +44,20 @@ const getCourseModules = async (req, res, next) => {
       return next(new HttpError('Student not found', 404));
     }
 
-    const completedModules = student.completedModules.map(m => m.toString());
+    const completedModules = student.completedModules.map((m) => m.toString());
 
-    const modulesWithIcons = course.modules.map(module => ({
+    const modulesWithIcons = course.modules.map((module) => ({
       ...module.toObject({ getters: true }),
       moduleIconUrl: course.moduleIconUrl,
       completed: completedModules.includes(module._id.toString()),
-      isLocked: module.isFinalTest && !course.modules.every(mod => mod.isFinalTest || completedModules.includes(mod._id.toString()))
+      isLocked:
+        module.isFinalTest &&
+        !course.modules.every(
+          (mod) => mod.isFinalTest || completedModules.includes(mod._id.toString())
+        ),
     }));
 
     res.json({ modules: modulesWithIcons });
-    
   } catch (error) {
     console.error('Error fetching modules:', error);
     return next(new HttpError('Fetching modules failed, please try again later', 500));
@@ -69,14 +72,14 @@ const createCourse = async (req, res, next) => {
     description,
     imageUrl,
     modules,
-    details
+    details,
   });
 
   try {
     await createdCourse.save();
   } catch (err) {
     const error = new HttpError('Creating course failed, please try again later', 500);
-    console.log(err)
+    console.log(err);
     return next(error);
   }
 
@@ -89,14 +92,14 @@ const deleteCourse = async (req, res, next) => {
   try {
     const course = await Course.findById(courseId);
     if (!course) {
-      return next(new HttpError("Could not find course for provided id.", 404));
+      return next(new HttpError('Could not find course for provided id.', 404));
     }
 
     await course.deleteOne();
 
-    res.status(200).json({ message: "Deleted course." });
+    res.status(200).json({ message: 'Deleted course.' });
   } catch (err) {
-    const error = new HttpError("Something went wrong, could not delete course.", 500);
+    const error = new HttpError('Something went wrong, could not delete course.', 500);
     return next(error);
   }
 };
@@ -123,11 +126,11 @@ const updateCourse = async (req, res, next) => {
   course.imageUrl = imageUrl || course.imageUrl;
   course.moduleIconUrl = moduleIconUrl || course.moduleIconUrl;
   course.price = price || course.price;
-  
+
   if (details) {
     course.details = {
       ...course.details,
-      ...details
+      ...details,
     };
   }
 
@@ -149,5 +152,5 @@ module.exports = {
   getCourseModules,
   createCourse,
   deleteCourse,
-  updateCourse
-}
+  updateCourse,
+};

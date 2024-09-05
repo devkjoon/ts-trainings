@@ -23,20 +23,20 @@ async function populateHistoricalEnrollmentData() {
 
     for (const student of students) {
       totalStudents++;
-      
+
       // Combine enrolled and completed courses
       const allCourses = [
         ...student.enrolledCourses,
-        ...student.completedCourses.map(cc => cc.courseId)
+        ...student.completedCourses.map((cc) => cc.courseId),
       ];
 
       for (const courseId of allCourses) {
         totalCourses++;
-        
+
         // Check if a CourseAssignment already exists
         const existingAssignment = await CourseAssignment.findOne({
           student: student._id,
-          course: courseId
+          course: courseId,
         });
 
         if (existingAssignment) {
@@ -46,7 +46,9 @@ async function populateHistoricalEnrollmentData() {
           const fullCourse = await Course.findById(courseId);
 
           // Determine the status based on whether the course is in completedCourses
-          const isCompleted = student.completedCourses.some(cc => cc.courseId.toString() === courseId.toString());
+          const isCompleted = student.completedCourses.some(
+            (cc) => cc.courseId.toString() === courseId.toString()
+          );
           const status = isCompleted ? 'completed' : 'in_progress';
 
           // Create a new CourseAssignment
@@ -63,9 +65,14 @@ async function populateHistoricalEnrollmentData() {
           try {
             await newAssignment.save();
             newAssignments++;
-            console.log(`Created ${status} assignment for student ${student._id} and course ${courseId}`);
+            console.log(
+              `Created ${status} assignment for student ${student._id} and course ${courseId}`
+            );
           } catch (err) {
-            console.error(`Error creating assignment for student ${student._id} and course ${courseId}:`, err);
+            console.error(
+              `Error creating assignment for student ${student._id} and course ${courseId}:`,
+              err
+            );
           }
         }
       }

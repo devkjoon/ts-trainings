@@ -9,12 +9,12 @@ const AnalyticsDashboard = () => {
   return (
     <div className="analytics-dashboard">
       <h1>Analytics Dashboard</h1>
-      
+
       <div className="dashboard-section">
         <h2>Course Enrollment Over Time</h2>
         <CourseEnrollmentChart />
       </div>
-      
+
       <div className="dashboard-section">
         <h2>Course Analytics Summary</h2>
         <CourseAnalytics />
@@ -24,7 +24,6 @@ const AnalyticsDashboard = () => {
         <h2>Monthly Revenue</h2>
         <MonthlyRevenueChart />
       </div>
-      
     </div>
   );
 };

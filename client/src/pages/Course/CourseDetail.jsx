@@ -5,12 +5,10 @@ import { Card, Container, Row, Col, Button } from 'react-bootstrap';
 import API_URL from '../../config';
 
 export default function CourseDetail() {
-  
   const navigate = useNavigate();
 
   const { courseId } = useParams();
   const [course, setCourse] = useState(null);
-  
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -58,7 +56,12 @@ export default function CourseDetail() {
                     Your browser does not support the video tag.
                   </video>
                 ) : (
-                  <iframe src={module.resource.url} title={module.title} width="100%" height="500px"></iframe>
+                  <iframe
+                    src={module.resource.url}
+                    title={module.title}
+                    width="100%"
+                    height="500px"
+                  ></iframe>
                 )}
                 {module.quiz.questions.length > 0 && (
                   <div>
@@ -72,8 +75,10 @@ export default function CourseDetail() {
         </Row>
       ))}
       <div className="text-center">
-        <Link to='/admin/courses' className='no-underline'>
-          <Button className="mainButton mt-3" variant="outline-info" size="lg">Back</Button>
+        <Link to="/admin/courses" className="no-underline">
+          <Button className="mainButton mt-3" variant="outline-info" size="lg">
+            Back
+          </Button>
         </Link>
       </div>
     </Container>

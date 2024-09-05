@@ -43,19 +43,19 @@ const FilterComponent = ({
                 </Col>
             </Row>
             <Row className="mb-3">
-                <Col xs={12} sm={3} className="mb-2 mb-sm-0">
+                <Col xs={12} sm={6} md={3} className="mb-2">
                     <Link to='/admin/dashboard' className='no-underline'>
                         <Button variant="outline-warning" className="w-100">
                             Back to Dashboard
                         </Button>
                     </Link>
                 </Col>
-                <Col xs={12} sm={3} className="mb-2 mb-sm-0">
+                <Col xs={12} sm={6} md={3} className="mb-2">
                     <Button variant="outline-secondary" className="w-100" onClick={resetFilters}>
                         Reset Filters
                     </Button>
                 </Col>
-                <Col xs={12} sm={6}>
+                <Col xs={12} md={6}>
                     <Button variant="outline-info" className="w-100" onClick={handleShowNewStudentModal}>
                         Add New Student
                     </Button>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Button, Row, Col, Spinner } from 'react-bootstrap';
+import { Form, Button, Row, Col } from 'react-bootstrap';
 import API_URL from '../../config';
 
 //  handles the display and submission of quizzes associates with modules
@@ -71,20 +71,8 @@ const QuizForm = ({ quiz, moduleId, scrollToContent, quizRef, onSubmitResult }) 
         <Button className="mx-2 test-btn" variant="outline-warning" onClick={scrollToContent}>
           Review Content
         </Button>
-        <Button className="mx-2 test-btn" variant="outline-info" type="submit" disabled={loading}>
-          {loading ? (
-            <>
-              <Spinner
-                as="span"
-                animation="border"
-                size="sm"
-                role="status"
-                aria-hidden="true"
-              />
-            </>
-          ) : (
-            'Submit Test'
-          )}
+        <Button className="mx-2 test-btn" variant="outline-info" type="submit">
+          {loading ? 'Submitting...' : 'Submit Test'}
         </Button>
       </div>
     </Form>

@@ -23,42 +23,40 @@ import './App.css';
 function App() {
   return (
     <BrowserRouter>
-      <div className="app-container">
+      <div className="App">
         <Navbar />
-        <div className="content-wrapper">
-          <main className="main-content">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/admin/login" element={<AdminLogin />} />
-              <Route path="/admin/registration" element={<AdminRegistration />} />
-              <Route
-                path="/admin/dashboard"
-                element={
-                  <ProtectedRoute>
-                    <AdminDashboard />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="/admin/students" element={<StudentList />} />
-              <Route path="/admin/courses" element={<CourseList />} />
-              <Route path="/admin/courses/:courseId" element={<CourseDetail />} />
-              <Route path="/admin/companies" element={<CompanyList />} />
-              <Route path="/student/login" element={<StudentLogin />} />
-              <Route
-                path="/student/dashboard"
-                element={
-                  <ProtectedRoute>
-                    <StudentDashboard />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="/student/courses/:courseId/modules" element={<ModuleDashboard />} />
-              <Route path="/student/courses/:courseId/modules/:moduleId" element={<ModuleViewer />} />
-              <Route path="/admin/reset-password/:token" element={<AdminPasswordReset />} />
-              <Route path="/admin/analytics" element={<AnalyticsDashboard />} />
-            </Routes>
-          </main>
-        </div>
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin/registration" element={<AdminRegistration />} />
+            <Route
+              path="/admin/dashboard"
+              element={
+                <ProtectedRoute>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/admin/students" element={<StudentList />} />
+            <Route path="/admin/courses" element={<CourseList />} />
+            <Route path="/admin/courses/:courseId" element={<CourseDetail />} />
+            <Route path="/admin/companies" element={<CompanyList />} />
+            <Route path="/student/login" element={<StudentLogin />} />
+            <Route
+              path="/student/dashboard"
+              element={
+                <ProtectedRoute>
+                  <StudentDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/student/courses/:courseId/modules" element={<ModuleDashboard />} />
+            <Route path="/student/courses/:courseId/modules/:moduleId" element={<ModuleViewer />} />
+            <Route path="/admin/reset-password/:token" element={<AdminPasswordReset />} />
+            <Route path="/admin/analytics" element={<AnalyticsDashboard />} />
+          </Routes>
+        </main>
       </div>
     </BrowserRouter>
   );

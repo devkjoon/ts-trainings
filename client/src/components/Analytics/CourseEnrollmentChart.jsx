@@ -17,17 +17,22 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 const CourseEnrollmentChart = () => {
   const [chartData, setChartData] = useState(null);
-  const [timeRange, setTimeRange] = useState('1m');
+  const [viewMode, setViewMode] = useState('daily');
+
   useEffect(() => {
     fetchData();
-  }, [timeRange]);
+  }, [viewMode]);
 
   const fetchData = async () => {
-    const endDate = new Date();
-    const startDate = new Date(endDate.getTime() - getTimeRangeInMilliseconds(timeRange));
-
     try {
       const url = new URL(`${API_URL}/analytics/course-enrollment-revenue`, window.location.origin);
+      
+      const endDate = new Date();
+      let startDate = new Date();
+      if (viewMode === 'daily') startDate.setDate(endDate.getDate() - 30);
+      else if (viewMode === 'monthly') startDate.setFullYear(endDate.getFullYear() - 1);
+      else if (viewMode === 'yearly') startDate.setFullYear(endDate.getFullYear() - 5);
+      
       url.searchParams.append('startDate', startDate.toISOString());
       url.searchParams.append('endDate', endDate.toISOString());
 
@@ -54,30 +59,28 @@ const CourseEnrollmentChart = () => {
     }
   };
 
-  const getTimeRangeInMilliseconds = (range) => {
-    const monthInMs = 30 * 24 * 60 * 60 * 1000;
-    switch (range) {
-      case '1m':
-        return monthInMs;
-      case '3m':
-        return 3 * monthInMs;
-      case '6m':
-        return 6 * monthInMs;
-      case '1y':
-        return 12 * monthInMs;
-      default:
-        return monthInMs;
-    }
-  };
-
   const processDataForChart = (data) => {
     const courseNames = [...new Set(data.map((item) => item.courseName))];
-    const dates = [...new Set(data.map((item) => item.date))].sort();
+    let dates = [...new Set(data.map((item) => item.date))].sort();
+
+    // Group data based on the selected view mode
+    if (viewMode === 'monthly') {
+      dates = [...new Set(dates.map(date => date.substring(0, 7)))].sort();
+    } else if (viewMode === 'yearly') {
+      dates = [...new Set(dates.map(date => date.substring(0, 4)))].sort();
+    }
 
     const datasets = courseNames.map((courseName) => {
       let cumulativeEnrollments = 0;
       const courseData = dates.map((date) => {
-        const items = data.filter((d) => d.date === date && d.courseName === courseName);
+        let items;
+        if (viewMode === 'daily') {
+          items = data.filter((d) => d.date === date && d.courseName === courseName);
+        } else if (viewMode === 'monthly') {
+          items = data.filter((d) => d.date.startsWith(date) && d.courseName === courseName);
+        } else if (viewMode === 'yearly') {
+          items = data.filter((d) => d.date.startsWith(date) && d.courseName === courseName);
+        }
         cumulativeEnrollments += items.reduce((sum, item) => sum + item.enrollments, 0);
         return cumulativeEnrollments;
       });
@@ -93,8 +96,17 @@ const CourseEnrollmentChart = () => {
 
     return {
       labels: dates.map((date) => {
-        const [year, month] = date.split('-');
-        return `${year}-${month}`;
+        if (viewMode === 'daily') {
+          const [, month, day] = date.split('-');
+          const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+          return `${monthNames[parseInt(month) - 1]} ${parseInt(day)}`;
+        } else if (viewMode === 'monthly') {
+          const [year, month] = date.split('-');
+          const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+          return `${monthNames[parseInt(month) - 1]} ${year}`;
+        } else {
+          return date; // For year grouping
+        }
       }),
       datasets,
     };
@@ -134,7 +146,12 @@ const CourseEnrollmentChart = () => {
       x: {
         title: {
           display: true,
-          text: 'Month',
+          text: viewMode === 'daily' ? 'Date' : viewMode === 'monthly' ? 'Month' : 'Year',
+        },
+        ticks: {
+          maxTicksLimit: 10,
+          maxRotation: 45,
+          minRotation: 45,
         },
       },
     },
@@ -142,18 +159,15 @@ const CourseEnrollmentChart = () => {
 
   return (
     <div className="enrollment-chart">
-      <div className="time-range-buttons">
-        <button onClick={() => setTimeRange('1m')} className={timeRange === '1m' ? 'active' : ''}>
-          1 Month
+      <div className="view-mode-buttons time-range-buttons">
+        <button onClick={() => setViewMode('daily')} className={viewMode === 'daily' ? 'active' : ''}>
+          Daily
         </button>
-        <button onClick={() => setTimeRange('3m')} className={timeRange === '3m' ? 'active' : ''}>
-          3 Months
+        <button onClick={() => setViewMode('monthly')} className={viewMode === 'monthly' ? 'active' : ''}>
+          Monthly
         </button>
-        <button onClick={() => setTimeRange('6m')} className={timeRange === '6m' ? 'active' : ''}>
-          6 Months
-        </button>
-        <button onClick={() => setTimeRange('1y')} className={timeRange === '1y' ? 'active' : ''}>
-          1 Year
+        <button onClick={() => setViewMode('yearly')} className={viewMode === 'yearly' ? 'active' : ''}>
+          Yearly
         </button>
       </div>
       <div style={{ height: '300px' }}>

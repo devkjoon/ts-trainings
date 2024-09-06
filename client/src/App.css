@@ -11,34 +11,29 @@ body {
   background-color: #f0f4f8;
 }
 
-#root {
+.app-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-.app-container {
+.content-wrapper {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  min-height: 100%;
 }
 
 .main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 20px; /* Add space below the navbar */
-  margin-bottom: 20px; /* Add space above the footer, if you have one */
+  justify-content: center; /* This centers the content vertically */
+  padding: 20px;
+  margin-bottom: 20px; 
 }
 
 input::placeholder,
 .form-control::placeholder {
   font-style: italic;
 }
-
-/* Navbar styles */
-.navbar {
-  padding: 10px 20px; /* Add padding to the navbar */
-}
-
 

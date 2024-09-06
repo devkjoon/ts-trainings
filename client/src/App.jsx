@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Navbar from './components/Tools/Navbar';
 
@@ -22,43 +22,45 @@ import './App.css';
 
 function App() {
   return (
-    <Router>
-      <div id="root">
+    <BrowserRouter>
+      <div className="app-container">
         <Navbar />
-        <div className="main-content">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin/registration" element={<AdminRegistration />} />
-            <Route
-              path="/admin/dashboard"
-              element={
-                <ProtectedRoute>
-                  <AdminDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/admin/students" element={<StudentList />} />
-            <Route path="/admin/courses" element={<CourseList />} />
-            <Route path="/admin/courses/:courseId" element={<CourseDetail />} />
-            <Route path="/admin/companies" element={<CompanyList />} />
-            <Route path="/student/login" element={<StudentLogin />} />
-            <Route
-              path="/student/dashboard"
-              element={
-                <ProtectedRoute>
-                  <StudentDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/student/courses/:courseId/modules" element={<ModuleDashboard />} />
-            <Route path="/student/courses/:courseId/modules/:moduleId" element={<ModuleViewer />} />
-            <Route path="/admin/reset-password/:token" element={<AdminPasswordReset />} />
-            <Route path="/admin/analytics" element={<AnalyticsDashboard />} />
-          </Routes>
+        <div className="content-wrapper">
+          <main className="main-content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin/registration" element={<AdminRegistration />} />
+              <Route
+                path="/admin/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/admin/students" element={<StudentList />} />
+              <Route path="/admin/courses" element={<CourseList />} />
+              <Route path="/admin/courses/:courseId" element={<CourseDetail />} />
+              <Route path="/admin/companies" element={<CompanyList />} />
+              <Route path="/student/login" element={<StudentLogin />} />
+              <Route
+                path="/student/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <StudentDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/student/courses/:courseId/modules" element={<ModuleDashboard />} />
+              <Route path="/student/courses/:courseId/modules/:moduleId" element={<ModuleViewer />} />
+              <Route path="/admin/reset-password/:token" element={<AdminPasswordReset />} />
+              <Route path="/admin/analytics" element={<AnalyticsDashboard />} />
+            </Routes>
+          </main>
         </div>
       </div>
-    </Router>
+    </BrowserRouter>
   );
 }
 

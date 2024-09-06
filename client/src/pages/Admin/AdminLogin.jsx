@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Button, Form, InputGroup, Alert } from 'react-bootstrap';
+import { Button, Form, InputGroup, Alert, Spinner } from 'react-bootstrap';
 import ForgotAdminPassword from '../../components/Modals/ForgotAdminPassword';
 import API_URL from '../../config';
 import '../../assets/css/AdminPreLogin.css';
@@ -115,7 +115,17 @@ export default function AdminLogin() {
             className="admin-button"
             disabled={loading}
           >
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? (
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+            ) : (
+              'Login'
+            )}
           </Button>
           <Link to="/admin/registration" className="admin-link-button">
             <Button variant="link" className="w-100">

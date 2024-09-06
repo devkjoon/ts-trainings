@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, Form, Alert } from 'react-bootstrap';
+import { Modal, Button, Form, Alert, Spinner } from 'react-bootstrap';
 
 import API_URL from '../../../config';
-
-import '../../../assets/css/ForgotAdminPassword.css';
+import '../../../assets/css/AdminPreLogin.css'; // Import the pre-login CSS
 
 const AssignCourse = ({ show, handleClose, studentId, showAlert, setStudents, courses }) => {
   const [selectedCourse, setSelectedCourse] = useState('');
   const [studentCourses, setStudentCourses] = useState([]);
   const [modalAlert, setModalAlert] = useState({ show: false, message: '', variant: '' });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchStudentCourses = async () => {
@@ -51,6 +51,7 @@ const AssignCourse = ({ show, handleClose, studentId, showAlert, setStudents, co
       return;
     }
 
+    setLoading(true);
     try {
       const response = await fetch(`${API_URL}/student/${studentId}/assign-course`, {
         method: 'POST',
@@ -103,6 +104,8 @@ const AssignCourse = ({ show, handleClose, studentId, showAlert, setStudents, co
         message: 'Failed to assign course. Please try again later.',
         variant: 'danger',
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -113,11 +116,11 @@ const AssignCourse = ({ show, handleClose, studentId, showAlert, setStudents, co
   };
 
   return (
-    <Modal show={show} onHide={handleModalClose} dialogClassName="custom-modal-dialog" centered>
+    <Modal show={show} onHide={handleModalClose} centered className="admin-modal">
       <Modal.Header closeButton>
         <Modal.Title>Assign Course</Modal.Title>
       </Modal.Header>
-      <Modal.Body className="custom-modal-content">
+      <Modal.Body>
         {modalAlert.show && (
           <Alert
             variant={modalAlert.variant}
@@ -127,13 +130,14 @@ const AssignCourse = ({ show, handleClose, studentId, showAlert, setStudents, co
             {modalAlert.message}
           </Alert>
         )}
-        <Form>
-          <Form.Group controlId="formCourseSelect">
+        <Form className="admin-form">
+          <Form.Group controlId="formCourseSelect" className="admin-input-group">
             <Form.Label>Select Course</Form.Label>
             <Form.Control
               as="select"
               value={selectedCourse}
               onChange={(e) => setSelectedCourse(e.target.value)}
+              className="admin-input"
             >
               <option value="">Select a course...</option>
               {courses.map((course) => (
@@ -146,11 +150,15 @@ const AssignCourse = ({ show, handleClose, studentId, showAlert, setStudents, co
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="outline-secondary" onClick={handleModalClose}>
+        <Button variant="outline-secondary" onClick={handleModalClose} disabled={loading} className="admin-button">
           Close
         </Button>
-        <Button variant="outline-primary" onClick={handleAssignCourse}>
-          Assign Course
+        <Button variant="outline-primary" onClick={handleAssignCourse} disabled={loading} className="admin-button">
+          {loading ? (
+            <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+          ) : (
+            'Assign Course'
+          )}
         </Button>
       </Modal.Footer>
     </Modal>

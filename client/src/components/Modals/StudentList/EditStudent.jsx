@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
+import { Modal, Button, Row, Col, Form, Spinner } from 'react-bootstrap'
+
+import '../../../assets/css/AdminPreLogin.css';
 
 const EditStudentModal = ({
   show,
@@ -13,6 +15,7 @@ const EditStudentModal = ({
   const [lastname, setLastname] = useState(student.lastname);
   const [email, setEmail] = useState(student.email);
   const [company, setCompany] = useState(student.company ? student.company._id : '');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     // Update state when student prop changes
@@ -22,7 +25,8 @@ const EditStudentModal = ({
     setCompany(student.company ? student.company._id : '');
   }, [student]);
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    setLoading(true);
     const updatedStudent = {
       ...student,
       firstname,
@@ -30,11 +34,11 @@ const EditStudentModal = ({
       email,
       company,
     };
-    handleUpdateStudent(updatedStudent);
+    await handleUpdateStudent(updatedStudent);
+    setLoading(false);
   };
 
   const handleModalClose = () => {
-    // Reset form fields to initial values
     setFirstname(student.firstname);
     setLastname(student.lastname);
     setEmail(student.email);
@@ -43,14 +47,14 @@ const EditStudentModal = ({
   };
 
   return (
-    <Modal show={show} onHide={handleModalClose} dialogClassName="custom-modal-dialog" centered>
+    <Modal show={show} onHide={handleModalClose} centered className="admin-modal">
       <Modal.Header closeButton>
         <Modal.Title>Edit Student</Modal.Title>
       </Modal.Header>
-      <Modal.Body className="custom-modal-content">
-        <Form>
+      <Modal.Body>
+        <Form className="admin-form">
           <Row>
-            <Form.Group as={Col} md="6" className="mb-2" controlId="formFirstName">
+            <Form.Group as={Col} md="6" className="admin-input-group" controlId="formFirstName">
               <Form.Label>First Name</Form.Label>
               <Form.Control
                 type="text"
@@ -58,10 +62,11 @@ const EditStudentModal = ({
                 value={firstname}
                 onChange={(e) => setFirstname(e.target.value)}
                 required
+                className="admin-input"
               />
             </Form.Group>
 
-            <Form.Group as={Col} md="6" className="mb-2" controlId="formLastName">
+            <Form.Group as={Col} md="6" className="admin-input-group" controlId="formLastName">
               <Form.Label>Last Name</Form.Label>
               <Form.Control
                 type="text"
@@ -69,11 +74,12 @@ const EditStudentModal = ({
                 value={lastname}
                 onChange={(e) => setLastname(e.target.value)}
                 required
+                className="admin-input"
               />
             </Form.Group>
           </Row>
           <Row>
-            <Form.Group as={Col} lg="8" md="6" className="mb-2" controlId="formEmail">
+            <Form.Group as={Col} lg="7" md="6" className="admin-input-group" controlId="formEmail">
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
@@ -81,15 +87,17 @@ const EditStudentModal = ({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className="admin-input"
               />
             </Form.Group>
 
-            <Form.Group as={Col} lg="4" md="6" className="mb-2" controlId="formCompany">
+            <Form.Group as={Col} lg="5" md="6" className="admin-input-group" controlId="formCompany">
               <Form.Label>Company</Form.Label>
               <Form.Control
                 as="select"
                 value={company}
                 onChange={(e) => setCompany(e.target.value)}
+                className="admin-input"
               >
                 <option value="">Select a company</option>
                 {companies.map((companyOption) => (
@@ -103,11 +111,15 @@ const EditStudentModal = ({
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="outline-secondary" onClick={handleModalClose}>
+        <Button variant="outline-secondary" onClick={handleModalClose} disabled={loading} className="admin-button">
           Close
         </Button>
-        <Button variant="outline-primary" onClick={handleSave}>
-          Save Changes
+        <Button variant="outline-primary" onClick={handleSave} disabled={loading} className="admin-button">
+          {loading ? (
+            <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+          ) : (
+            'Save Changes'
+          )}
         </Button>
       </Modal.Footer>
     </Modal>

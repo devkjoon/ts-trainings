@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Button, Form, Alert } from 'react-bootstrap';
+import { Modal, Button, Form, Alert, Spinner } from 'react-bootstrap';
 import API_URL from '../../../config';
 
 export default function StudentLoginCode({ show, handleClose }) {
@@ -95,7 +95,17 @@ export default function StudentLoginCode({ show, handleClose }) {
           disabled={loading}
           onClick={requestLoginCode}
         >
-          {loading ? 'Sending...' : 'Send Login Code'}
+          {loading ? (
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+            ) : (
+              'Send Login Code'
+            )}
         </Button>
       </Modal.Footer>
     </Modal>

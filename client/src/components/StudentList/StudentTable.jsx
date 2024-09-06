@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, Row, Col, Button, Collapse } from 'react-bootstrap';
+import { Table, Row, Col, Button, Collapse, Spinner } from 'react-bootstrap';
 
 const StudentTable = ({
   students,
@@ -8,9 +8,10 @@ const StudentTable = ({
   handleShowEditModal,
   handleDeleteStudent,
   handleSendLoginCode,
-  handleSendCertificate // Add this new prop
+  handleSendCertificate
 }) => {
   const [open, setOpen] = useState({});
+  const [loading, setLoading] = useState({});
 
   const toggleCollapse = (id) => {
     setOpen((prevOpen) => ({
@@ -22,6 +23,42 @@ const StudentTable = ({
   const getCourseTitle = (courseId) => {
     const course = courses.find((c) => c._id === courseId);
     return course ? course.title : 'Unknown Course';
+  };
+
+  const handleAction = async (action, ...args) => {
+    const key = `${action}-${args.join('-')}`;
+    setLoading(prev => ({ ...prev, [key]: true }));
+    try {
+      await action(...args);
+    } finally {
+      setLoading(prev => ({ ...prev, [key]: false }));
+    }
+  };
+
+  const renderButton = (text, variant, action, ...args) => {
+    const key = `${action}-${args.join('-')}`;
+    const isLoading = loading[key];
+    return (
+      <Button
+        variant={variant}
+        size="sm"
+        onClick={() => handleAction(action, ...args)}
+        disabled={isLoading}
+        className="action-button"
+      >
+        {isLoading ? (
+          <Spinner
+            as="span"
+            animation="border"
+            size="sm"
+            role="status"
+            aria-hidden="true"
+          />
+        ) : (
+          text
+        )}
+      </Button>
+    );
   };
 
   return (
@@ -97,13 +134,13 @@ const StudentTable = ({
                                     {student.completedCourses.map((course, index) => (
                                       <li key={index} className="d-flex justify-content-between align-items-center">
                                         <span>{getCourseTitle(course.courseId)}</span>
-                                        <Button
-                                          variant="outline-success"
-                                          size="sm"
-                                          onClick={() => handleSendCertificate(student._id, course.courseId)}
-                                        >
-                                          Send Certificate
-                                        </Button>
+                                        {renderButton(
+                                          "Send Certificate",
+                                          "outline-success",
+                                          handleSendCertificate,
+                                          student._id,
+                                          course.courseId
+                                        )}
                                       </li>
                                     ))}
                                   </ul>
@@ -119,38 +156,37 @@ const StudentTable = ({
                               <td className="actions-cell">
                                 <Row>
                                   <Col>
-                                    <Button
-                                      variant="outline-primary"
-                                      onClick={() => handleShowAssignModal(student._id)}
-                                    >
-                                      Assign Course
-                                    </Button>
+                                    {renderButton(
+                                      "Assign Course",
+                                      "outline-primary",
+                                      handleShowAssignModal,
+                                      student._id
+                                    )}
                                   </Col>
                                   <Col>
-                                    <Button
-                                      variant="outline-warning"
-                                      onClick={() => handleShowEditModal(student)}
-                                    >
-                                      Edit Student
-                                    </Button>
+                                    {renderButton(
+                                      "Send Login Code",
+                                      "outline-info",
+                                      handleSendLoginCode,
+                                      student._id,
+                                      student.email
+                                    )}
                                   </Col>
                                   <Col>
-                                    <Button
-                                      variant="outline-danger"
-                                      onClick={() => handleDeleteStudent(student._id)}
-                                    >
-                                      Delete Student
-                                    </Button>
+                                    {renderButton(
+                                      "Edit Student",
+                                      "outline-warning",
+                                      handleShowEditModal,
+                                      student
+                                    )}
                                   </Col>
                                   <Col>
-                                    <Button
-                                      variant="outline-info"
-                                      onClick={() =>
-                                        handleSendLoginCode(student._id, student.email)
-                                      }
-                                    >
-                                      Send Login Code
-                                    </Button>
+                                    {renderButton(
+                                      "Delete Student",
+                                      "outline-danger",
+                                      handleDeleteStudent,
+                                      student._id
+                                    )}
                                   </Col>
                                 </Row>
                               </td>

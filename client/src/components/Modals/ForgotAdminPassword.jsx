@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Button, Form, Alert } from 'react-bootstrap';
+import { Modal, Button, Form, Alert, Spinner } from 'react-bootstrap';
 import API_URL from '../../config';
 
 export default function ForgotAdminPassword({ show, handleClose }) {
@@ -95,7 +95,17 @@ export default function ForgotAdminPassword({ show, handleClose }) {
           disabled={loading}
           onClick={handlePasswordReset}
         >
-          {loading ? 'Sending...' : 'Send Reset Link'}
+          {loading ? (
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+            ) : (
+              'Send Reset Link'
+            )}
         </Button>
       </Modal.Footer>
     </Modal>

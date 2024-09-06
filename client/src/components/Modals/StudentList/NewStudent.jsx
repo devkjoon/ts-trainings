@@ -28,8 +28,9 @@ const NewStudent = ({
     handleClose();
   };
 
-  const handleFormSubmit = (event) => {
-    handleSubmit(event);
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    await handleSubmit(event);
     clearForm();
   };
 
@@ -85,8 +86,12 @@ const NewStudent = ({
             </Form.Select>
           </Form.Group>
 
-          <Button variant="primary" type="submit" disabled={isLoading}>
-            {isLoading ? <Spinner animation="border" size="sm" /> : 'Add Student'}
+          <Button variant="outline-primary" type="submit" disabled={isLoading}>
+            {isLoading ? (
+              <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+            ) : (
+              'Add Student'
+            )}
           </Button>
         </Form>
       </Modal.Body>

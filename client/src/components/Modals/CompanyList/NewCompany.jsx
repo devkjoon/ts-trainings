@@ -1,5 +1,5 @@
-import React from 'react';
-import { Modal, Button, Row, Col, InputGroup, Form } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Modal, Button, Row, Col, InputGroup, Form, Spinner } from 'react-bootstrap';
 
 const AddNewCompany = ({
   show,
@@ -24,13 +24,22 @@ const AddNewCompany = ({
   companyContactPhone,
   setCompanyContactPhone,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    await handleSubmit(e);
+    setIsLoading(false);
+  };
+
   return (
     <Modal show={show} onHide={handleClose} size="lg">
       <Modal.Header closeButton>
         <Modal.Title>Add New Company</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={onSubmit}>
           <h2 className="mt-2">Company Info</h2>
           <Row>
             <Form.Group as={Col} lg="8" md="6" className="mb-2 mt-2">
@@ -180,8 +189,12 @@ const AddNewCompany = ({
               </InputGroup>
             </Form.Group>
           </Row>
-          <Button type="submit" variant="outline-info" className="mt-2">
-            Add Company
+          <Button type="submit" variant="outline-info" className="mt-2" disabled={isLoading}>
+            {isLoading ? (
+              <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+            ) : (
+              'Add Company'
+            )}
           </Button>
         </Form>
       </Modal.Body>

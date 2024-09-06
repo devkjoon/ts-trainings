@@ -19,9 +19,10 @@ const sendLoginCode = async (req, res, next) => {
 
     const subject = 'Your Login Code';
     const content = `
-      <p>Your login code is: ${student.loginCode}.</p>
-      <p>Please use this code to access your training portal.</p>
-      <p>If you did not request this, please ignore this email.</p>
+      <p style="margin-bottom: 10px;">Dear ${student.firstname},</p>
+      <p style="margin-bottom: 10px;">Your login code is: <strong style="color: #17a2b8;">${student.loginCode}</strong></p>
+      <p style="margin-bottom: 10px;">Please use this code to access your training portal.</p>
+      <p style="margin-bottom: 10px;">If you did not request this, please ignore this email.</p>
     `;
 
     await sendEmail(email, subject, content);
@@ -45,10 +46,11 @@ const forgotLoginCode = async (req, res, next) => {
 
     const subject = 'Your Login Code';
     const content = `
-    <p>Dear ${student.firstname},</p>
-    <p>Your login code is: ${student.loginCode}.</p>
-    <p>Please use this code to access your training portal.</p>
-    <p>If you did not request this, please ignore this email.</p>
+      <p style="margin-bottom: 10px;">Dear ${student.firstname},</p>
+      <p style="margin-bottom: 10px;">You have requested your login code. Here are the details:</p>
+      <p style="margin-bottom: 10px;">Your login code is: <strong style="color: #17a2b8;">${student.loginCode}</strong></p>
+      <p style="margin-bottom: 10px;">Please use this code to access your training portal.</p>
+      <p style="margin-bottom: 10px;">If you did not request this, please ignore this email.</p>
     `;
     await sendEmail(student.email, subject, content);
 

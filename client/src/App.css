@@ -36,16 +36,3 @@ input::placeholder,
 .form-control::placeholder {
   font-style: italic;
 }
-
-/* Mobile-specific adjustments */
-@media (max-width: 767px) {
-  .App {
-    height: -webkit-fill-available;
-  }
-
-  .main-content {
-    height: calc(100% - var(--navbar-height));
-    min-height: -webkit-fill-available;
-  }
-}
-

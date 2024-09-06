@@ -170,7 +170,7 @@ const CourseEnrollmentChart = () => {
           Yearly
         </button>
       </div>
-      <div style={{ height: '300px' }}>
+      <div style={{ height: '300px', width: '100%' }}>
         {chartData && <Line options={options} data={chartData} />}
       </div>
     </div>

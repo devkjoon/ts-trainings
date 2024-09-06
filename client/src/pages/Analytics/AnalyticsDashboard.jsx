@@ -1,6 +1,6 @@
 import React from 'react';
 import CourseEnrollmentChart from '../../components/Analytics/CourseEnrollmentChart';
-import CourseAnalytics from '../../components/Analytics/CourseAnalytics';
+import CourseAnalyticsChart from '../../components/Analytics/CourseAnalyticsChart';
 import MonthlyRevenueChart from '../../components/Analytics/MonthlyRevenueChart';
 
 import '../../assets/css/AnalyticsDashboard.css';
@@ -17,7 +17,7 @@ const AnalyticsDashboard = () => {
 
       <div className="dashboard-section">
         <h2>Course Analytics Summary</h2>
-        <CourseAnalytics />
+        <CourseAnalyticsChart />
       </div>
 
       <div className="dashboard-section">

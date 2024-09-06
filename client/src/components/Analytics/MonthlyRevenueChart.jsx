@@ -106,7 +106,6 @@ const MonthlyRevenueChart = () => {
       label: 'Total',
       data: totalData,
       backgroundColor: 'rgba(0, 0, 0, 0.6)',
-      // This will make the total bar wider
       barPercentage: 0.8,
       categoryPercentage: 0.8,
     });
@@ -118,6 +117,12 @@ const MonthlyRevenueChart = () => {
       }),
       datasets,
     };
+  };
+
+  const getMaxYValue = () => {
+    if (!chartData || !chartData.datasets) return 100;
+    const maxValue = Math.max(...chartData.datasets.flatMap((dataset) => dataset.data));
+    return Math.ceil(maxValue * 1.1);
   };
 
   const options = {
@@ -135,14 +140,24 @@ const MonthlyRevenueChart = () => {
     scales: {
       x: {
         stacked: false,
+        ticks: {
+          maxRotation: 45,
+          minRotation: 45,
+        },
       },
       y: {
         stacked: false,
         beginAtZero: true,
+        max: getMaxYValue(), // Add this line
         title: {
           display: true,
           text: 'Revenue',
         },
+        ticks: {
+          callback: function(value, index, values) {
+            return '$' + value.toLocaleString();
+          }
+        }
       },
     },
   };
@@ -184,7 +199,7 @@ const MonthlyRevenueChart = () => {
             ))}
         </select>
       </div>
-      <div style={{ height: '400px' }}>
+      <div>
         {chartData && chartData.datasets && chartData.datasets.length > 0 ? (
           <Bar options={options} data={chartData} />
         ) : (

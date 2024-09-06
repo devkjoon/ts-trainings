@@ -4,14 +4,14 @@
   border-radius: 8px;
   overflow: hidden;
   margin-bottom: 20px;
-  position: relative; /* Allows positioning of text */
-  height: 30px; /* Set a consistent height for the progress bar */
-  display: flex; /* Use flexbox for centering content */
-  align-items: center; /* Vertically centers the text */
+  position: relative; 
+  height: 30px;
+  display: flex;
+  align-items: center;
 }
 
 .progress-bar-fill {
-  height: 100%; /* Make the fill span the entire height */
+  height: 100%;
   background-color: #4caf50;
   width: 0;
   transition: width 0.5s ease-in-out;
@@ -21,11 +21,11 @@
 }
 
 .progress-text {
-  position: absolute; /* Allows the text to sit over the bar */
+  position: absolute;
   width: 100%;
   text-align: center;
   color: #fff;
   font-weight: bold;
-  z-index: 1; /* Ensures text is above the fill */
-  pointer-events: none; /* Prevents the text from interfering with pointer events on the bar */
+  z-index: 1;
+  pointer-events: none;
 }

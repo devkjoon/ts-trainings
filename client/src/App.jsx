@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import Navbar from './components/Tools/Navbar';
 
@@ -22,10 +22,10 @@ import './App.css';
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="app-container">
+    <Router>
+      <div id="root">
         <Navbar />
-        <main className="main-content">
+        <div className="main-content">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/admin/login" element={<AdminLogin />} />
@@ -56,9 +56,9 @@ function App() {
             <Route path="/admin/reset-password/:token" element={<AdminPasswordReset />} />
             <Route path="/admin/analytics" element={<AnalyticsDashboard />} />
           </Routes>
-        </main>
+        </div>
       </div>
-    </BrowserRouter>
+    </Router>
   );
 }
 

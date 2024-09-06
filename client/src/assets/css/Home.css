@@ -1,30 +1,49 @@
-.buttonContainer {
+.home-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 85vh;
-  padding: 0 10px;
+  flex: 1;
+  padding: 20px;
 }
 
-.mainButton {
-  min-width: 250px;
-  height: 78px;
-  margin-bottom: 0;
-  margin-right: 20px;
+.home-content {
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
 }
 
-.mainButton:last-child {
-  margin-right: 0;
+.home-title {
+  margin-bottom: 30px;
+  color: #343a40;
 }
 
-@media screen and (max-width: 768px) {
-  .buttonContainer {
-    flex-direction: column;
+.home-button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.home-button-link {
+  text-decoration: none;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.home-button {
+  width: 80%;
+  height: 60px;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 576px) {
+  .home-title {
+    font-size: 1.5rem;
   }
 
-  .mainButton {
-    width: 100%;
-    max-width: 380px;
-    margin-bottom: 20px;
+  .home-button {
+    height: 50px;
+    font-size: 1rem;
   }
 }

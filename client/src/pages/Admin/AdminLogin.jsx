@@ -89,7 +89,11 @@ export default function AdminLogin() {
           />
         </Form.Group>
         <div className="text-end mb-3">
-          <Link to="#" onClick={() => setShowForgotPasswordModal(true)}>
+          <Link 
+            to="#" 
+            onClick={() => setShowForgotPasswordModal(true)} 
+            className="no-underline"
+          >
             Forgot Password?
           </Link>
         </div>
@@ -114,7 +118,7 @@ export default function AdminLogin() {
             {loading ? 'Logging in...' : 'Login'}
           </Button>
           <Link to="/admin/registration" className="admin-link-button">
-            <Button variant="link" className="w-100 no-underline">
+            <Button variant="link" className="w-100">
               Don't have an account? Register here
             </Button>
           </Link>

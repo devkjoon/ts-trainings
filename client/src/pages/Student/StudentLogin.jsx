@@ -90,7 +90,11 @@ export default function StudentLogin() {
           />
         </Form.Group>
         <div className="text-end mb-3">
-          <Link to="#" onClick={() => setShowStudentLoginCodeModal(true)}>
+          <Link 
+            to="#" 
+            onClick={() => setShowStudentLoginCodeModal(true)} 
+            className="no-underline"
+          >
             Forgot Login Code?
           </Link>
         </div>
@@ -107,7 +111,7 @@ export default function StudentLogin() {
           </Link>
           <Button
             type="submit"
-            variant="outline-primary"
+            variant="outline-warning"
             size="lg"
             className="student-button"
             disabled={loading}

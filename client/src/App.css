@@ -14,7 +14,7 @@ body {
 #root {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  min-height: 100vh;
 }
 
 .app-container {
@@ -27,11 +27,9 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-}
-
-.no-underline {
-  text-decoration: none;
+  padding: 20px;
+  margin-top: 20px; /* Add space below the navbar */
+  margin-bottom: 20px; /* Add space above the footer, if you have one */
 }
 
 input::placeholder,
@@ -39,15 +37,9 @@ input::placeholder,
   font-style: italic;
 }
 
-/* Remove the padding from #root */
-#root {
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Add padding to the navbar if needed */
+/* Navbar styles */
 .navbar {
-  padding: 0 1rem;
+  padding: 10px 20px; /* Add padding to the navbar */
 }
 
-/* Add any other global styles you need */
+

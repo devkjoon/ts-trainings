@@ -8,7 +8,7 @@
   background-color: #d1dbe8;
   border-radius: 15px;
   overflow: hidden;
-  padding: 0 !important; /* Override any padding set by parent */
+  padding: 0 !important;
 }
 
 .card-inner {
@@ -82,9 +82,9 @@
 .card-footer {
   display: flex;
   justify-content: center;
-  width: calc(100% + 2rem); /* Extend beyond padding */
-  margin-left: -1rem; /* Compensate for parent padding */
-  margin-right: -1rem; /* Compensate for parent padding */
+  width: calc(100% + 2rem);
+  margin-left: -1rem;
+  margin-right: -1rem;
   padding: 10px;
   background-color: #e6edf3;
   margin-top: auto;

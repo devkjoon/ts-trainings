@@ -1,12 +1,12 @@
 /* AssignCourseModal.css */
 .modal-body .form-control {
-  color: #000; /* Set text color */
-  background-color: #fff; /* Set background color */
+  color: #000;
+  background-color: #fff;
 }
 
 .modal-body .form-control option {
-  color: #000; /* Ensure options have visible text */
-  background-color: #fff; /* Ensure options have visible background */
+  color: #000;
+  background-color: #fff;
 }
 
 .custom-modal-dialog {

@@ -40,6 +40,14 @@
   margin-top: 10px;
 }
 
+.no-underline,
+.no-underline:hover,
+.no-underline:focus,
+.admin-link-button .btn-link {
+  text-decoration: none !important;
+  color: #007bff !important;
+}
+
 @media (max-width: 768px) {
   .admin-form {
     padding: 15px;

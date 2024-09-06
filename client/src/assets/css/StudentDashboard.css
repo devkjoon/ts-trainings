@@ -65,3 +65,8 @@
     margin: 0;
   }
 }
+
+.student-dashboard-container {
+  min-height: calc(100vh - var(--navbar-height));
+  padding: 20px;
+}

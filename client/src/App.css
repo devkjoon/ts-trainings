@@ -2,12 +2,11 @@
   --navbar-height: 60px;
 }
 
-body,
-html,
-#root {
+html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 
 body {
@@ -18,21 +17,35 @@ body {
 .App {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100%;
+  overflow: hidden;
 }
 
 .main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: center; 
+  align-items: center; 
   padding: 20px;
-  height: calc(100vh - var(--navbar-height));
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 input::placeholder,
 .form-control::placeholder {
   font-style: italic;
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 767px) {
+  .App {
+    height: -webkit-fill-available;
+  }
+
+  .main-content {
+    height: calc(100% - var(--navbar-height));
+    min-height: -webkit-fill-available;
+  }
 }
 

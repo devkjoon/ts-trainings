@@ -3,8 +3,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex: 1;
-  padding: 20px;
+  height: 100%; /* Changed from flex: 1; */
+  padding: 0 20px; /* Removed top and bottom padding */
 }
 
 .admin-form {

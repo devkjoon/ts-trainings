@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Button, Form, InputGroup, Alert } from 'react-bootstrap';
+import { Button, Form, InputGroup, Alert, Row, Col } from 'react-bootstrap';
 import API_URL from '../../config';
 import '../../assets/css/AdminPreLogin.css';
 
@@ -66,75 +66,98 @@ export default function AdminRegistration() {
     <div className="admin-container">
       <Form noValidate validated={validated} onSubmit={handleRegistration} className="admin-form">
         <h2 className="admin-title">Administrator Registration</h2>
-        <Form.Group className="admin-input-group">
-          <Form.Label>First Name</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="First Name"
-            value={firstname}
-            onChange={(e) => setFirstname(e.target.value)}
-            required
-          />
-        </Form.Group>
-        <Form.Group className="admin-input-group">
-          <Form.Label>Last Name</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Last Name"
-            value={lastname}
-            onChange={(e) => setLastname(e.target.value)}
-            required
-          />
-        </Form.Group>
-        <Form.Group className="admin-input-group">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </Form.Group>
-        <Form.Group className="admin-input-group">
-          <Form.Label>Username</Form.Label>
-          <InputGroup>
-            <InputGroup.Text>@</InputGroup.Text>
-            <Form.Control
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-          </InputGroup>
-        </Form.Group>
-        <Form.Group className="admin-input-group">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </Form.Group>
-        <Form.Group className="admin-input-group">
-          <Form.Label>Admin Code</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Admin Code"
-            value={adminCode}
-            onChange={(e) => setAdminCode(e.target.value)}
-            required
-          />
-        </Form.Group>
+        <Row>
+          <Col md={6}>
+            <Form.Group className="admin-input-group">
+              <Form.Label>First Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="First Name"
+                value={firstname}
+                onChange={(e) => setFirstname(e.target.value)}
+                required
+              />
+            </Form.Group>
+          </Col>
+          <Col md={6}>
+            <Form.Group className="admin-input-group">
+              <Form.Label>Last Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Last Name"
+                value={lastname}
+                onChange={(e) => setLastname(e.target.value)}
+                required
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={6}>
+            <Form.Group className="admin-input-group">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </Form.Group>
+          </Col>
+          <Col md={6}>
+            <Form.Group className="admin-input-group">
+              <Form.Label>Username</Form.Label>
+              <InputGroup>
+                <InputGroup.Text>@</InputGroup.Text>
+                <Form.Control
+                  type="text"
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                />
+              </InputGroup>
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={6}>
+            <Form.Group className="admin-input-group">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </Form.Group>
+          </Col>
+          <Col md={6}>
+            <Form.Group className="admin-input-group">
+              <Form.Label>Admin Code</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Admin Code"
+                value={adminCode}
+                onChange={(e) => setAdminCode(e.target.value)}
+                required
+              />
+            </Form.Group>
+          </Col>
+        </Row>
         {alert.show && (
           <Alert variant={alert.variant} onClose={() => setAlert({ show: false })} dismissible>
             {alert.message}
           </Alert>
         )}
         <div className="admin-button-container">
+          <Link to="/" className="admin-button" style={{ textDecoration: 'none' }}>
+            <Button variant="outline-secondary" size="lg" className="w-100">
+              Return Home
+            </Button>
+          </Link>
           <Button
             type="submit"
             variant="outline-primary"
@@ -144,13 +167,8 @@ export default function AdminRegistration() {
           >
             {loading ? 'Registering...' : 'Register'}
           </Button>
-          <Link to="/" className="admin-button" style={{ textDecoration: 'none' }}>
-            <Button variant="outline-secondary" size="lg" className="w-100">
-              Return Home
-            </Button>
-          </Link>
           <Link to="/admin/login" className="admin-link-button">
-            <Button variant="link" className="w-100">
+            <Button variant="link" className="w-100 no-underline">
               Already have an account? Login here
             </Button>
           </Link>

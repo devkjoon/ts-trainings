@@ -102,10 +102,13 @@ const forgotPassword = async (req, res, next) => {
 
     const resetLink = `http://ts-trainings.com/admin/reset-password/${admin.resetPasswordToken}`;
     const subject = 'Password Reset Request';
-    const message =
-      `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n` +
-      `Please click on the following link, or paste this into your browser to complete the process:\n\n${resetLink}\n\n` +
-      `If you did not request this, please ignore this email and your password will remain unchanged.\n`;
+    const message = `
+      <p>You are receiving this because you (or someone else) have requested the reset of the password for your account.</p>
+      <p>Please click on the following link, or paste this into your browser to complete the process:</p>
+      ${resetLink}
+      <br></br>
+      <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>
+      `
 
     await sendEmail(admin.email, subject, message);
 

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Form, Button, Alert } from 'react-bootstrap';
 import API_URL from '../../config';
-
-import '../../assets/css/AdminPasswordReset.css';
+import '../../assets/css/AdminPreLogin.css';
 
 export default function AdminPasswordReset() {
   const [password, setPassword] = useState('');
@@ -65,23 +64,17 @@ export default function AdminPasswordReset() {
   };
 
   return (
-    <div className="rsp-container">
-      <Form noValidate validated={validated} onSubmit={handlePasswordReset}>
-        <h2 className="rsp-h2">Reset Password</h2>
+    <div className="admin-container">
+      <Form noValidate validated={validated} onSubmit={handlePasswordReset} className="admin-form">
+        <h2 className="admin-title">Reset Password</h2>
         {alert.show && (
-          <Alert
-            className="rsp-alert"
-            variant={alert.variant}
-            onClose={() => setAlert({ show: false })}
-            dismissible
-          >
+          <Alert variant={alert.variant} onClose={() => setAlert({ show: false })} dismissible>
             {alert.message}
           </Alert>
         )}
-        <Form.Group controlId="formPassword">
-          <Form.Label className="rsp-form-label">New Password</Form.Label>
+        <Form.Group className="admin-input-group">
+          <Form.Label>New Password</Form.Label>
           <Form.Control
-            className="rsp-form-control"
             type="password"
             placeholder="Enter new password"
             value={password}
@@ -90,10 +83,9 @@ export default function AdminPasswordReset() {
           />
           <Form.Control.Feedback type="invalid">Please enter a new password.</Form.Control.Feedback>
         </Form.Group>
-        <Form.Group controlId="formConfirmPassword">
-          <Form.Label className="confirm-label">Confirm New Password</Form.Label>
+        <Form.Group className="admin-input-group">
+          <Form.Label>Confirm New Password</Form.Label>
           <Form.Control
-            className="rsp-form-control"
             type="password"
             placeholder="Confirm new password"
             value={confirmPassword}
@@ -104,9 +96,21 @@ export default function AdminPasswordReset() {
             Please confirm your new password.
           </Form.Control.Feedback>
         </Form.Group>
-        <Button variant="outline-primary" type="submit" disabled={loading} className="rsp-button">
-          {loading ? 'Resetting...' : 'Reset Password'}
-        </Button>
+        <div className="admin-button-container">
+          <Button
+            variant="outline-primary"
+            type="submit"
+            disabled={loading}
+            className="admin-button"
+          >
+            {loading ? 'Resetting...' : 'Reset Password'}
+          </Button>
+          <Link to="/admin/login" className="admin-button" style={{ textDecoration: 'none' }}>
+            <Button variant="outline-secondary" className="w-100">
+              Back to Login
+            </Button>
+          </Link>
+        </div>
       </Form>
     </div>
   );

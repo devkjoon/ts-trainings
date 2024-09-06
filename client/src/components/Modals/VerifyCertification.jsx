@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form, Spinner, Alert, InputGroup } from 'react-bootstrap';
 import API_URL from '../../config';
+import '../../assets/css/VerifyCertification.css';
 
 const VerifyCertification = ({ show, handleClose }) => {
   const [certificationNumber, setCertificationNumber] = useState('');
@@ -25,7 +26,7 @@ const VerifyCertification = ({ show, handleClose }) => {
 
     setLoading(true);
     setResult(null);
-    setAlert({ show: false, message: '', variant: '' }); // Clear any existing alert before making the request
+    setAlert({ show: false, message: '', variant: '' });
 
     try {
       const response = await fetch(
@@ -61,14 +62,8 @@ const VerifyCertification = ({ show, handleClose }) => {
     handleClose();
   };
 
-  const options = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  };
-
   return (
-    <Modal show={show} onHide={handleClose} centered>
+    <Modal show={show} onHide={handleModalClose} centered className="verify-certification-modal">
       <Modal.Header closeButton>
         <Modal.Title>Verify Certification</Modal.Title>
       </Modal.Header>
@@ -89,23 +84,18 @@ const VerifyCertification = ({ show, handleClose }) => {
                 Please enter a reference ID.
               </Form.Control.Feedback>
             </InputGroup>
+            <Form.Text className="text-muted">
+              Enter the reference ID without the "TS-" prefix.
+            </Form.Text>
           </Form.Group>
 
           {result && (
-            <Alert variant="success" className="mt-4">
+            <div className="mt-4 certification-result">
               <h4>Certification Verified</h4>
-              <br></br>
-              <p>
-                <strong>Student Name:</strong> {result.studentName}
-              </p>
-              <p>
-                <strong>Course Name:</strong> {result.courseName}
-              </p>
-              <p>
-                <strong>Completion Date:</strong>{' '}
-                {new Date(result.completionDate).toLocaleDateString('en-US', options)}
-              </p>
-            </Alert>
+              <p><strong>Student Name:</strong> {result.studentName}</p>
+              <p><strong>Course Name:</strong> {result.courseName}</p>
+              <p><strong>Completion Date:</strong> {new Date(result.completionDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+            </div>
           )}
 
           {alert.show && (
@@ -126,11 +116,10 @@ const VerifyCertification = ({ show, handleClose }) => {
         </Button>
         <Button
           variant="outline-info"
-          id="certificationNumber"
           onClick={handleSubmit}
           disabled={loading}
         >
-          {loading ? <Spinner as="span" animation="border" /> : 'Verify'}
+          {loading ? <Spinner as="span" animation="border" size="sm" /> : 'Verify'}
         </Button>
       </Modal.Footer>
     </Modal>

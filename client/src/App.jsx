@@ -30,6 +30,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/registration" element={<AdminRegistration />} />
+            <Route path="/admin/reset-password/:token" element={<AdminPasswordReset />} />
             <Route
               path="/admin/dashboard"
               element={
@@ -39,9 +40,10 @@ function App() {
               }
             />
             <Route path="/admin/students" element={<StudentList />} />
+            <Route path="/admin/companies" element={<CompanyList />} />
             <Route path="/admin/courses" element={<CourseList />} />
             <Route path="/admin/courses/:courseId" element={<CourseDetail />} />
-            <Route path="/admin/companies" element={<CompanyList />} />
+            <Route path="/admin/analytics" element={<AnalyticsDashboard />} />
             <Route path="/student/login" element={<StudentLogin />} />
             <Route
               path="/student/dashboard"
@@ -53,8 +55,6 @@ function App() {
             />
             <Route path="/student/courses/:courseId/modules" element={<ModuleDashboard />} />
             <Route path="/student/courses/:courseId/modules/:moduleId" element={<ModuleViewer />} />
-            <Route path="/admin/reset-password/:token" element={<AdminPasswordReset />} />
-            <Route path="/admin/analytics" element={<AnalyticsDashboard />} />
           </Routes>
         </main>
       </div>

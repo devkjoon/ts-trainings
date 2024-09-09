@@ -19,6 +19,7 @@ dotenv.config();
 
 const app = express();
 
+// Middleware
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
@@ -49,8 +50,6 @@ app.use('/api/company', companyRoutes);
 app.use('/api/certification', certificationRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/email', emailRoutes);
-// app.use('/progress', progressRoutes);
-// app.use('/certificate', certificateRoutes);
 
 // Serve static files from the React app's build directory
 app.use(express.static(path.join(__dirname, '../dist')));
@@ -60,9 +59,10 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../dist', 'index.html'));
 });
 
+// Error handling middleware
 app.use((req, res, next) => {
   const error = new HttpError('Could not find this route', 404);
-  next(error);
+  throw error;
 });
 
 app.use((error, req, res, next) => {
@@ -73,6 +73,7 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || 'An unknown error occurred' });
 });
 
+// Database connection and server start
 const mongooseOptions = {
   tls: true,
   tlsAllowInvalidCertificates: false,
@@ -93,6 +94,7 @@ mongoose
     console.log(err);
   });
 
+// Logging middleware for production
 if (process.env.NODE_ENV === 'production') {
   app.use((req, res, next) => {
     console.log('Request headers:', req.headers);

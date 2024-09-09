@@ -7,11 +7,17 @@ const adminAuth = (req, res, next) => {
   }
 
   try {
-    const token = req.headers.authorization.split(' ')[1]; // Extract token
-    if (!token) {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
       throw new Error('Authentication failed! No token provided.');
     }
 
+    const parts = authHeader.split(' ');
+    if (parts.length !== 2) {
+      throw new Error('Authentication failed! Token format invalid.');
+    }
+
+    const token = parts[1];
     const decodedToken = jwt.verify(token, process.env.ADMIN_TOKEN);
     if (!decodedToken.isAdmin) {
       throw new Error('Not authorized as admin.');

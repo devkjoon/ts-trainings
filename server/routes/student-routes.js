@@ -24,15 +24,16 @@ router.post(
   studentController.newStudent
 );
 
-router.get('/', studentController.getAllStudents);
+// Semi-public routes (might need different authentication)
 router.get('/:sid/courses', studentController.getStudentCourses);
 router.get('/:sid/completed-modules', studentController.getCompletedModules);
-router.post('/:sid/assign-course', studentController.assignCourse);
-router.delete('/:sid', adminAuth, studentController.deleteStudent);
 
 // Protected routes
 router.use(adminAuth);
 
+router.get('/', studentController.getAllStudents);
+router.post('/:sid/assign-course', studentController.assignCourse);
+router.delete('/:sid', studentController.deleteStudent);
 router.put(
   '/:sid',
   [

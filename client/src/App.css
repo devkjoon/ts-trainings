@@ -26,6 +26,14 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
+/* Center content for pre-login pages */
+.main-content:has(> .admin-container),
+.main-content:has(> .student-container) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 input::placeholder,
 .form-control::placeholder {
   font-style: italic;

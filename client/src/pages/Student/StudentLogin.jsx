@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Button, Form, InputGroup, Alert, Spinner } from 'react-bootstrap';
+import { Button, Form, Alert, Spinner } from 'react-bootstrap';
 import StudentLoginCode from '../../components/Modals/StudentLogin/StudentLoginCode';
 import API_URL from '../../config';
 import '../../assets/css/StudentPreLogin.css';

@@ -1,7 +1,5 @@
-const API_URL = process.env.NODE_ENV === 'production'
-  ? 'https://ts-trainings.com'
-  : 'http://localhost:5000';
-
-console.log('API_URL:', API_URL);
+const API_URL = process.env.NODE_ENV === 'production' 
+  ? '/api' 
+  : '/api';
 
 export default API_URL;

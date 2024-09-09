@@ -40,14 +40,15 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
-app.use('/admin', adminRoutes);
-app.use('/student', studentRoutes);
-app.use('/courses', courseRoutes);
-app.use('/module', moduleRoutes);
-app.use('/company', companyRoutes);
-app.use('/certification', certificationRoutes);
-app.use('/analytics', analyticsRoutes);
-app.use('/email', emailRoutes);
+// API routes
+app.use('/api/admin', adminRoutes);
+app.use('/api/student', studentRoutes);
+app.use('/api/courses', courseRoutes);
+app.use('/api/module', moduleRoutes);
+app.use('/api/company', companyRoutes);
+app.use('/api/certification', certificationRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/email', emailRoutes);
 // app.use('/progress', progressRoutes);
 // app.use('/certificate', certificateRoutes);
 
@@ -56,11 +57,7 @@ app.use(express.static(path.join(__dirname, '../dist')));
 
 // Handle requests to any route and send the React app's index.html
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../dist', 'index.html'), (err) => {
-    if (err) {
-      res.status(500).send('Server Error');
-    }
-  });
+  res.sendFile(path.join(__dirname, '../dist', 'index.html'));
 });
 
 app.use((req, res, next) => {

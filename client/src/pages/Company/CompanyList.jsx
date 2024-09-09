@@ -155,9 +155,9 @@ export default function CompanyList() {
 
   return (
     <Container fluid className="company-list-container">
-      <Row className="mb-3 mt-3">
+      <Row>
         <Col>
-          <h1 className="text-center">Company List</h1>
+          <h1 className="page-title">Company List</h1>
         </Col>
       </Row>
       <FilterComponent

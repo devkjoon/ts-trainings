@@ -8,7 +8,7 @@ import '../../assets/css/AnalyticsDashboard.css';
 const AnalyticsDashboard = () => {
   return (
     <div className="analytics-dashboard">
-      <h1>Analytics Dashboard</h1>
+      <h1 className="page-title">Analytics Dashboard</h1>
 
       <div className="dashboard-section">
         <h2>Course Enrollment Over Time</h2>

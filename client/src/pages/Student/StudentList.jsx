@@ -247,9 +247,9 @@ export default function StudentList() {
 
   return (
     <Container fluid className="student-list-container">
-      <Row className="mb-3 mt-3">
+      <Row>
         <Col>
-          <h1 className="text-center">Student List</h1>
+          <h1 className="page-title">Student List</h1>
         </Col>
       </Row>
       <FilterComponent

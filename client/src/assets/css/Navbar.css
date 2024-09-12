@@ -1,75 +1,100 @@
 .navbar {
-  flex: 0 0 auto;
-  height: 60px;
-  padding: 0 1rem; 
-  align-items: center;
+  display: flex;
   justify-content: space-between;
-  border-radius: 15px;
-  margin: 10px;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.navbar-title {
-  margin-left: 3%;
-  line-height: 60px; 
-  margin-bottom: 0; 
-  align-self: center; 
+.navbar-open {
+  padding-bottom: 0;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.navbar a {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-logo {
+  height: 35px;
+  margin-right: 10px;
+}
+
+.navbar-company-name {
+  font-size: 1.4rem;
+}
+
+.navbar-company-think {
+  color: #ffc107; /* Bootstrap warning color */
+}
+
+.navbar-company-safety {
+  color: #54b4d3; /* Bootstrap info color */
+}
+
+.navbar-links {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-link {
+  color: #333;
+  font-weight: 700;
+}
+
+.nav-link:hover {
+  color: #54b4d3;
+}
+
+.navbar-links-text {
+  opacity: 0.8;
 }
 
 .burger-menu {
-  margin-right: 3%;
-  align-self: center; 
-}
-
-.navbar-anchor {
-  padding: 0;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.navbar-anchor .btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 40px; 
-  max-height: 40px;
-  min-width: 100px;
-  max-width: 150px;
-  line-height: 40px; 
+  display: none;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: auto;
 }
 
 @media (max-width: 768px) {
-  .navbar-title {
-    line-height: normal;
-    margin-left: 3%;
-    text-align: left;
-    align-self: center;
+  .navbar-links {
+    display: none;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  .navbar-links.open {
+    display: flex;
+    border-top: 1px solid #ddd;
+  }
+
+  .navbar-links .nav-link {
+    width: 60%;
+    height: 40px;
+    margin: 0 auto;
+    border-bottom: 1px solid #54b4d3;
+  }
+  .navbar-links .nav-link:last-child {
+    border-bottom: none;
   }
 
   .burger-menu {
-    margin-right: 0;
-    align-self: center;
+    display: block;
   }
-
-  .navbar-anchor {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .navbar-anchor .btn {
-    width: 100%;
-    min-width: 0;
-    margin-left: 0;
-    margin-bottom: 10px;
-  }
-
-  .navbar .nav {
-    flex-direction: column;
-  }
-}
-
-.offcanvas-customization {
-  max-width: 300px;
-  height: 220px;
-  border-radius: 25px;
 }

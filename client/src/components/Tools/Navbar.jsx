@@ -43,6 +43,7 @@ const TopNavbar = () => {
     localStorage.removeItem('studentId');
     // localStorage.clear();
     setIsLoggedIn(false);
+    setIsOpen(false);
     navigate('/');
   };
 

@@ -92,21 +92,23 @@ const TopNavbar = () => {
         </Link>
       </div>
       {isLoggedIn && (
-        <button className="burger-menu" onClick={toggleMenu}>
-          &#9776;
-        </button>
-      )}
-      {isLoggedIn && !isHiddenRoute && (
-        <div className={`navbar-links ${isOpen ? 'open' : ''}`}>
-          {!isDashboardRoute && (
-            <button className="nav-link navbar-links-text" onClick={handleDashboard}>
-              Dashboard
-              </button>
-          )}
-          <button className="nav-link navbar-links-text" onClick={handleLogout}>
-            Log Out
+        <>
+          <button className="burger-menu" onClick={toggleMenu}>
+            &#9776;
           </button>
-        </div>
+          {!isHiddenRoute && (
+            <div className={`navbar-links ${isOpen ? 'open' : ''}`}>
+              {!isDashboardRoute && (
+                <button className="nav-link navbar-links-text" onClick={handleDashboard}>
+                  Dashboard
+                </button>
+              )}
+              <button className="nav-link navbar-links-text" onClick={handleLogout}>
+                Log Out
+              </button>
+            </div>
+          )}
+        </>
       )}
     </nav>
   );

@@ -50,10 +50,13 @@ const TopNavbar = () => {
   const handleDashboard = () => {
     if (userType === 'admin') {
       navigate('/admin/dashboard');
+      setIsOpen(false);
     } else if (userType === 'student') {
       navigate('/student/dashboard');
+      setIsOpen(false);
     } else {
       navigate('/');
+      setIsOpen(false);
     }
   };
 

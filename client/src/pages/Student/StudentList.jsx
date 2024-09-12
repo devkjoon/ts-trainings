@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Button, Row, Col, Alert } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Container, Row, Col, Alert } from 'react-bootstrap';
 
 import API_URL from '../../config';
 

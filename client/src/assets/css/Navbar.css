@@ -7,10 +7,6 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.navbar-open {
-  padding-bottom: 0;
-}
-
 .navbar-brand {
   display: flex;
   align-items: center;
@@ -41,7 +37,7 @@
 
 .navbar-links {
   display: flex;
-  gap: 15px;
+  gap: 10px;
 }
 
 .nav-item {
@@ -89,13 +85,14 @@
   }
 
   .navbar-links .nav-link {
-    width: 60%;
+    width: 40%;
     height: 40px;
     margin: 0 auto;
-    border-bottom: 1px solid #54b4d3;
-  }
-  .navbar-links .nav-link:last-child {
-    border-bottom: none;
+    margin-top: 10px;
+    border: 0.5px solid #54b4d3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .burger-menu {

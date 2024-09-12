@@ -27,8 +27,6 @@ export default function StudentLogin() {
 
     setLoading(true);
 
-    console.log('Submitting login form with:', { email, loginCode });
-
     try {
       const response = await fetch(`${API_URL}/student/login`, {
         method: 'POST',

@@ -12,7 +12,6 @@ const TopNavbar = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Function to check login status
     const checkLoginStatus = () => {
       const token = localStorage.getItem('token');
       const storedUserType = localStorage.getItem('userType');
@@ -36,11 +35,13 @@ const TopNavbar = () => {
     return () => {
       window.removeEventListener('storage', handleStorageChange);
     };
-  }, [location]); // Re-run the effect when the location changes
+  }, [location]); // re-run the effect when the location changes
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userType');
+    localStorage.removeItem('studentId');
+    // localStorage.clear();
     setIsLoggedIn(false);
     navigate('/');
   };

@@ -13,7 +13,10 @@ export default function Home() {
   return (
     <Container className="home-container">
       <div className="home-content">
-        <h1 className="home-title">Welcome to TS Trainings</h1>
+        <h6 className="home-subtitle">SAFETY IS OUR #1 PRIORITY</h6>
+        <h1 className="home-title">
+          Welcome to <span className="home-title-think">Think</span> <span className="home-title-safety">Safety</span>
+        </h1>
         <div className="home-button-container">
           <Link to="/admin/login" className="home-button-link">
             <Button className="home-button" variant="outline-primary" size="lg">

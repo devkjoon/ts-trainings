@@ -1,9 +1,40 @@
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .home-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%; /* Changed from flex: 1; */
-  padding: 0 20px; /* Removed top and bottom padding */
+  height: 100%;
+  padding: 0 20px;
 }
 
 .home-content {
@@ -12,9 +43,27 @@
   text-align: center;
 }
 
+.home-subtitle {
+  margin-bottom: 10px;
+  color: #6c7273;
+  width: 100%;
+  animation: fadeInLeft 2s ease-in-out;
+}
+
 .home-title {
-  margin-bottom: 30px;
+  margin-top: 0;
+  margin-bottom: 20px;
   color: #343a40;
+  width: 100%;
+  animation: fadeInRight 2s ease-in-out;
+}
+
+.home-title-think {
+  color: #ffc107; /* Bootstrap warning color */
+}
+
+.home-title-safety {
+  color: #54b4d3; /* Bootstrap info color */
 }
 
 .home-button-container {
@@ -22,6 +71,8 @@
   flex-direction: column;
   gap: 15px;
   align-items: center;
+  opacity: 0; /* Initially hidden */
+  animation: fadeIn 1s ease-in-out 2s forwards; /* Fade in after 2 seconds */
 }
 
 .home-button-link {

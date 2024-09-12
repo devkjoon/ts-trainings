@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Nav, Navbar, Button, Offcanvas } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { useNavigate, useLocation, matchPath } from 'react-router-dom';
-
 import '../../assets/css/Navbar.css';
+import logo from '../../assets/images/logo.png';
 
 const TopNavbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userType, setUserType] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -75,47 +76,39 @@ const TopNavbar = () => {
   // Check if the current path is a dashboard route
   const isDashboardRoute = location.pathname === dashboardRoutes[userType];
 
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <Navbar
-      expand="lg"
-      className="navbar navbar-expand-md navbar-light bg-transparent border border-info navbarMain"
-    >
-      <Navbar.Brand className="text-warning navbar-title">Think Safety Trainings</Navbar.Brand>
-      {isLoggedIn && !isHiddenRoute && (
-        <>
-          <Navbar.Toggle
-            aria-controls="offcanvasNavbar"
-            className="justify-content-end burger-menu"
-          />
-          <Navbar.Offcanvas
-            id="offcanvasNavbar"
-            aria-labelledby="offcanvasNavbarLabel"
-            placement="end"
-            className="offcanvas-customization"
-          >
-            <Offcanvas.Header closeButton>
-              <Offcanvas.Title id="offcanvasNavbarLabel">Think Safety Trainings</Offcanvas.Title>
-            </Offcanvas.Header>
-            <Offcanvas.Body>
-              <Nav className="justify-content-end flex-grow-1">
-                {!isDashboardRoute && (
-                  <Nav.Link className="navbar-anchor">
-                    <Button variant="outline-warning" onClick={handleDashboard}>
-                      Dashboard
-                    </Button>
-                  </Nav.Link>
-                )}
-                <Nav.Link className="navbar-anchor">
-                  <Button variant="outline-warning" onClick={handleLogout}>
-                    Log Out
-                  </Button>
-                </Nav.Link>
-              </Nav>
-            </Offcanvas.Body>
-          </Navbar.Offcanvas>
-        </>
+    <nav className={`navbar ${isOpen ? 'navbar-open' : ''}`}>
+      <div className="navbar-brand">
+        <Link to="/">
+          <img src={logo} alt="Think Safety Trainings" className="navbar-logo" />
+          <span className="navbar-company-name">
+            <span className="navbar-company-think">Think </span> 
+            <span className="navbar-company-safety">Safety</span>
+          </span>
+        </Link>
+      </div>
+      {isLoggedIn && (
+        <button className="burger-menu" onClick={toggleMenu}>
+          &#9776;
+        </button>
       )}
-    </Navbar>
+      {isLoggedIn && !isHiddenRoute && (
+        <div className={`navbar-links ${isOpen ? 'open' : ''}`}>
+          {!isDashboardRoute && (
+            <button className="nav-link navbar-links-text" onClick={handleDashboard}>
+              Dashboard
+              </button>
+          )}
+          <button className="nav-link navbar-links-text" onClick={handleLogout}>
+            Log Out
+          </button>
+        </div>
+      )}
+    </nav>
   );
 };
 

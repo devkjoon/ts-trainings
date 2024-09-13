@@ -2,21 +2,25 @@ import React from 'react';
 
 import '../../assets/css/ResourceViewer.css';
 
-//  renders the resource (video/powerpoint) that is part of a module
-
+// Renders the resource (video/powerpoint) that is part of a module
 const ResourceViewer = ({ resource, title, contentRef }) => {
   const renderResource = () => {
-    const url = resource.url;
+    const { url, type } = resource;
 
-    if (resource.type === 'video') {
+    if (type === 'video') {
       return (
         <div className="responsive-iframe" ref={contentRef}>
-          <iframe src={url} frameBorder="0" allowFullScreen title={title}></iframe>
+          <iframe
+            src={url}
+            frameBorder="0"
+            allowFullScreen
+            title={title}
+          ></iframe>
         </div>
       );
     }
 
-    if (resource.type === 'powerpoint') {
+    if (type === 'powerpoint') {
       return (
         <iframe
           ref={contentRef}

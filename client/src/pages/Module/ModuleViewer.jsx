@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Button, Spinner, Alert } from 'react-bootstrap';
 
-import ResourceViewer from '../../components/ModuleViewer/ResourceViewer';
-import QuizForm from '../../components/ModuleViewer/QuizForm';
-import ModalViewer from '../../components/ModuleViewer/ModalViewer';
+
 import API_URL from '../../config';
 
 import '../../assets/css/ModuleViewer.css';
+
+const LazyResourceViewer = lazy(() => import('../../components/ModuleViewer/ResourceViewer'));
+const LazyQuizForm = lazy(() => import('../../components/ModuleViewer/QuizForm'));
+const LazyModalViewer = lazy(() => import('../../components/ModuleViewer/ModalViewer'));
 
 const ModuleViewer = () => {
   const { courseId, moduleId } = useParams();
@@ -26,7 +28,8 @@ const ModuleViewer = () => {
       try {
         const studentId = localStorage.getItem('studentId');
         if (!studentId) {
-          throw new Error('Student ID not found');
+          navigate('/login');
+          return;
         }
 
         const moduleResponse = await fetch(`${API_URL}/module/${moduleId}?sid=${studentId}`);
@@ -41,7 +44,8 @@ const ModuleViewer = () => {
     };
 
     fetchModuleData();
-  }, [courseId, moduleId]);
+  }, [courseId, moduleId, navigate]);
+
   useEffect(() => {
     if (quizResult === 'Module complete! Redirecting back to dashboard...') {
       setTimeout(() => navigate(`/student/courses/${courseId}/modules`), 3000);
@@ -91,16 +95,20 @@ const ModuleViewer = () => {
                   </ul>
                 )}
                 {module?.optionalResource?.length > 0 && (
-                  <ModalViewer resources={module.optionalResource} />
+                  <Suspense fallback={<div>Loading...</div>}>
+                    <LazyModalViewer resources={module.optionalResource} />
+                  </Suspense>
                 )}
               </Col>
               {module?.resource?.type && (
                 <Col lg={7} className="d-flex justify-content-center mx-auto">
-                  <ResourceViewer
-                    resource={module.resource}
-                    title={module.title}
-                    contentRef={contentRef}
-                  />
+                  <Suspense fallback={<div>Loading...</div>}>
+                    <LazyResourceViewer
+                      resource={module.resource}
+                      title={module.title}
+                      contentRef={contentRef}
+                    />
+                  </Suspense>
                 </Col>
               )}
             </Row>
@@ -126,13 +134,15 @@ const ModuleViewer = () => {
           )}
 
           {showQuiz && module?.quiz && (
-            <QuizForm
-              quiz={module.quiz}
-              moduleId={module._id}
-              scrollToContent={scrollToContent}
-              quizRef={quizRef}
-              onSubmitResult={setQuizResult}
-            />
+            <Suspense fallback={<div>Loading...</div>}>
+              <LazyQuizForm
+                quiz={module.quiz}
+                moduleId={module._id}
+                scrollToContent={scrollToContent}
+                quizRef={quizRef}
+                onSubmitResult={setQuizResult}
+              />
+            </Suspense>
           )}
 
           {quizResult && (

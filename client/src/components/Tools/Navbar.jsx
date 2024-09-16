@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate, useLocation, matchPath } from 'react-router-dom';
+import { Link, useNavigate, useLocation, matchPath } from 'react-router-dom';
 import '../../assets/css/Navbar.css';
 import logo from '../../assets/images/logo.png';
 
@@ -85,16 +84,22 @@ const TopNavbar = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleLogoClick = () => {
+    if (isLoggedIn) {
+      handleDashboard();
+    } else {
+      navigate('/');
+    }
+  };
+
   return (
     <nav className={`navbar ${isOpen ? 'navbar-open' : ''}`}>
-      <div className="navbar-brand">
-        <Link to="/">
-          <img src={logo} alt="Think Safety Trainings" className="navbar-logo" />
-          <span className="navbar-company-name">
-            <span className="navbar-company-think">Think </span> 
-            <span className="navbar-company-safety">Safety</span>
-          </span>
-        </Link>
+      <div className="navbar-brand" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
+        <img src={logo} alt="Think Safety Trainings" className="navbar-logo" />
+        <span className="navbar-company-name">
+          <span className="navbar-company-think">Think </span> 
+          <span className="navbar-company-safety">Safety</span>
+        </span>
       </div>
       {isLoggedIn && (
         <>

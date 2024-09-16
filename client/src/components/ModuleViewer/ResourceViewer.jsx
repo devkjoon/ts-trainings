@@ -27,8 +27,8 @@ const ResourceViewer = ({ resource, title, contentRef }) => {
           ref={contentRef}
           className="powerpoint-iframe"
           src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`}
-          width="100%"
-          height="600"
+          width="510"
+          height="407"
           title={title}
         ></iframe>
       );

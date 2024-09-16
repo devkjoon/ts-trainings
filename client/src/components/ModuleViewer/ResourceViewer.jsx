@@ -12,8 +12,9 @@ const ResourceViewer = ({ resource, title, contentRef }) => {
         <div className="responsive-iframe" ref={contentRef}>
           <iframe
             src={url}
-            frameBorder="0"
             allowFullScreen
+            width="100%"
+            height="600"
             title={title}
           ></iframe>
         </div>
@@ -25,9 +26,9 @@ const ResourceViewer = ({ resource, title, contentRef }) => {
         <iframe
           ref={contentRef}
           className="powerpoint-iframe"
-          src={url}
-          width="510"
-          height="407"
+          src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`}
+          width="100%"
+          height="600"
           title={title}
         ></iframe>
       );
